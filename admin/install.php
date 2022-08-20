@@ -10,7 +10,6 @@
  * 初始化默认配置
  * */
 function nicen_install(){
-	var_dump('');
 	foreach (NICEN_CONFIG as $key => $value) {
 		add_option($key, $value); //添加配置参数，和默认值
 	}

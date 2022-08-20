@@ -10,8 +10,7 @@ function nicen_detect() {
 	 * 判断是否有保存目录
 	 * */
 	$upload_root = $_SERVER['DOCUMENT_ROOT'] . nicen_config( 'nicen_plugin_path' ); //站点目录
-	$upload          = nicen_config('nicen_plugin_path'); //主题路径
-
+	$upload      = nicen_config( 'nicen_plugin_path' ); //主题路径
 
 
 	/*
@@ -28,8 +27,35 @@ function nicen_detect() {
 	if ( ! is_writable( $upload_root ) ) {
 		/*输出本地化日志*/
 		echo '<script>jQuery(function (){alert("' . $upload . '上传目录不可写，nicen-localize-image本地化插件无法生效！");});</script>', 'after';
+
 		return;
 	}
+
+
+	/*
+	 * 开启了自动本地化
+	 * */
+	if ( nicen_config( 'nicen_plugin_save' ) ) {
+		/*
+		 * 是否需要输出本地化日志
+		 * */
+		$info = get_option( 'nicen_plugin_save_result' );
+
+		/*判断是否有本地化日志*/
+		if ( $info ) {
+
+			echo preg_replace( '/\s/', '', vsprintf( '
+			<script>
+			jQuery(function(){
+				layer.alert("%s");   
+			});
+            </script>
+			', [ $info ] ) );
+
+			update_option( 'nicen_plugin_save_result', '' ); //清空日志
+		}
+	}
+
 
 }
 
@@ -79,23 +105,6 @@ function nicen_load_layer() {
 	wp_add_inline_script( "layerjs", preg_replace( '/\s/', '', vsprintf( '
 			window.POST_KEY = "%s";'
 		, [ nicen_config( 'nicen_plugin_private' ) ] ) ), 'before' );
-
-
-	$info = get_option( 'nicen_plugin_save_result' );
-
-	/*判断是否有本地化日志*/
-	if ( $info ) {
-
-		/*输出本地化日志*/
-		wp_add_inline_script( "layerjs", preg_replace( '/\s/', '', vsprintf( '
-			jQuery(function(){
-				layer.alert("%s");   
-			});
-			', [ $info ] ) ), 'after' );
-
-		update_option( 'nicen_plugin_save_result', '' ); //清空日志
-	}
-
 
 }
 

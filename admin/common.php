@@ -58,7 +58,6 @@ function nicen_saveAsData( $filename ) {
 	 * 获取文件类型
 	 * */
 
-
 	$document_root = nicen_config( 'nicen_plugin_path' ); //站点目录
 
 	$attachment = array(
