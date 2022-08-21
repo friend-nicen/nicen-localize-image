@@ -8,7 +8,7 @@
 * 获取缓存的tab
 * */
 let tab = localStorage.getItem('tab');
-tab = (!tab) ? 'document_theme_section' : tab;
+tab = (!tab) ? 'nicen_plugin_section' : tab;
 
 /*
 * 初始化Vue
