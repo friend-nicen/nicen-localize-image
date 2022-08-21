@@ -128,12 +128,12 @@ const PLUGIN_NICEN = [
  * */
 
 const NICEN_CONFIG = [
-    "nicen_plugin_local" => '1', //显示主题自带的tdk
+    "nicen_plugin_local" => '1', //本地化时保存到数据库
 	'nicen_plugin_private'=>'88888888', //接口密钥
-	'nicen_plugin_editor'=>'0', //
-	'nicen_plugin_save'=>'0',
+	'nicen_plugin_editor'=>'1', //
+	'nicen_plugin_save'=>'1',
     'nicen_plugin_save_result'=>'',
-	'nicen_plugin_alt'=>"1",
-	'nicen_plugin_alt_type'=>"1",
+	'nicen_plugin_alt'=>'1',
+	'nicen_plugin_alt_type'=>'1',
 	'nicen_plugin_path'=>'/wp-content/uploads/replace'
   ];

@@ -16,4 +16,4 @@ function nicen_install(){
 }
 
 
-register_activation_hook(__FILE__ , "nicen_install" );
+

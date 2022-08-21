@@ -4,7 +4,9 @@
  * 公共数据和方法
  * */
 
-$NICEN_CONFIGS = [];
+global $NICEN_CONFIGS; //声明全局变量
+
+$NICEN_CONFIGS=[];
 
 /*
  * 遍历整个配置
@@ -17,11 +19,17 @@ foreach ( NICEN_CONFIG as $key => $value ) {
  * 返回指定配置
  * */
 function nicen_config( $key = '' ) {
+
 	global $NICEN_CONFIGS;
+
 	if ( empty( $key ) ) {
+
 		return $NICEN_CONFIGS;
+
 	} else {
+
 		return $NICEN_CONFIGS[ $key ];
+
 	}
 }
 
@@ -197,6 +205,24 @@ function nicen_local_image( $url, $flag = true ) {
 			];
 		}
 
+	}
+
+
+	/*
+	 * 判断链接是否可以访问
+	 * */
+	if(nicen_httpcode($url) != 200){
+		if ( $flag ) {
+			exit( json_encode( [
+				'code'   => 0,
+				'result' => '图片链接无法访问！'
+			] ) );
+		} else {
+			return  [
+				'code'   => 0,
+				'result' => '图片链接无法访问！'
+			];
+		}
 	}
 
 

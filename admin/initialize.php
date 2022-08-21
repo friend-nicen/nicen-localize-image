@@ -47,6 +47,8 @@ function nicen_initialize() {
 	}
 }
 
+
+
 if ( nicen_config( 'nicen_plugin_editor' ) ) {
 	add_action( 'admin_init', 'nicen_initialize' );//启用经典编辑器，加载编辑器插件
 }
