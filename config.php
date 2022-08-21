@@ -133,7 +133,7 @@ const NICEN_CONFIG = [
 	'nicen_plugin_editor'=>'0', //
 	'nicen_plugin_save'=>'0',
     'nicen_plugin_save_result'=>'',
-	'nicen_plugin_alt'=>1,
-	'nicen_plugin_alt_type'=>1,
+	'nicen_plugin_alt'=>"1",
+	'nicen_plugin_alt_type'=>"1",
 	'nicen_plugin_path'=>'/wp-content/uploads/replace'
   ];
