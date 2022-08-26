@@ -9,7 +9,7 @@
 /*
  * 插件初始化
  * */
-function nicen_initialize() {
+function nicen_make_initialize() {
 
 	/*
 	 * 是否启用经典编辑器
@@ -33,7 +33,7 @@ function nicen_initialize() {
 			/*
 			 * 引入插件的js
 			 * */
-			$plugin_array['local'] = NICEN_URL . 'tinymcc/local.js';/*指定要加载的插件*/
+			$plugin_array['local'] = nicen_make_URL . 'tinymcc/local.js';/*指定要加载的插件*/
 
 			return $plugin_array;
 		} );
@@ -49,7 +49,7 @@ function nicen_initialize() {
 
 
 
-if ( nicen_config( 'nicen_plugin_editor' ) ) {
-	add_action( 'admin_init', 'nicen_initialize' );//启用经典编辑器，加载编辑器插件
+if ( nicen_make_config( 'nicen_make_plugin_editor' ) ) {
+	add_action( 'admin_init', 'nicen_make_initialize' );//启用经典编辑器，加载编辑器插件
 }
 

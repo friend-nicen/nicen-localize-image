@@ -11,12 +11,12 @@
  *
  *
  * */
-function nicen_when_save_post( $post_id ) {
+function nicen_make_when_save_post( $post_id ) {
 
-	remove_action( 'edit_post', 'nicen_when_save_post' );
+	remove_action( 'edit_post', 'nicen_make_when_save_post' );
 
 	/*判断是否启用了本地化图片的功能*/
-	if ( nicen_config( 'nicen_plugin_save' ) ) {
+	if ( nicen_make_config( 'nicen_make_plugin_save' ) ) {
 
 		//获取文章对象
 		$post = get_post( $post_id );
@@ -57,7 +57,7 @@ function nicen_when_save_post( $post_id ) {
 			* */
 			if ( strpos( $value, $site_url ) === false ) {
 
-				$res = nicen_local_image( $value,false );//下载图片
+				$res = nicen_make_local_image( $value,false );//下载图片
 
 				/*判断下载结果*/
 				if ( $res['code'] ) {
@@ -88,7 +88,7 @@ function nicen_when_save_post( $post_id ) {
 	/*
 	 * 自动添加alt
 	 * */
-	if ( nicen_config( 'nicen_plugin_alt' ) ) {
+	if ( nicen_make_config( 'nicen_make_plugin_alt' ) ) {
 
 
 		//获取文章对象
@@ -104,7 +104,7 @@ function nicen_when_save_post( $post_id ) {
 		$success = 0; //成功和失败的数量
 		$content = $post->post_content;
 
-		$replace = nicen_config( 'nicen_plugin_alt_type' ) == 1 ? $post->post_title : nicen_getCategory( $post->ID );
+		$replace = nicen_make_config( 'nicen_make_plugin_alt_type' ) == 1 ? $post->post_title : nicen_make_getCategory( $post->ID );
 
 		foreach ( $match[0] as $value ) {
 
@@ -140,10 +140,10 @@ function nicen_when_save_post( $post_id ) {
 	/*
 	 * 插入日志
 	 * */
-	update_option( 'nicen_plugin_save_result', $log );
+	update_option( 'nicen_make_plugin_save_result', $log );
 }
 
 
-add_action( 'edit_post', 'nicen_when_save_post' );
+add_action( 'edit_post', 'nicen_make_when_save_post' );
 
 

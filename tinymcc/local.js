@@ -160,7 +160,7 @@
                                         /*
                                         * 请求服务器接口
                                         * */
-                                        $.post('/?nicen_replace=1', {
+                                        $.post('/?nicen_make_replace=1', {
                                             private: POST_KEY,
                                             img: i
                                         }, function (res) {

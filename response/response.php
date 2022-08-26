@@ -10,9 +10,9 @@
 /*
  * 链接提交
  * */
-function nicen_auth() {
+function nicen_make_auth() {
 
-	$private = get_option( "nicen_plugin_private" );
+	$private = get_option( "nicen_make_plugin_private" );
 
 	if ( empty( $_GET['private'] ) && empty( $_POST['private'] ) ) {
 		exit( json_encode( [
@@ -31,10 +31,7 @@ function nicen_auth() {
 }
 
 
-if ( isset( $_GET['nicen_replace'] ) ) {
-
-
-	nicen_auth(); //权限验证
-
-	nicen_local_image($_POST['img']);
+if ( isset( $_GET['nicen_make_replace'] ) ) {
+	nicen_make_auth(); //权限验证
+	nicen_make_local_image($_POST['img']);
 }

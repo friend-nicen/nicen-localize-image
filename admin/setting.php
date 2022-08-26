@@ -9,8 +9,8 @@
 /*
  * 注册菜单
  * */
-function nicen_menu_register() {
-	foreach ( PLUGIN_NICEN as $item ) {
+function nicen_make_menu_register() {
+	foreach ( PLUGIN_nicen_make as $item ) {
 		add_menu_page(
 			$item['page_title'],
 			$item['menu_title'],
@@ -21,15 +21,15 @@ function nicen_menu_register() {
 	}
 }
 
-add_action( 'admin_menu', 'nicen_menu_register' );
+add_action( 'admin_menu', 'nicen_make_menu_register' );
 
 
 
 /*
  * 注册表单
  * */
-function nicen_config_register() {
-	foreach ( PLUGIN_NICEN as $item ) {
+function nicen_make_config_register() {
+	foreach ( PLUGIN_nicen_make as $item ) {
 		/*
 		 * 如果有分节
 		 * */
@@ -83,4 +83,4 @@ function nicen_config_register() {
 /*
  * 初始化主题设置
  * */
-add_action( 'admin_init', 'nicen_config_register' );
+add_action( 'admin_init', 'nicen_make_config_register' );

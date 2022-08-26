@@ -7,8 +7,11 @@
 /*
 * 获取缓存的tab
 * */
-let tab = localStorage.getItem('tab');
-tab = (!tab) ? 'nicen_plugin_section' : tab;
+let tab = localStorage.getItem('nicen_make_plugin_tab');
+tab = (!tab) ? 'nicen_make_plugin_section' : tab;
+
+console.log(tab)
+
 
 /*
 * 初始化Vue
@@ -47,7 +50,7 @@ jQuery(function () {
                 this.$refs['submit'].$el.submit();
             },
             change(res) {
-                localStorage.setItem('tab', res);
+                localStorage.setItem('nicen_make_plugin_tab', res);
             },
             hasChange(res, events, field) {
                 if (res) {
@@ -55,46 +58,6 @@ jQuery(function () {
                 } else {
                     this.data[field] = 0;
                 }
-            },
-            /*
-            * 提交链接到百度
-            * */
-            postLink() {
-                let that=this;
-                load.confirm("确定提交站点所有URL到百度站长平台吗？", () => {
-                    load.loading('正在提交');
-                    axios.get('/?submit=1&private='+that.data.document_private)
-                        .then((res) => {
-                            message.info(res.data.result);
-                        }).catch((e) => {
-                        message.error(e);
-                    }).finally(() => {
-                        load.loaded();
-                    })
-                })
-            },
-            /*
-              * 生成站点地图
-              * */
-            sitemap() {
-                let that=this;
-                load.confirm("确定生成TXT站点地图？", () => {
-                    load.loading('正在生成');
-                    axios.get('/?sitemap=1&private='+that.data.document_private)
-                        .then((res) => {
-                            message.info(res.data.result);
-                        }).catch((e) => {
-                        message.error(e);
-                    }).finally(() => {
-                        load.loaded();
-                    })
-                })
-            },
-            /*
-            * 查看站点地图
-            * */
-            lookSitemap(){
-                window.open('/sitemap.txt','_blank');
             }
         }
     });

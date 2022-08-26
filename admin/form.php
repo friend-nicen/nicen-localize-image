@@ -20,7 +20,7 @@
 /*
  * 加载主题设置页面
  * */
-function nicen_setting_load( $options ) {
+function nicen_make_setting_load( $options ) {
 
 	global $plugin_page;
 
@@ -58,7 +58,7 @@ function nicen_setting_load( $options ) {
                 <a-tabs type="card" v-model="activeKey" @change="change">
 					<?php
 					//输出输入域
-					nicen_do_settings_sections_user( $plugin_page );
+					nicen_make_do_settings_sections_user( $plugin_page );
 					?>
                 </a-tabs>
             </div>
@@ -77,7 +77,7 @@ function nicen_setting_load( $options ) {
  * @支持 自定义表单的tip提示
  *
  * */
-function nicen_do_settings_fields_user( $page, $section, $callback = false ) {
+function nicen_make_do_settings_fields_user( $page, $section, $callback = false ) {
 	global $wp_settings_fields;
 	if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
 		return;
@@ -173,7 +173,7 @@ function nicen_do_settings_fields_user( $page, $section, $callback = false ) {
 /*
  * 主题设置片段页面输出
  * */
-function nicen_do_settings_sections_user( $page ) {
+function nicen_make_do_settings_sections_user( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
 
 
@@ -198,7 +198,7 @@ function nicen_do_settings_sections_user( $page ) {
 		/*
 		 * 输出输入组件
 		 * */
-		nicen_do_settings_fields_user( $page, $section['id'], $section['callback'] ?? false );
+		nicen_make_do_settings_fields_user( $page, $section['id'], $section['callback'] ?? false );
 
 		/*
 		 * 如果有自定义输出
@@ -217,7 +217,7 @@ function nicen_do_settings_sections_user( $page ) {
 /*
  * 数字输入框
  * */
-function nicen_form_number( $args ) {
+function nicen_make_form_number( $args ) {
 	?>
     <a-input-number
             name="<?= $args['label_for']; ?>"
@@ -232,7 +232,7 @@ function nicen_form_number( $args ) {
 /*
  * 基础输入框
  * */
-function nicen_form_input( $args ) {
+function nicen_make_form_input( $args ) {
 	?>
     <a-input
             name="<?= $args['label_for']; ?>"
@@ -246,7 +246,7 @@ function nicen_form_input( $args ) {
 /*
  * 基础密码输入框
  * */
-function nicen_form_password( $args ) {
+function nicen_make_form_password( $args ) {
 	?>
     <a-input-password
             name="<?= $args['label_for']; ?>"
@@ -259,7 +259,7 @@ function nicen_form_password( $args ) {
 /*
  * 基础开关
  * */
-function nicen_form_switch( $args ) {
+function nicen_make_form_switch( $args ) {
 	?>
     <input name="<?= $args['label_for']; ?>" v-model="data.<?= $args['label_for']; ?>" hidden/>
     <a-switch
@@ -273,7 +273,7 @@ function nicen_form_switch( $args ) {
 /*
  * 基础开关
  * */
-function nicen_form_textarea( $args ) {
+function nicen_make_form_textarea( $args ) {
 	?>
     <a-textarea
             name="<?= $args['label_for']; ?>"
@@ -288,7 +288,7 @@ function nicen_form_textarea( $args ) {
 /*
  * 基础开关
  * */
-function nicen_form_color( $args ) {
+function nicen_make_form_color( $args ) {
 	?>
     <div style="display: flex;align-items: center">
         <input name="<?= $args['label_for']; ?>" v-model="data.<?= $args['label_for']; ?>" hidden/>
@@ -306,7 +306,7 @@ function nicen_form_color( $args ) {
 /*
  * 文字说明
  * */
-function destination_form_text( $args ) {
+function nicen_make_plugin_form_text( $args ) {
 	?>
     <div style='line-height: 1.8;width: 150%;word-wrap:break-word;word-spacing:normal; word-break: break-all;'><?= $args['info']; ?></div>
 	<?php
@@ -316,7 +316,7 @@ function destination_form_text( $args ) {
 /*
  * 单选
  * */
-function nicen_form_select( $args ) {
+function nicen_make_form_select( $args ) {
 	?>
     <input name="<?= $args['label_for']; ?>" v-model="data.<?= $args['label_for']; ?>" hidden/>
     <a-select
@@ -333,7 +333,7 @@ function nicen_form_select( $args ) {
 /*
  * 单选
  * */
-function nicen_form_multi( $args ) {
+function nicen_make_form_multi( $args ) {
 	?>
 
     <input name="<?= $args['label_for']; ?>" v-model="data.<?= $args['label_for']; ?>" hidden/>
