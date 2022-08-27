@@ -47,7 +47,7 @@ function nicen_make_detect() {
 			echo preg_replace( '/\s/', '', vsprintf( '
 			<script>
 			jQuery(function(){
-				layer.alert("%s，可在插件设置页面查看日志！");   
+				layer.alert("%s可在插件设置页面查看日志！");   
 			});
             </script>
 			', [ $info ] ) );

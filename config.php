@@ -109,15 +109,7 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_plugin_path',
 						'title'    => '本地化图片时的保存路径',
 						'callback' => 'nicen_make_form_input',
-					],
-					[
-						'id'       => 'nicen_make_plugin_private',
-						'title'    => '接口密钥',
-						'callback' => 'nicen_make_form_password',
-						'args'     => [
-							'tip' => '默认随机生成的接口密钥，防止接口被恶意提交'
-						]
-					],
+					]
 				]
 			],
 			[
@@ -129,38 +121,55 @@ define( 'PLUGIN_nicen_make', [
 						'title'    => '定时发布功能说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '按照文章添加的顺序，定时将未发布的文章草稿进行发布，插件支持两种文章定时发布的模式:<br/>【<span style="color: red;">Wp自带的定时任务</span>】wp自带的定时任务是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；<br/>【<span style="color: red;">外部监控定时触发</span>】通过宝塔或者其他工具设置定时访问进行监控，每次接口被访问时自动检测是否需要发布文章；相对于前者任务执行时间更加准确<br/><br/>您的触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，插件日志页面可查看运行日志（外部监控定时触发模式下需要对该接口进行监控）<br /><br/>' . getAutoInfo()
+							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">日志</span>】' . getAutoInfo()
 						]
 					],
 					[
-						'id'       => 'nicen_make_plugin_aotu_publish',
+						'id'       => 'nicen_make_plugin_auto_publish',
 						'title'    => '开启自动发布文章',
 						'callback' => 'nicen_make_form_switch',
 					],
 					[
 						'id'       => 'nicen_make_plugin_interval',
-						'title'    => '每间隔多少分钟发布一次',
+						'title'    => '每间隔多少秒发布一次',
 						'callback' => 'nicen_make_form_number',
 					],
 					[
-						'id'       => 'nicen_make_plugin_interval_mode',
-						'title'    => '定时任务运行模式',
+						'id'       => 'nicen_make_publish_date',
+						'title'    => '是否同步发布时间',
 						'callback' => 'nicen_make_form_select',
 						'args'     => [
 							'options' => [
 								[
-									'label' => 'wp自带的定时任务',
+									'label' => '保持默认的发布时间',
 									'value' => '0'
 								],
 								[
-									'label' => '外部监控定时触发',
+									'label' => '修改为自动发布的时间',
 									'value' => '1'
 								]
 							],
 						]
 					],
 					[
-						'id'       => 'nicen_make_plugin_interval_local',
+						'id'       => 'nicen_make_plugin_order',
+						'title'    => '选择文章发表顺序',
+						'callback' => 'nicen_make_form_select',
+						'args'     => [
+							'options' => [
+								[
+									'label' => '随机发布',
+									'value' => 'rand'
+								],
+								[
+									'label' => '按创建时间',
+									'value' => 'ID'
+								]
+							],
+						]
+					],
+					[
+						'id'       => 'nicen_make_plugin_publish_local',
 						'title'    => '发布时是否本地化图片',
 						'callback' => 'nicen_make_form_select',
 						'args'     => [
@@ -221,8 +230,9 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_add_domain'     => '0', //链接是否增加域名
 
 	/*定时任务*/
-	'nicen_make_plugin_aotu_publish'   => "0",
-	'nicen_make_plugin_interval'       => 5,
-	'nicen_make_plugin_interval_mode'  => '0',
-	'nicen_make_plugin_interval_local' => '0'
+	'nicen_make_plugin_order'=>'ID',
+	'nicen_make_plugin_auto_publish'   => "0",
+	'nicen_make_plugin_interval'       => 300,
+	'nicen_make_plugin_publish_local' => '0',
+	'nicen_make_publish_date'=>"0"
 ] );

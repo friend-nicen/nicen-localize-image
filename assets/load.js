@@ -37,6 +37,9 @@ let load = {
     error(text = '加载异常') {
         message.error(text);
     },
+    info(text = '加载异常') {
+        message.info(text);
+    },
     confirm(text, callback = null, cancel = null) {
         Modal.confirm({
             title: '提示',

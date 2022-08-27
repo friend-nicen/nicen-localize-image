@@ -80,6 +80,7 @@ jQuery(function () {
                     load.loading('正在提交');
                     axios.get('/?nicen_make_clear_log=1&private=' + that.data.nicen_make_plugin_private)
                         .then((res) => {
+                            console.log(res)
                             load.info(res.data.result);
                             setTimeout(() => {
                                 location.reload();
@@ -105,23 +106,22 @@ jQuery(function () {
                     that.batch.flag = false;
                     load.error("已取消运行...");
                     return;
-                }else{
-                    that.batch.flag = true;
                 }
-
 
                 let batch = '';
 
                 if (!that.batch.start || !that.batch.end) {
                     batch = "所有";
                 } else {
-                    batch = `ID${that.batch.start}~${that.batch.end}`;
+                    batch = `ID为${that.batch.start}~${that.batch.end}`;
                     if (that.batch.start >= that.batch.end) {
                         load.error("开始ID不能大于或等于结束ID");
                         return;
                     }
                 }
 
+
+                that.batch.flag = true;//标记开始
                 let code = false; //操作结果
 
                 /*
@@ -129,7 +129,7 @@ jQuery(function () {
                 * 获取文章数量和列表
                 * */
                 code = await new Promise(resolve => {
-                    load.confirm(`确定要本地化的${batch}文章内所有的外部图片吗？`, () => {
+                    load.confirm(`确定要本地化${batch}文章内所有的外部图片吗？`, () => {
                         load.loading('正在请求');
                         axios.post(`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}`, that.batch)
                             .then((res) => {
@@ -152,6 +152,7 @@ jQuery(function () {
                             load.loaded();
                         })
                     }, () => {
+                        console.log("取消")
                         resolve(false)
                     });
                 });
@@ -169,24 +170,34 @@ jQuery(function () {
                         })
                     })
 
-                    console.log(that.batch.list)
                     /*
                     * 判断选择的结果
                     * */
                     if (code) {
+
+                        that.batch.loading=true;//显示加载效果
+
                         for (let i of that.batch.list) {
                             /*
                             * 如果已经被中断
                             * */
                             if (!that.batch.flag) {
+                                that.batch.loading=false;
                                 load.loaded();
                                 return;
                             }
                             await that.localImage(i.ID);
                         }
+
+
+                        that.batch.loading=false; //批量结束
+
                     }
 
                 }
+
+                that.batch.flag=false; //标记结束
+
             },
             /*
             * 提交本地化图片

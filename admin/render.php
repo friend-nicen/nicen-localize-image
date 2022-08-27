@@ -48,11 +48,13 @@ function nicen_plugin_update() {
 				<br />
 				Gitee：<a target="_blank" href="https://gitee.com/friend-nicen/nicen-localize-image">https://gitee.com/friend-nicen/nicen-localize-image</a>
 				<br />
+				博客：<a target="_blank" href="https://nicen.cn/2893.html">https://nicen.cn/2893.html</a>
+				<br />
 				仓库内的版本永远是最新版本，如您觉得插件给你带来了帮助，欢迎star！祝您早日达成自己的目标！
 	    </a-form-item>
 	     <a-form-item label="礼轻情意重">
 	     
-	      <a-popover placement="top" trigger="click">
+	      <a-popover placement="top" trigger="hover">
 		    <template slot="content">
 		      <img style="max-width:300px" :src="donate[0]"/>
 		    </template>
@@ -62,7 +64,7 @@ function nicen_plugin_update() {
 		    </a-button>
 		    
 		  </a-popover>
-		  <a-popover placement="top" trigger="click"> 
+		  <a-popover placement="top" trigger="hover"> 
 		  
 		    <template slot="content">
 		      <img style="max-width:300px" :src="donate[1]"/>
@@ -73,7 +75,7 @@ function nicen_plugin_update() {
 		    </a-button>
 		    
 		  </a-popover>
-		  <a-popover placement="top" trigger="click">
+		  <a-popover placement="top" trigger="hover">
 		  
 		    <template slot="content">
 		     <img style="max-width:300px" :src="donate[2]"/>
@@ -111,7 +113,7 @@ function form_batch() {
 	<div style="line-height: 1.8; width: 150%; overflow-wrap: break-word; word-spacing: normal; word-break: break-all;">
 	按照指定的文章ID范围批量进行图片本地化，点击开始后任务自动运行，运行过程中可以随时暂停，关闭网页表示强制暂停！运行过程中将会展示实时日志！
 	<br/><br/>
-	'.$last.'.当前共有已发布文章' . $count->publish . '篇，草稿' . $count->draft . '篇！不填起始ID默认批量本地化所有文章！
+	'.$last.'当前共有已发布文章' . $count->publish . '篇，草稿' . $count->draft . '篇！不填起始ID默认批量本地化所有文章！
 	</div>
 	</a-form-item>
 	<a-form-item label="文章ID范围">

@@ -19,7 +19,7 @@ License: GPLv2 or later
 2. 修改插件全局变量、函数的命名前缀；
 3. 修复没有判断图片下载结果导致的异常问题；
 
-## v1.2.0
+## v1.2.0 beta
 
 1. 增加图片本地化日志收集的功能，随时了解本地化失败的原因；
 2. 新增定时发布文章的功能，可设置定时发布时是否本地化文章妥；
@@ -32,11 +32,16 @@ License: GPLv2 or later
 
 # nicen-localize-image
 
-nicen-localize-image，是一款用于自动本地化wordpress文章内外部图片的插件。
+nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
+
+1. 文章发布前通过编辑器插件本地化
+2. 文章手动发布时自动本地化
+3. 定时发布文章时自动本地化
+4. 针对已发布的文章批量本地化。
 
 Github：[https://github.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
 
-Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
+Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://gitee.com/friend-nicen/nicen-localize-image)
 
 插件提供两种本地化外部图片的模式，两种模式可同时开启，互不冲突；
 ![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661002814846.png)

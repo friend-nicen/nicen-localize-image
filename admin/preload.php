@@ -6,11 +6,11 @@
 */
 
 
-const NICEN_VERSION='1.2.0'; //插件版本
+const NICEN_VERSION='1.2.0 beta'; //插件版本
 /*
  * 定时任务接口
  * */
-$crontab = site_url() . '/?nicen_crontab=1&private=' . get_option( "nicen_make_plugin_private" );
+$crontab = site_url() . '/wp-cron.php';
 /*
  * 获取自动发布相关信息
  * */
