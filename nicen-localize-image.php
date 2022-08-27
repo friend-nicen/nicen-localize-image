@@ -10,7 +10,6 @@
  * License: GPLv2 or later
  */
 
-namespace nicen\plugin;
 
 define( 'nicen_make_PATH', plugin_dir_path( __FILE__ ) ); //插件目录
 define( 'nicen_make_URL', plugin_dir_url( __FILE__ ) ); //插件URL
@@ -32,9 +31,6 @@ include_once nicen_make_PATH . '/admin/common.php'; //公共变量和方法
 include_once nicen_make_PATH . '/admin/when-post.php'; //文章保存时触发的钩子
 include_once nicen_make_PATH . '/response/response.php'; //接口响应
 
-/*
- * 只在后台才触发
- * */
 /*
  * 只在后台才触发
  * */
