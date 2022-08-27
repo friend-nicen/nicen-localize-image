@@ -13,12 +13,6 @@ License: GPLv2 or later
 
 # 更新日志：
 
-## v1.1.3
-
-1. 本地化下载图片的方式调整为curl获取，并模拟referer绕过防盗链；
-2. 修改插件全局变量、函数的命名前缀；
-3. 修复没有判断图片下载结果导致的异常问题；
-
 ## v1.2.0 beta
 
 1. 增加图片本地化日志收集的功能，随时了解本地化失败的原因；
@@ -29,8 +23,14 @@ License: GPLv2 or later
 6. 修改接口密钥为安装插件后随机生成，防止接口被恶意利用；
 7. 新增图片本地化时是否添加网站域名的功能开关，开启后本地化后的图片链接为包含域名的完整路径；
 
+## v1.1.3
 
-# nicen-localize-image
+1. 本地化下载图片的方式调整为curl获取，并模拟referer绕过防盗链；
+2. 修改插件全局变量、函数的命名前缀；
+3. 修复没有判断图片下载结果导致的异常问题；
+
+
+# 插件介绍
 
 nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
 
@@ -42,6 +42,8 @@ nicen-localize-image，是一款用于本地化文章的外部图片的插件，
 Github：[https://github.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
 
 Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://gitee.com/friend-nicen/nicen-localize-image)
+
+# 功能说明
 
 插件提供两种本地化外部图片的模式，两种模式可同时开启，互不冲突；
 ![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661002814846.png)
@@ -58,10 +60,7 @@ Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://gitee.com/
 启用这个模式之后会在文章发布时自动本地化所有外部图片；
 ![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008642570.png)
 
-
 推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。
-
-
 
 # 选项说明
 
