@@ -11,6 +11,15 @@ License: GPLv2 or later
  */
 ```
 
+# 插件介绍
+
+nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
+
+1. 文章发布前通过编辑器插件本地化
+2. 文章手动发布时自动本地化
+3. 定时发布文章时自动本地化
+4. 针对已发布的文章批量本地化。
+
 # 更新日志：
 
 ## v1.2.0 beta
@@ -29,15 +38,7 @@ License: GPLv2 or later
 2. 修改插件全局变量、函数的命名前缀；
 3. 修复没有判断图片下载结果导致的异常问题；
 
-
-# 插件介绍
-
-nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
-
-1. 文章发布前通过编辑器插件本地化
-2. 文章手动发布时自动本地化
-3. 定时发布文章时自动本地化
-4. 针对已发布的文章批量本地化。
+# 仓库地址
 
 Github：[https://github.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
 
