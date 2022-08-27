@@ -41,14 +41,15 @@ function nicen_make_initialize() {
 		/*过滤 TinyMCE 按钮的第一行列表（Visual 选项卡）,在可视编辑器中注册一个按钮*/
 		add_filter( 'mce_buttons', function ( $buttons ) {
 			$buttons[] = 'local';
-
 			return $buttons;
 		} );
 	}
 }
 
 
-
+/*
+ * 判断是否开启编辑器本地化插件
+ * */
 if ( nicen_make_config( 'nicen_make_plugin_editor' ) ) {
 	add_action( 'admin_init', 'nicen_make_initialize' );//启用经典编辑器，加载编辑器插件
 }

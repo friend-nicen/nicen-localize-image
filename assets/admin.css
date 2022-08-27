@@ -30,6 +30,9 @@
     border-color: #40a9ff !important;
     border-right-width: 1px !important; }
 
+#VueApp .ant-form-item {
+  margin-bottom: 15px; }
+
 #VueApp .card-container {
   background: #f5f5f5;
   overflow: hidden;
@@ -47,7 +50,7 @@
     margin-top: -16px; }
     #VueApp .card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
       background: #fff;
-      padding: 36px 30px 10px 30px; }
+      padding: 36px 42px 10px 42px; }
     #VueApp .card-container > .ant-tabs-card > .ant-tabs-content .ant-form-item-label label {
       display: flex;
       align-items: center; }

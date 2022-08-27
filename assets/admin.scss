@@ -42,6 +42,10 @@
     }
   }
 
+  .ant-form-item{
+    margin-bottom: 15px;
+  }
+
 
   .card-container {
     background: #f5f5f5;
@@ -73,7 +77,7 @@
 
         & > .ant-tabs-tabpane {
           background: #fff;
-          padding: 36px 30px 10px 30px;
+          padding: 36px 42px 10px 42px;
         }
 
         .ant-form-item-label{

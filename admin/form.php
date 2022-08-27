@@ -7,6 +7,7 @@
  * 后台外部样式加载
  * */
 
+include_once __DIR__.'/render.php'; //引入各种渲染函数
 
 /*
  * 部分组件没有输出表单元素，
@@ -347,5 +348,8 @@ function nicen_make_form_multi( $args ) {
     />
 	<?php
 }
+
+
+
 
 

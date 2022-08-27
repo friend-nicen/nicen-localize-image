@@ -47,7 +47,7 @@ function nicen_make_detect() {
 			echo preg_replace( '/\s/', '', vsprintf( '
 			<script>
 			jQuery(function(){
-				layer.alert("%s");   
+				layer.alert("%s，可在插件设置页面查看日志！");   
 			});
             </script>
 			', [ $info ] ) );
@@ -59,6 +59,9 @@ function nicen_make_detect() {
 
 }
 
+/*
+ * 如果是文章编辑页面，则加载插件
+ * */
 if ( strpos( $_SERVER['SCRIPT_NAME'] ?? "", '/post' ) ) {
 	add_action( 'admin_head', 'nicen_make_detect' ); //加载前台资源文件
 }
@@ -80,10 +83,12 @@ function nicen_make_admin_load_source() {
 	wp_enqueue_script( 'adminjs', nicen_make_URL . 'assets/admin.js', array(), filemtime( nicen_make_PATH . 'assets/admin.js' ), true );
 	wp_enqueue_script( 'loadjs', nicen_make_URL . 'assets/load.js', array(), filemtime( nicen_make_PATH . 'assets/load.js' ), true );
 
+	wp_enqueue_script( 'axios', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js' );
+
 	/*
 	 * 内联的js代码
 	 * */
-	wp_add_inline_script( "adminjs", vsprintf( 'const PLUGIN_CONFIG=%s;', [ json_encode( nicen_make_config() ) ] ), 'before' );
+	wp_add_inline_script( "adminjs", vsprintf( 'const PLUGIN_CONFIG=%s;const NICEN_VERSION="%s";', [ json_encode( nicen_make_config() ),NICEN_VERSION ] ), 'before' );
 
 
 }

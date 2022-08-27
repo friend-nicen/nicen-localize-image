@@ -6,20 +6,29 @@
 */
 
 
-/*
+/**
  * 保存文章时触发的钩子
  *
+ * @param $post_id integer 文章ID
+ * @param bool $flag 是否需要记录日志
  *
  * */
-function nicen_make_when_save_post( $post_id ) {
+function nicen_make_when_save_post( $post_id, $flag = true ) {
 
 	remove_action( 'edit_post', 'nicen_make_when_save_post' );
 
+	$log=""; //保存日志
+
 	/*判断是否启用了本地化图片的功能*/
-	if ( nicen_make_config( 'nicen_make_plugin_save' ) ) {
+	if ( nicen_make_config( 'nicen_make_plugin_save' ) || !$flag ) {
 
 		//获取文章对象
 		$post = get_post( $post_id );
+
+		if ( empty( $post ) ) {
+			return;
+		}
+
 		//匹配所有图片
 		preg_match_all( '/<img(?:.*?)src="(.*?)"(?:.*?)\/>/', $post->post_content, $match );
 
@@ -57,7 +66,7 @@ function nicen_make_when_save_post( $post_id ) {
 			* */
 			if ( strpos( $value, $site_url ) === false ) {
 
-				$res = nicen_make_local_image( $value,false );//下载图片
+				$res = ( Nicen_local::getInstance() )->localImage( $value, false );//下载图片
 
 				/*判断下载结果*/
 				if ( $res['code'] ) {
@@ -84,7 +93,6 @@ function nicen_make_when_save_post( $post_id ) {
 		}
 	}
 
-
 	/*
 	 * 自动添加alt
 	 * */
@@ -93,6 +101,10 @@ function nicen_make_when_save_post( $post_id ) {
 
 		//获取文章对象
 		$post = get_post( $post_id );
+		/*文章是否存在*/
+		if ( empty( $post ) ) {
+			return;
+		}
 		//匹配所有图片
 		preg_match_all( '/<img(?:.*?)\/>/', $post->post_content, $match );
 
@@ -140,7 +152,12 @@ function nicen_make_when_save_post( $post_id ) {
 	/*
 	 * 插入日志
 	 * */
-	update_option( 'nicen_make_plugin_save_result', $log );
+	if ( $flag ) {
+		update_option( 'nicen_make_plugin_save_result', $log );
+	} else {
+		return $log;
+	}
+
 }
 
 
