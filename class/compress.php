@@ -43,6 +43,7 @@ class Nicen_comress {
 			return [];
 		}
 
+
 		while ( ( $file = readdir( $dir_handle ) ) !== false ) {
 
 			if ( $file != "." && $file != ".." ) {
@@ -61,9 +62,12 @@ class Nicen_comress {
 
 					if ( strpos( $mimetype, 'image' ) !== false ) {
 
+						$title = $file . "（" . round( filesize( $abs ) / 1024, 2 ) . "kb）";
+						$key   = $path . '/' . $file;
+
 						$list[] = [
-							"title" => $file . "（" . round( filesize( $abs ) / 1024, 2 ) . "kb）",
-							"key"   => $path . '/' . $file
+							"title" => base64_encode( $title ),
+							"key"   => base64_encode( $key )
 						];
 					}
 
@@ -75,8 +79,8 @@ class Nicen_comress {
 
 					if ( ! empty( $children ) ) {
 						$list[] = [
-							"title"    => $file,
-							"key"      => $path . '/' . $file,
+							"title"    => base64_encode($file),
+							"key"      => base64_encode($path . '/' . $file),
 							"children" => $children
 						];
 					}

@@ -6,11 +6,32 @@
 */
 
 
+/*
+ * 获取定时任务状态
+ * */
+global $nicen_crontab_tab;
+$nicen_crontab_tab="处于开启状态，自动发布可以正常执行";
+
+/*
+ * 判断定时任务是否开启
+ * */
+if(defined('DISABLE_WP_CRON')){
+	if(DISABLE_WP_CRON == true){
+		$nicen_crontab_tab="处于关闭状态，自动发布无法正常执行";
+	}else{
+		$nicen_crontab_tab="处于开启状态，自动发布可以正常执行";
+	}
+}
+
+
+
 const NICEN_VERSION='1.3.0 beta'; //插件版本
 /*
  * 定时任务接口
  * */
 $crontab = site_url() . '/wp-cron.php';
+
+
 /*
  * 获取自动发布相关信息
  * */

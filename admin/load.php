@@ -75,6 +75,7 @@ function nicen_make_admin_load_source() {
 	wp_enqueue_script( 'vuejs', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js', false );
 
 	wp_enqueue_script( 'moments', 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/moment.js/2.29.1/moment.min.js' );
+	wp_enqueue_script( 'base64', nicen_make_URL . 'assets/base64.min.js' );
 
 	wp_enqueue_script( 'antd', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.js', [ 'jquery' ] );
 	wp_enqueue_script( 'Vcolorpicker', nicen_make_URL . 'assets/colorpicker.js', array(), filemtime( nicen_make_PATH . 'assets/colorpicker.js' ), true );
@@ -90,10 +91,9 @@ function nicen_make_admin_load_source() {
 	/*
 	 * 内联的js代码
 	 * */
-	wp_add_inline_script( "adminjs", vsprintf( "const PLUGIN_CONFIG=%s;const NICEN_VERSION='%s';const NICEN_TREE='%s';", [
+	wp_add_inline_script( "adminjs", vsprintf( "const PLUGIN_CONFIG=%s;const NICEN_VERSION='%s';", [
 		json_encode( nicen_make_config() ),
-		NICEN_VERSION,
-		json_encode( ( Nicen_comress::getInstance() )->readDirs( '/wp-content/uploads' ) )
+		NICEN_VERSION
 	] ), 'before' );
 
 

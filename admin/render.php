@@ -160,12 +160,13 @@ function Nicen_form_batch() {
  * */
 function Nicen_form_compress() {
 
-	echo '<a-form-item label="功能说明">选择指定的目录或者图片进行压缩，默认根目录为 /wp-content/uploads </a-form-item>';
+	echo '<a-form-item label="功能说明">选择指定的目录或者图片进行压缩，默认根目录为 /wp-content/uploads，压缩前请先点击加载图片目录，然后再选中目录或图片进行压缩 </a-form-item>';
 
 	echo '<a-form-item label="相关操作">';
 	echo '<a-space>
 			<a-button type="primary" :loading="tree.loading" @click="compress">{{tree.loading?"正在压缩第"+tree.count+"张图片，点击取消压缩...":"开始压缩"}}</a-button>
 			<a-button type="primary" v-if="tree.loading" @click="compress">取消压缩</a-button>
+			<a-button type="primary" @click="loadFiles">加载图片目录</a-button>
 		</a-space>';
 	echo '</a-form-item>';
 

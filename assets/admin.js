@@ -333,11 +333,11 @@ jQuery(function () {
                 zhCN: zhCN,
                 donate: [],
                 tree: {
-                    data: JSON.parse(NICEN_TREE),
+                    data: [],
                     selected: [],
                     loading: false,
                     flag: false,
-                    count:1
+                    count: 1
                 },
                 batch: {
                     start: null,
@@ -381,7 +381,7 @@ jQuery(function () {
                 let that = this;
                 load.confirm("确定清空所有本地化日志吗？", () => {
                     load.loading('正在提交');
-                    axios.get('/?nicen_make_clear_log=1&private=' + that.data.nicen_make_plugin_private)
+                    axios.get(`/?nicen_make_clear_log=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`)
                         .then((res) => {
                             load.info(res.data.result);
                             setTimeout(() => {
@@ -444,7 +444,7 @@ jQuery(function () {
                 code = await new Promise(resolve => {
                     load.confirm(`确定要本地化${batch}文章的所有外部图片吗？`, () => {
                         load.loading('正在请求');
-                        axios.post(`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}`, that.batch)
+                        axios.post(`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, that.batch)
                             .then((res) => {
 
                                 /*
@@ -510,6 +510,7 @@ jQuery(function () {
                 }
 
                 that.batch.flag = false; //标记结束
+                load.loaded();
 
             },
             /*
@@ -520,8 +521,8 @@ jQuery(function () {
                 let that = this;
 
                 return new Promise((resolve) => {
-                    load.loading('正在本地化文章：'.id);
-                    axios.get(`/?nicen_make_local_batch=1&private=${that.data.nicen_make_plugin_private}&batch_id=${id}`)
+                    load.loading('正在本地化文章：' + id);
+                    axios.get(`/?nicen_make_local_batch=1&private=${that.data.nicen_make_plugin_private}&batch_id=${id}&timestamp=${(new Date()).getTime()}`)
                         .then((res) => {
                             load.success(res.data.errMsg);
                         }).catch((e) => {
@@ -602,6 +603,7 @@ jQuery(function () {
 
                 that.tree.loading = false; //批量结束
                 that.tree.flag = false; //标记结束
+                load.loaded();
 
             },
 
@@ -615,7 +617,7 @@ jQuery(function () {
                 return new Promise((resolve) => {
                     load.loading('正在压缩：' + file);
                     axios.post(
-                        `/?nicen_make_compress=1&private=${that.data.nicen_make_plugin_private}`,
+                        `/?nicen_make_compress=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`,
                         {
                             file: file
                         }
@@ -634,6 +636,52 @@ jQuery(function () {
                     })
                 });
             },
+
+            /*
+            * Base64解密
+            * */
+            decode(data) {
+
+                let that = this;
+                let result = [];
+
+                for (let i of data) {
+
+                    i.title = Base64.decode(i.title);
+                    i.key = Base64.decode(i.key);
+
+                    if (i.children) {
+                        i.children = that.decode(i.children);
+                    }
+
+                    result.push(i);
+                }
+
+                return result;
+
+
+            },
+
+            loadFiles() {
+                let that = this;
+
+                load.loading('正在加载文件目录...');
+                axios.get(
+                    `/?nicen_make_files=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`)
+                    .then((res) => {
+                        if (res.data.code) {
+                            load.success(res.data.errMsg);
+                            that.tree.data = that.decode(res.data.data);
+                        } else {
+                            load.error(res.data.errMsg);
+                        }
+                    }).catch((e) => {
+                   console.log(e)
+                }).finally(() => {
+                    load.loaded();
+                })
+
+            }
         },
         created() {
             let that = this;
