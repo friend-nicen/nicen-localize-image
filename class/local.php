@@ -74,7 +74,7 @@ class Nicen_local {
 			'Referer'    => $link['scheme'] . '://' . $link['host']
 		];
 
-		$timeout = 5;
+		$timeout = 60;
 		curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
 		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );

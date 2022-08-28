@@ -113,7 +113,7 @@ class Nicen_comress {
 				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
 			];
 
-			$timeout = 5;
+			$timeout = 60;
 			curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
 			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
@@ -157,7 +157,7 @@ class Nicen_comress {
 				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
 			];
 
-			$timeout = 5;
+			$timeout = 60;
 			curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
 			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
