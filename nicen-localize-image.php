@@ -23,8 +23,10 @@ register_deactivation_hook( __FILE__, 'nicen_make_end' ); //卸载插件
 
 /*导入类库*/
 include_once nicen_make_PATH . '/class/log.php'; //错误日志封装类
+
 include_once nicen_make_PATH . '/class/local.php'; //图片本地化封装类
-include_once nicen_make_PATH . '/class/crontab.php'; //图片本地化封装类
+include_once nicen_make_PATH . '/class/crontab.php'; //定时任务封装类
+include_once nicen_make_PATH . '/class/compress.php'; //图片压缩封装类
 
 /*导入模块*/
 include_once nicen_make_PATH . '/admin/common.php'; //公共变量和方法
@@ -41,15 +43,4 @@ if ( is_admin() ) {
 	include_once nicen_make_PATH . '/admin/initialize.php'; //初始化插件功能
 }
 
-
-/*
- * 错误信息调试
- *
-	add_action('activated_plugin','save_error');
-	function save_error(){
-		update_option('install_error',ob_get_contents());
-	}
-	echo get_option('install_error');
-	update_option('install_error',"");
-*/
 

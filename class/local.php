@@ -18,7 +18,7 @@ class Nicen_local {
 	private function __construct() {
 		$this->is_sava_database = nicen_make_config( 'nicen_make_plugin_local' );
 		$this->site_path        = nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
-		$this->is_add_domain        = nicen_make_config( 'nicen_make_plugin_add_domain' ); //是否需要域名
+		$this->is_add_domain    = nicen_make_config( 'nicen_make_plugin_add_domain' ); //是否需要域名
 		$this->root_path        = $_SERVER['DOCUMENT_ROOT'] . $this->site_path; //站点目录
 	}
 
@@ -125,6 +125,32 @@ class Nicen_local {
 		update_post_meta( $attach_id, '_wp_attached_file', $document_root . '/' . $filename );
 	}
 
+
+	/**
+	 * 判断指定链接是否是白名单
+	 *
+	 * @param string $url
+	 *
+	 * @return boolean
+	 * */
+	public function is_white( $url ) {
+
+		$white = explode( "\n", get_option( 'nicen_make_publish_white' ) ); //获取列表
+		/*判断是否为空*/
+		if ( empty( $white ) ) {
+			return false;
+		}
+
+		$link = parse_url( $url ); //解析
+
+		if ( in_array( $link['host'], $white ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	/**
 	 * 本地化图片
 	 *
@@ -214,18 +240,44 @@ class Nicen_local {
 		}
 
 
-		$url      = html_entity_decode( $url ); //反转义出真实链接
-		$filename = md5( $url ) . '.png'; //md5防止文件重复下载
+		$url = html_entity_decode( $url ); //反转义出真实链接
 
+		/*
+		 * 判断是否处于白名单
+		 * */
+		if ( $this->is_white( $url ) ) {
+			if ( $flag ) {
+				exit( json_encode( $log->add( [
+					'code'   => 0,
+					'result' => "白名单链接，无需进行本地化"
+				] ) ) );
+			} else {
+				return $log->add( [
+					'code'   => 0,
+					'result' => "白名单链接，无需进行本地化"
+				] );
+			}
+		}
+
+		/*
+		 * 获取保存的文件类型
+		 * */
+		$filetype = get_option( 'nicen_make_save_type' );
+
+		if ( empty( $filetype ) ) {
+			$filetype = 'png';
+		}
+
+		$filename = md5( $url ) . '.' . $filetype; //md5防止文件重复下载
 
 
 		/*
 		 * 判断链接是否需要添加域名
 		 * */
-		if($this->is_add_domain){
-			$link=site_url().$upload . '/' . $filename;
-		}else{
-			$link=$upload . '/' . $filename;
+		if ( $this->is_add_domain ) {
+			$link = site_url() . $upload . '/' . $filename;
+		} else {
+			$link = $upload . '/' . $filename;
 		}
 
 		/*
@@ -290,8 +342,6 @@ class Nicen_local {
 				if ( $this->is_sava_database ) {
 					$this->saveAsData( $filename );
 				}
-
-
 
 
 				if ( $flag ) {

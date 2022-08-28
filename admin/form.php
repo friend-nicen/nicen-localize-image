@@ -7,7 +7,7 @@
  * 后台外部样式加载
  * */
 
-include_once __DIR__.'/render.php'; //引入各种渲染函数
+include_once __DIR__ . '/render.php'; //引入各种渲染函数
 
 /*
  * 部分组件没有输出表单元素，
@@ -31,45 +31,49 @@ function nicen_make_setting_load( $options ) {
 	}
 	?>
     <div class="wrap" id="VueApp" v-cloak>
-        <a-page-header
-                title="<?= esc_html( get_admin_page_title() ); ?>"
-                :backIcon="false"
-                sub-title="加油">
-            <template #extra>
-                <a-button :loading="loading" type="primary" @click="save">
-                    {{loading?"正在保存...":"保存设置"}}
-                </a-button>
-            </template>
-        </a-page-header>
+        <a-config-provider :locale="zhCN">
+            <div>
+                <a-page-header
+                        title="<?= esc_html( get_admin_page_title() ); ?>"
+                        :backIcon="false"
+                        sub-title="加油">
+                    <template #extra>
+                        <a-button :loading="loading" type="primary" @click="save">
+                            {{loading?"正在保存...":"保存设置"}}
+                        </a-button>
+                    </template>
+                </a-page-header>
 
-        <a-form
-                action="options.php"
-                method="post"
-                label-align="left"
-                :label-col="{ span: 4 }"
-                :wrapper-col="{ span: 10 }"
-                ref="submit"
-        >
+                <a-form
+                        action="options.php"
+                        method="post"
+                        label-align="left"
+                        :label-col="{ span: 4 }"
+                        :wrapper-col="{ span: 10 }"
+                        ref="submit"
+                >
 
-			<?php
-			// 输出可允许修改的选项
-			settings_fields( $plugin_page );
-			?>
-            <div class="card-container">
-                <a-tabs type="card" v-model="activeKey" @change="change">
 					<?php
-					//输出输入域
-					nicen_make_do_settings_sections_user( $plugin_page );
+					// 输出可允许修改的选项
+					settings_fields( $plugin_page );
 					?>
-                </a-tabs>
+                    <div class="card-container">
+                        <a-tabs type="card" v-model="activeKey" @change="change">
+							<?php
+							//输出输入域
+							nicen_make_do_settings_sections_user( $plugin_page );
+							?>
+                        </a-tabs>
+                    </div>
+                </a-form>
             </div>
-        </a-form>
+        </a-config-provider>
     </div>
 	<?php
 }
 
 
-/*
+/**
  * 主题域输出
  *
  *
@@ -77,6 +81,7 @@ function nicen_make_setting_load( $options ) {
  * @支持 自定义开关，显示隐藏所有表单，以及不参与该操作的表单
  * @支持 自定义表单的tip提示
  *
+ * @param array $callback ,一些配置 [render,自定义渲染函数，key，显示隐藏的字段，忽略的字段 ignore
  * */
 function nicen_make_do_settings_fields_user( $page, $section, $callback = false ) {
 	global $wp_settings_fields;
@@ -89,8 +94,9 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 	 * */
 
 	$param = [];//是否需要显示、隐藏切换
+
 	if ( $callback ) {
-		$param = $callback();
+		$param = $callback(); //获取预定的配置参数
 	}
 
 
@@ -175,7 +181,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
  * 主题设置片段页面输出
  * */
 function nicen_make_do_settings_sections_user( $page ) {
-	global $wp_settings_sections, $wp_settings_fields;
+	global $wp_settings_sections;
 
 
 	if ( ! isset( $wp_settings_sections[ $page ] ) ) {
@@ -191,18 +197,25 @@ function nicen_make_do_settings_sections_user( $page ) {
 
 		$param = [];//是否需要显示、隐藏切换
 
+		/*
+		 * 是否有传递回调函数
+		 * */
 		if ( isset( $section['callback'] ) ) {
 			$param = $section['callback']();
 		}
 
 
-		/*
+		/**
 		 * 输出输入组件
+		 *
+		 * @param $page integer "菜单页面id"
+		 * @param $section array 分节的信息
 		 * */
+
 		nicen_make_do_settings_fields_user( $page, $section['id'], $section['callback'] ?? false );
 
 		/*
-		 * 如果有自定义输出
+		 * 回调函数如果有自定义输出
 		 * */
 		if ( isset( $param['render'] ) ) {
 			$param['render']();
@@ -335,6 +348,7 @@ function nicen_make_form_select( $args ) {
  * 单选
  * */
 function nicen_make_form_multi( $args ) {
+
 	?>
 
     <input name="<?= $args['label_for']; ?>" v-model="data.<?= $args['label_for']; ?>" hidden/>

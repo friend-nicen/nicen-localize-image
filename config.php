@@ -109,6 +109,14 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_plugin_path',
 						'title'    => '本地化图片时的保存路径',
 						'callback' => 'nicen_make_form_input',
+					],
+					[
+						'id'       => 'nicen_make_save_type',
+						'title'    => '保存后的文件类型',
+						'callback' => 'nicen_make_form_input',
+						'args'=>[
+							'tip'     => '保存后的文件类型，默认是png格式！'
+						]
 					]
 				]
 			],
@@ -192,8 +200,38 @@ define( 'PLUGIN_nicen_make', [
 				"id"       => "nicen_make_plugin_batch_local",
 				'title'    => '批量本地化',
 				'callback' => [
-					"render" => "form_batch"
-				],
+					"render" => "Nicen_form_batch"
+				]
+			],
+			[
+				"id"       => "nicen_make_plugin_compress",
+				'title'    => '图片压缩',
+				'callback' => [
+					"render" => "Nicen_form_compress"
+				]
+			],
+			[
+				"id"     => "nicen_make_plugin_white",
+				'title'  => '域名白名单',
+				'fields' => [
+					[
+						'id'       => 'text_info',
+						'title'    => '功能说明',
+						'callback' => 'nicen_make_plugin_form_text',
+						'args'     => [
+							'info' => '某些外链可能是有意为之，你可能并不需要进行本地化；处于白名单的域名的图片链接不会进行本地化操作【跳过白名单链接时会提示失败】；格式应当如下（一行一个）：
+							<br />
+							nicen.cn<br />
+							1.nicen.cn<br />
+							2.nicen.cn，这样这三个域名的链接都不会被本地化；'
+						]
+					],
+					[
+						'id'       => 'nicen_make_publish_white',
+						'title'    => '域名白名单',
+						'callback' => 'nicen_make_form_textarea',
+					],
+				]
 			],
 			[
 				"id"       => "nicen_make_plugin_local_log",
@@ -219,20 +257,25 @@ define( 'PLUGIN_nicen_make', [
  * 键=>默认值
  * */
 define( 'nicen_make_CONFIG', [
-	"nicen_make_plugin_local"          => '1', //本地化时保存到数据库
-	'nicen_make_plugin_private'        => md5( time() ), //初次安装时的接口密钥
-	'nicen_make_plugin_editor'         => '1', //开启编辑器插件
-	'nicen_make_plugin_save'           => '1', //保存到数据库
-	'nicen_make_plugin_save_result'    => '', //临时保存本地化结果
-	'nicen_make_plugin_alt'            => '1', //自动新增alt
-	'nicen_make_plugin_alt_type'       => '1', //alt增加的类型
-	'nicen_make_plugin_path'           => '/wp-content/uploads/replace', //资源保存的路径
-	'nicen_make_plugin_add_domain'     => '0', //链接是否增加域名
+	"nicen_make_plugin_local"         => '1', //本地化时保存到数据库
+	'nicen_make_plugin_private'       => md5( time() ), //初次安装时的接口密钥
+	'nicen_make_plugin_editor'        => '1', //开启编辑器插件
+	'nicen_make_plugin_save'          => '1', //保存到数据库
+	'nicen_make_plugin_save_result'   => '', //临时保存本地化结果
+	'nicen_make_plugin_alt'           => '1', //自动新增alt
+	'nicen_make_plugin_alt_type'      => '1', //alt增加的类型
+	'nicen_make_plugin_path'          => '/wp-content/uploads/replace', //资源保存的路径
+	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
+	'nicen_make_save_type'=>'png',
 
 	/*定时任务*/
-	'nicen_make_plugin_order'=>'ID',
-	'nicen_make_plugin_auto_publish'   => "0",
-	'nicen_make_plugin_interval'       => 300,
+	'nicen_make_plugin_order'         => 'ID',
+	'nicen_make_plugin_auto_publish'  => "0",
+	'nicen_make_plugin_interval'      => 300,
 	'nicen_make_plugin_publish_local' => '0',
-	'nicen_make_publish_date'=>"0"
+	'nicen_make_publish_date'         => "0",
+
+
+	/*白名单*/
+	'nicen_make_publish_white'        => '',
 ] );

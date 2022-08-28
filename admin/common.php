@@ -41,3 +41,29 @@ function nicen_make_getCategory( $id ) {
 }
 
 
+
+
+/**
+ * 获取所有标签和分类
+ * */
+function nicen_plugin_getAllCat()
+{
+
+	$cat = [];
+
+	/*
+	 * 遍历目录
+	 * */
+	$terms = get_terms('category', 'orderby=name&hide_empty=0');
+
+	if (count($terms) > 0) {
+		foreach ($terms as $term) {
+			$cat[] = [
+				'label' => '分类：' . $term->name,
+				'value' => $term->term_id
+			];
+		}
+	}
+
+	return $cat;
+}

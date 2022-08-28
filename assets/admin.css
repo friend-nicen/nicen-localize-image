@@ -65,3 +65,5 @@
         border: 1px solid #818181; }
       #VueApp .card-container > .ant-tabs-card > .ant-tabs-content .m-colorPicker .box {
         box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.15); }
+    #VueApp .card-container > .ant-tabs-card > .ant-tabs-content input {
+      background-color: inherit; }

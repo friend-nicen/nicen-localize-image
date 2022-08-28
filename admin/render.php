@@ -60,7 +60,7 @@ function nicen_plugin_update() {
 		    </template>
 		    
 		    <a-button type="link">
-		      微信捐赠
+		      微信支持
 		    </a-button>
 		    
 		  </a-popover>
@@ -71,7 +71,7 @@ function nicen_plugin_update() {
 		    </template>
 		    
 		    <a-button type="link">
-		      支付宝捐赠
+		      支付宝支持
 		    </a-button>
 		    
 		  </a-popover>
@@ -82,7 +82,7 @@ function nicen_plugin_update() {
 		    </template>
 		    
 		    <a-button type="link">
-		      QQ捐赠
+		      QQ支持
 		    </a-button>
 		    
 		  </a-popover>
@@ -97,23 +97,23 @@ function nicen_plugin_update() {
 /*
  * 文章批量本地化
  * */
-function form_batch() {
+function Nicen_form_batch() {
 
 	$count = wp_count_posts();//文章总数
-	$last=get_option('nicen_last_batch'); //上次本地化的ID
+	$last  = get_option( 'nicen_last_batch' ); //上次本地化的ID
 
 	/*
 	 * 获取上次的ID
 	 * */
-	if(!empty($last)){
-		$last='上次批量本地化的文章ID为：'.$last.'，';
+	if ( ! empty( $last ) ) {
+		$last = '上次批量本地化的文章ID为：' . $last . '，';
 	}
 
 	echo '	<a-form-item label="功能说明">
 	<div style="line-height: 1.8; width: 150%; overflow-wrap: break-word; word-spacing: normal; word-break: break-all;">
 	按照指定的文章ID范围批量进行图片本地化，点击开始后任务自动运行，运行过程中可以随时暂停，关闭网页表示强制暂停！运行过程中将会展示实时日志！
 	<br/><br/>
-	'.$last.'当前共有已发布文章' . $count->publish . '篇，草稿' . $count->draft . '篇！不填起始ID默认批量本地化所有文章！
+	' . $last . '当前共有已发布文章' . $count->publish . '篇，草稿' . $count->draft . '篇！不填起始ID默认批量本地化所有文章！
 	</div>
 	</a-form-item>
 	<a-form-item label="文章ID范围">
@@ -126,8 +126,57 @@ function form_batch() {
       <a-input-number v-model="batch.end" style="width: 100px; text-align: center; border-left: 0" placeholder="结束ID">
   		</a-input-number>
 		</a-form-item>';
+
+	echo '<a-form-item label="文章创建时间范围">
+				<a-range-picker @change="selectRange" allow-clear></a-range-picker>
+		</a-form-item>';
+
+
+	echo "
+		<a-form-item label='选择指定分类'>
+	    <a-select
+            :options='" . json_encode( nicen_plugin_getAllCat() ) . "'
+			style='width: 100%'
+			show-arrow
+			mode='multiple'
+			v-model='batch.category'
+			placeholder='请选择需要批量本地化的分类'
+			>
+			</a-select>
+	</a-form-item>";
+
 	echo '<a-form-item label="相关操作">';
-	echo '<a-button type="primary" :loading="batch.loading" @click="getBatch">{{batch.loading?"正在运行，点击取消运行...":"开始运行"}}</a-button>';
+	echo '<a-space>
+			<a-button type="primary" :loading="batch.loading" @click="getBatch">{{batch.loading?"正在运行，点击取消运行...":"开始运行"}}</a-button>
+			<a-button type="primary" v-if="batch.loading" @click="getBatch">取消运行</a-button>
+		</a-space>';
 	echo '</a-form-item>';
+
+}
+
+
+/*
+ * 文章批量本地化
+ * */
+function Nicen_form_compress() {
+
+	echo '<a-form-item label="功能说明">选择指定的目录或者图片进行压缩，默认根目录为 /wp-content/uploads </a-form-item>';
+
+	echo '<a-form-item label="相关操作">';
+	echo '<a-space>
+			<a-button type="primary" :loading="tree.loading" @click="compress">{{tree.loading?"正在压缩第"+tree.count+"张图片，点击取消压缩...":"开始压缩"}}</a-button>
+			<a-button type="primary" v-if="tree.loading" @click="compress">取消压缩</a-button>
+		</a-space>';
+	echo '</a-form-item>';
+
+	echo "<a-form-item label='选择指定文件或目录'>
+	  <a-tree
+	    checkable
+	    v-model='tree.selected'
+	    :tree-data='tree.data'
+	  >
+	  </a-tree>
+	</a-form-item>";
+
 
 }

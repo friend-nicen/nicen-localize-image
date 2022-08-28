@@ -72,10 +72,6 @@ class Nicen_response {
 		/*
 		 * 接手响应
 		 * */
-		if ( isset( $_GET['nicen_make_replace'] ) ) {
-			$this->auth(); //权限验证
-			( Nicen_local::getInstance() )->localImage( $_POST['img'] );
-		}
 
 		/*
 		 * 本地化图片的请求
@@ -113,12 +109,34 @@ class Nicen_response {
 			 * 有一个没填那就获取所有文章
 			 * */
 
-			if ( ! $json['start'] || ! $json['end'] ) {
-				$sql = 'select `ID` from `wp_posts` where (`post_status` = "publish" or `post_status` = "draft") and `post_type` = "post" order by `post_date`';
-			} else {
-				$sql = 'select `ID` from `wp_posts` where (`post_status` = "publish" or `post_status` = "draft") and `post_type` = "post" and (`ID` > ' . $json['start'] . ' and `ID` < ' . $json['end'] . ') order by `post_date`';
+			$condition = [
+				'`post_type` = "post"', //指定文章类型
+				'(`post_status` = "publish" or `post_status` = "draft")'  //指定草稿和已发布（爬出自动草稿）
+			];
+
+			/*
+			 * ID范围
+			 * */
+			if ( ! empty( $json['start'] ) && ! empty( $json['end'] ) ) {
+				$condition[] = '(`ID` >= ' . $json['start'] . ' and `ID` <= ' . $json['end'] . ')';
 			}
 
+
+			/*
+			 * 时间范围
+			 * */
+			if ( ! empty( $json['range'] ) ) {
+				$condition[] = '(`post_date` >= "' . $json['range'][0] . '" and `post_date` <= "' . $json['range'][1] . '")';
+			}
+
+			/*
+			 * 分类范围
+			 * */
+			if ( ! empty( $json['category'] ) ) {
+				$condition[] = '`ID` in (select DISTINCT `object_id` from `wp_term_relationships` where `term_taxonomy_id` in (' . join( ',', $json['category'] ) . '))';
+			}
+
+			$sql = 'select `ID` from `wp_posts` where ' . join( ' and ', $condition ) . ' order by `post_date`';
 
 			$result = $wpdb->get_results( $sql );
 
@@ -192,6 +210,9 @@ class Nicen_response {
 			}
 
 
+			/*
+			 * 配置是否发生改变
+			 * */
 			if ( $hasChange ) {
 
 				$current = $_POST['nicen_make_plugin_auto_publish']; //修改的状态
@@ -210,6 +231,22 @@ class Nicen_response {
 					wp_clear_scheduled_hook( 'nicen_plugin_auto_publish' ); //清除任务
 				}
 
+			}
+
+
+		}
+
+
+		/**
+		 * 图片压缩
+		 * */
+		if ( isset( $_GET['nicen_make_compress'] ) ) {
+			$this->auth(); //权限验证
+
+			$json = json_decode( file_get_contents( 'php://input' ), true );
+
+			if ( isset( $json['file'] ) ) {
+				exit( json_encode( ( Nicen_comress::getInstance() )->getCompress( $json['file'] ) ) );
 			}
 
 
