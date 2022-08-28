@@ -11,9 +11,11 @@
  */
 
 
+
 define( 'nicen_make_PATH', plugin_dir_path( __FILE__ ) ); //插件目录
 define( 'nicen_make_URL', plugin_dir_url( __FILE__ ) ); //插件URL
-date_default_timezone_set( 'PRC' );
+date_default_timezone_set( get_option('timezone_string') ); //设置时区
+
 
 include_once nicen_make_PATH . '/admin/preload.php'; //加载插件配置
 include_once nicen_make_PATH . '/config.php'; //加载插件配置
