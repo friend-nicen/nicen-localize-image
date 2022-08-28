@@ -1,7 +1,7 @@
 === nicen-localize-image ===
 Contributors: 友人a丶
 Tags: 图片本地化，文章定时发布，图片压缩
-Donate link: https://weixin.nicen.cn/images/alipay.jpg
+Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.0.1
 Requires PHP: 7.3
@@ -20,6 +20,7 @@ nicen-localize-image，是一款用于本地化文章的外部图片的插件，
 4. 针对已发布的文章批量本地化；
 5. 批量压缩所有图片；
 
+
 仓库地址
 
 Github：https://github.com/friend-nicen/nicen-localize-image
@@ -35,6 +36,8 @@ v1.3.1 beta
 5. 接口增加随机时间戳；
 6. 优化自动发布文章的定时任务
 7. 修复压缩图片时图片读取失败的问题
+8. 新增功能：批量压缩所有图片；
+9. 修改代码适配wordpress插件商店规范
 
 v1.2.0 beta
 

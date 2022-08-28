@@ -79,8 +79,8 @@ class Nicen_comress {
 
 					if ( ! empty( $children ) ) {
 						$list[] = [
-							"title"    => base64_encode($file),
-							"key"      => base64_encode($path . '/' . $file),
+							"title"    => base64_encode( $file ),
+							"key"      => base64_encode( $path . '/' . $file ),
 							"children" => $children
 						];
 					}
@@ -103,33 +103,21 @@ class Nicen_comress {
 	 * */
 	function get( $url ) {
 
-
 		try {
-			$ch = curl_init();
-			/*
-			 * 请求头模拟
-			 * */
 			$headers = [
 				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
 			];
 
-			$timeout = 60;
-			curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );//禁止 cURL 验证对等证书
-			curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );//是否检测服务器的域名与证书上的是否一致
-			//curl_setopt( $ch, CURLOPT_HEADER, 1 ); //输出请求头
-			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
-			curl_setopt( $ch, CURLOPT_URL, $url );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-			//$httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE ); //输出状态码
-			$opt = curl_exec( $ch );
-			curl_close( $ch );
+			/*
+			 * 请求数据
+			 * */
+			$res = wp_remote_get( $url, [
+				'headers'   => $headers,
+				'sslverify' => false
+			] );
 
-			return $opt;
+			return wp_remote_retrieve_body( $res );
 
-			return $opt;
 		} catch ( \Throwable $e ) {
 			return false;
 		}
@@ -149,31 +137,29 @@ class Nicen_comress {
 				'files' => new \CURLFile( $file )
 			];
 
-			$ch = curl_init();
+			$Http = new WP_Http_Curl;
+
 			/*
-			 * 请求头模拟
+			 * 修改请求配置
 			 * */
-			$headers = [
-				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-			];
+			$args = array(
+				'method'      => 'POST',
+				'sslverify'   => false,
+				'body'        => $post_data,
+				'httpversion' => '1.1'
+			);
 
-			$timeout = 60;
-			curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );//禁止 cURL 验证对等证书
-			curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );//是否检测服务器的域名与证书上的是否一致
-			curl_setopt( $ch, CURLOPT_POST, true ); // 发送一个常规的Post请求
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, $post_data );     // Post提交的数据包
-			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
-			curl_setopt( $ch, CURLOPT_URL, 'http://api.resmush.it/ws.php' );
-			//$httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE ); //输出状态码
-			$opt = curl_exec( $ch );
-			curl_close( $ch );
+			$res = $Http->request( 'http://api.resmush.it/ws.php', $args );
 
-			return $opt;
+			if ( is_wp_error( $res ) ) {
+				$errors = $res->get_error_messages();
+				return $errors;
+			}
+
+			return wp_remote_retrieve_body( $res );
+
 		} catch ( \Throwable $e ) {
-			return false;
+			return $e->getMessage();
 		}
 	}
 
@@ -206,6 +192,7 @@ class Nicen_comress {
 			];
 		}
 
+		$res    = $this->post( $abs );
 		$result = json_decode( $this->post( $abs ), true ); //请求压缩
 
 		if ( isset( $result['dest'] ) ) {
@@ -230,7 +217,7 @@ class Nicen_comress {
 		} else {
 			return [
 				'code'   => 0,
-				'errMsg' => $result['error_long']
+				'errMsg' => $res
 			];
 		}
 

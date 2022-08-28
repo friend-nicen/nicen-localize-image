@@ -64,8 +64,6 @@ class Nicen_crontab {
 	 * */
 	public function publish() {
 
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/log.txt','666666666666660',LOCK_EX);
-
 		/*
 		 * 定义文章指针
 		 * */

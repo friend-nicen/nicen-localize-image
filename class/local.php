@@ -38,21 +38,12 @@ class Nicen_local {
 	 * 获取网站状态码
 	 * */
 	function getHttpcode( $url ) {
-		$ch      = curl_init();
-		$timeout = 3;
-		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );//禁止 cURL 验证对等证书
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );//是否检测服务器的域名与证书上的是否一致
-		curl_setopt( $ch, CURLOPT_HEADER, 1 );
-		curl_setopt( $ch, CURLOPT_NOBODY, true );
-		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_exec( $ch );
-		$httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		curl_close( $ch );
+		$response  = wp_remote_get( $url, [
+			'sslverify' => false
+		] );
+		$http_code = wp_remote_retrieve_response_code( $response );
 
-		return $httpcode;
+		return $http_code;
 	}
 
 
@@ -63,7 +54,6 @@ class Nicen_local {
 	 * */
 	function getImage( $url ) {
 
-		$ch   = curl_init();
 		$link = parse_url( $url );//解析链接
 
 		/*
@@ -74,21 +64,15 @@ class Nicen_local {
 			'Referer'    => $link['scheme'] . '://' . $link['host']
 		];
 
-		$timeout = 60;
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
-		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );//禁止 cURL 验证对等证书
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );//是否检测服务器的域名与证书上的是否一致
-		//curl_setopt( $ch, CURLOPT_HEADER, 1 ); //输出请求头
-		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		//$httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE ); //输出状态码
-		$opt = curl_exec( $ch );
-		curl_close( $ch );
+		/*
+		 * 请求数据
+		 * */
+		$res = wp_remote_get( $url, [
+			'headers'   => $headers,
+			'sslverify' => false
+		] );
 
-		return $opt;
+		return wp_remote_retrieve_body( $res );
 	}
 
 
