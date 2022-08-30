@@ -10,33 +10,35 @@
 /*
  * 输出本地化日志
  * */
-function nicen_plugin_local_log() {
+function nicen_plugin_local_log()
+{
 
-	$logs = ( ( Nicen_log::getInstance() )->get_logs() );
+    $logs = ((Nicen_log::getInstance())->get_logs());
 
-	echo '<a-form-item label="相关操作">';
-	echo '<a-button type="primary" @click="clearLogs">清空插件日志</a-button>';
-	echo '</a-form-item>';
+    echo '<a-form-item label="相关操作">';
+    echo '<a-button type="primary" @click="clearLogs">清空插件日志</a-button>';
+    echo '</a-form-item>';
 
-	echo '
+    echo '
 		<a-form-item label="详细日志">
 		  <a-textarea
-	            value="' . ( empty( $logs ) ? '暂无日志' : $logs ) . '"
+	            value="' . (empty($logs) ? '暂无日志' : $logs) . '"
 	            :auto-size="{minRows: 5,maxRows:15}"
 	            read-only/>
 	';
-	echo '</a-form-item>';
+    echo '</a-form-item>';
 
 
 }
 
 
-/*
+/**
  * 插件升级
- * */
-function nicen_plugin_update() {
+ */
+function nicen_plugin_update()
+{
 
-	echo '
+    echo '
 		<a-form-item label="版本信息">
 		  		当前版本（' . NICEN_VERSION . '）/ 最新版本（{{version}}）
 	    </a-form-item>
@@ -94,22 +96,23 @@ function nicen_plugin_update() {
 
 }
 
-/*
+/**
  * 文章批量本地化
- * */
-function Nicen_form_batch() {
+ */
+function Nicen_form_batch()
+{
 
-	$count = wp_count_posts();//文章总数
-	$last  = get_option( 'nicen_last_batch' ); //上次本地化的ID
+    $count = wp_count_posts();//文章总数
+    $last = get_option('nicen_last_batch'); //上次本地化的ID
 
-	/*
-	 * 获取上次的ID
-	 * */
-	if ( ! empty( $last ) ) {
-		$last = '上次批量本地化的文章ID为：' . $last . '，';
-	}
+    /*
+     * 获取上次的ID
+     * */
+    if (!empty($last)) {
+        $last = '上次批量本地化的文章ID为：' . $last . '，';
+    }
 
-	echo '	<a-form-item label="功能说明">
+    echo '	<a-form-item label="功能说明">
 	<div style="line-height: 1.8; width: 150%; overflow-wrap: break-word; word-spacing: normal; word-break: break-all;">
 	按照指定的文章ID范围批量进行图片本地化，点击开始后任务自动运行，运行过程中可以随时暂停，关闭网页表示强制暂停！运行过程中将会展示实时日志！
 	<br/><br/>
@@ -127,15 +130,15 @@ function Nicen_form_batch() {
   		</a-input-number>
 		</a-form-item>';
 
-	echo '<a-form-item label="文章创建时间范围">
+    echo '<a-form-item label="文章创建时间范围">
 				<a-range-picker @change="selectRange" allow-clear></a-range-picker>
 		</a-form-item>';
 
 
-	echo "
+    echo "
 		<a-form-item label='选择指定分类'>
 	    <a-select
-            :options='" . json_encode( nicen_plugin_getAllCat() ) . "'
+            :options='" . json_encode(nicen_plugin_getAllCat()) . "'
 			style='width: 100%'
 			show-arrow
 			mode='multiple'
@@ -145,12 +148,12 @@ function Nicen_form_batch() {
 			</a-select>
 	</a-form-item>";
 
-	echo '<a-form-item label="相关操作">';
-	echo '<a-space>
+    echo '<a-form-item label="相关操作">';
+    echo '<a-space>
 			<a-button type="primary" :loading="batch.loading" @click="getBatch">{{batch.loading?"正在运行，点击取消运行...":"开始运行"}}</a-button>
 			<a-button type="primary" v-if="batch.loading" @click="getBatch">取消运行</a-button>
 		</a-space>';
-	echo '</a-form-item>';
+    echo '</a-form-item>';
 
 }
 
@@ -158,19 +161,20 @@ function Nicen_form_batch() {
 /*
  * 文章批量本地化
  * */
-function Nicen_form_compress() {
+function Nicen_form_compress()
+{
 
-	echo '<a-form-item label="功能说明">选择指定的目录或者图片进行压缩，默认根目录为 /wp-content/uploads，压缩前请先点击加载图片目录，然后再选中目录或图片进行压缩 </a-form-item>';
+    echo '<a-form-item label="功能说明">选择指定的目录或者图片进行压缩，默认根目录为 wordpress媒体文件存放目录，压缩前请先点击加载图片目录，然后再选中目录或图片进行压缩 </a-form-item>';
 
-	echo '<a-form-item label="相关操作">';
-	echo '<a-space>
+    echo '<a-form-item label="相关操作">';
+    echo '<a-space>
 			<a-button type="primary" :loading="tree.loading" @click="compress">{{tree.loading?"正在压缩第"+tree.count+"张图片，点击取消压缩...":"开始压缩"}}</a-button>
 			<a-button type="primary" v-if="tree.loading" @click="compress">取消压缩</a-button>
 			<a-button type="primary" @click="loadFiles">加载图片目录</a-button>
 		</a-space>';
-	echo '</a-form-item>';
+    echo '</a-form-item>';
 
-	echo "<a-form-item label='选择指定文件或目录'>
+    echo "<a-form-item label='选择指定文件或目录'>
 	  <a-tree
 	    checkable
 	    v-model='tree.selected'

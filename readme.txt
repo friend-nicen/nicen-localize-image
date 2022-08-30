@@ -5,7 +5,7 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.0.1
 Requires PHP: 7.3
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,13 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.3.3
+
+1. 修改代码适配wordpress插件商店规范；
+2. 图片压缩完成后自动刷新显示的目录；
+3. 修改网络请求超时时间为120s；
+
 v1.3.1 beta
 
 1. 新增批量本地化时，可以指定文章分类，指定文章发布时间范围；

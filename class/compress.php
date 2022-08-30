@@ -113,7 +113,8 @@ class Nicen_comress {
 			 * */
 			$res = wp_remote_get( $url, [
 				'headers'   => $headers,
-				'sslverify' => false
+				'sslverify' => false,
+                'timeout'     => 120,
 			] );
 
 			return wp_remote_retrieve_body( $res );
@@ -137,7 +138,7 @@ class Nicen_comress {
 				'files' => new \CURLFile( $file )
 			];
 
-			$Http = new WP_Http_Curl;
+			$Http = new WP_Http_Curl();
 
 			/*
 			 * 修改请求配置
@@ -146,6 +147,7 @@ class Nicen_comress {
 				'method'      => 'POST',
 				'sslverify'   => false,
 				'body'        => $post_data,
+                'timeout'     => 120,
 				'httpversion' => '1.1'
 			);
 

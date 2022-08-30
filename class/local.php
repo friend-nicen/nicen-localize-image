@@ -39,7 +39,8 @@ class Nicen_local {
 	 * */
 	function getHttpcode( $url ) {
 		$response  = wp_remote_get( $url, [
-			'sslverify' => false
+			'sslverify' => false,
+            'timeout'     => 60,
 		] );
 		$http_code = wp_remote_retrieve_response_code( $response );
 
@@ -69,7 +70,8 @@ class Nicen_local {
 		 * */
 		$res = wp_remote_get( $url, [
 			'headers'   => $headers,
-			'sslverify' => false
+			'sslverify' => false,
+            'timeout'     => 120,
 		] );
 
 		return wp_remote_retrieve_body( $res );

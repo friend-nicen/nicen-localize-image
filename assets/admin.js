@@ -603,6 +603,7 @@ jQuery(function () {
 
                 that.tree.loading = false; //批量结束
                 that.tree.flag = false; //标记结束
+                that.loadFiles(); //重新加载文件目录
                 load.loaded();
 
             },

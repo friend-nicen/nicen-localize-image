@@ -264,7 +264,7 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_save_result'   => '', //临时保存本地化结果
 	'nicen_make_plugin_alt'           => '1', //自动新增alt
 	'nicen_make_plugin_alt_type'      => '1', //alt增加的类型
-	'nicen_make_plugin_path'          => '/wp-content/uploads/replace', //资源保存的路径
+	'nicen_make_plugin_path'          => NICEN_SITE_ROOT.'/uploads/replace', //资源保存的路径
 	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
 	'nicen_make_save_type'=>'png',
 
