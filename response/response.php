@@ -80,7 +80,7 @@ class Nicen_response {
 			 * */
 			if ( isset( $_GET['nicen_make_replace'] ) ) {
 				$this->auth(); //权限验证
-				( Nicen_local::getInstance() )->localImage( $_POST['img'] );
+				( Nicen_local::getInstance() )->localImage( sanitize_url( $_POST['img'] ) );
 			}
 
 			/*
@@ -88,8 +88,6 @@ class Nicen_response {
 			 * */
 			if ( isset( $_GET['nicen_make_clear_log'] ) ) {
 				$this->auth(); //权限验证
-				delete_option( 'nicen_plugin_error_log' );
-				var_dump( get_option( 'nicen_plugin_error_log' ) );
 				exit( json_encode( [
 					'code'   => 1,
 					'result' => "清除成功！"
@@ -218,7 +216,7 @@ class Nicen_response {
 				 * */
 				if ( $hasChange ) {
 
-					$current = $_POST['nicen_make_plugin_auto_publish']; //修改的状态
+					$current = sanitize_option( $_POST['nicen_make_plugin_auto_publish'] ); //修改的状态
 
 
 					/**
@@ -263,9 +261,9 @@ class Nicen_response {
 				$lists = ( Nicen_comress::getInstance() )->readDirs( '/wp-content/uploads' );
 
 				$result = json_encode( [
-					'code' => 1,
-					'data' => $lists,
-					'errMsg'=>"加载成功！"
+					'code'   => 1,
+					'data'   => $lists,
+					'errMsg' => "加载成功！"
 				] );
 
 				exit( $result );

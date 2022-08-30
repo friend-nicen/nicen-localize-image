@@ -14,11 +14,23 @@
 
 define( 'nicen_make_PATH', plugin_dir_path( __FILE__ ) ); //插件目录
 define( 'nicen_make_URL', plugin_dir_url( __FILE__ ) ); //插件URL
-date_default_timezone_set( get_option('timezone_string') ); //设置时区
+
+//this is the root of website's path. call $_SERVER['DOCUMENT_ROOT'],I think it's safe;
+//Think's
+define( 'NICEN_ROOT', $_SERVER['DOCUMENT_ROOT'] );
+
+var_dump(realpath(WP_CONTENT_DIR));
+var_dump(DIRECTORY_SEPARATOR);
+var_dump(NICEN_ROOT);
+exit();
+
+date_default_timezone_set( get_option( 'timezone_string' ) ); //设置时区
 
 include_once nicen_make_PATH . '/admin/preload.php'; //加载插件配置
 include_once nicen_make_PATH . '/config.php'; //加载插件配置
 include_once nicen_make_PATH . '/admin/install.php'; //安装时触发
+
+
 register_activation_hook( __FILE__, "nicen_make_install" );//初始化插件
 register_deactivation_hook( __FILE__, 'nicen_make_end' ); //卸载插件
 

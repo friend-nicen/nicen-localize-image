@@ -24,7 +24,6 @@ if(defined('DISABLE_WP_CRON')){
 }
 
 
-
 const NICEN_VERSION='1.3.2'; //插件版本
 /*
  * 定时任务接口

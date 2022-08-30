@@ -34,7 +34,7 @@ class Nicen_comress {
 	 * */
 	public function readDirs( $path ) {
 
-		$root = $_SERVER['DOCUMENT_ROOT'];
+		$root = NICEN_ROOT;
 
 		$list       = [];
 		$dir_handle = opendir( $root . $path );
@@ -171,7 +171,7 @@ class Nicen_comress {
 	 * */
 	public function getCompress( $file ) {
 
-		$root = $_SERVER['DOCUMENT_ROOT'];
+		$root = NICEN_ROOT;
 		$abs  = $root . $file; //绝度路径
 
 		/*

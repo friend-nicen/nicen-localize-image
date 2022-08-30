@@ -234,10 +234,10 @@ function nicen_make_do_settings_sections_user( $page ) {
 function nicen_make_form_number( $args ) {
 	?>
     <a-input-number
-            name="<?php echo $args['label_for']; ?>"
+            name="<?php echo esc_html($args['label_for']); ?>"
             style="width: 100%;"
-            placeholder="请输入<?php echo $args['title']; ?>"
-            v-model="data.<?php echo $args['label_for']; ?>"
+            placeholder="请输入<?php echo esc_html($args['title']); ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
     />
 	<?php
 }
@@ -249,9 +249,9 @@ function nicen_make_form_number( $args ) {
 function nicen_make_form_input( $args ) {
 	?>
     <a-input
-            name="<?php echo $args['label_for']; ?>"
-            placeholder="请输入<?php echo $args['title']; ?>"
-            v-model="data.<?php echo $args['label_for']; ?>"
+            name="<?php echo esc_html($args['label_for']); ?>"
+            placeholder="请输入<?php echo esc_html($args['title']); ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
             allow-clear/>
 	<?php
 }
@@ -263,9 +263,9 @@ function nicen_make_form_input( $args ) {
 function nicen_make_form_password( $args ) {
 	?>
     <a-input-password
-            name="<?php echo $args['label_for']; ?>"
-            placeholder="请输入<?php echo $args['title']; ?>"
-            v-model="data.<?php echo $args['label_for']; ?>"
+            name="<?php echo esc_html($args['label_for']); ?>"
+            placeholder="请输入<?php echo esc_html($args['title']); ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
             allow-clear/>
 	<?php
 }
@@ -275,11 +275,11 @@ function nicen_make_form_password( $args ) {
  * */
 function nicen_make_form_switch( $args ) {
 	?>
-    <input name="<?php echo $args['label_for']; ?>" v-model="data.<?php echo $args['label_for']; ?>" hidden/>
+    <input name="<?php echo esc_html($args['label_for']); ?>" v-model="data.<?php echo esc_html($args['label_for']); ?>" hidden/>
     <a-switch
-            name="<?php echo $args['label_for']; ?>"
-            :checked="data.<?php echo $args['label_for']; ?> == 1"
-            @change="(checked,events)=>{hasChange(checked,events,'<?php echo $args['label_for']; ?>')}"
+            name="<?php echo esc_html($args['label_for']); ?>"
+            :checked="data.<?php echo esc_html($args['label_for']); ?> == 1"
+            @change="(checked,events)=>{hasChange(checked,events,'<?php echo esc_html($args['label_for']); ?>')}"
     />
 	<?php
 }
@@ -290,9 +290,9 @@ function nicen_make_form_switch( $args ) {
 function nicen_make_form_textarea( $args ) {
 	?>
     <a-textarea
-            name="<?php echo $args['label_for']; ?>"
-            v-model="data.<?php echo $args['label_for']; ?>"
-            placeholder="请输入<?php echo $args['title']; ?>"
+            name="<?php echo esc_html($args['label_for']); ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
+            placeholder="请输入<?php echo esc_html($args['title']); ?>"
             :rows="4"
             :auto-size="{minRows: 4}"
             allow-clear/>
@@ -305,12 +305,12 @@ function nicen_make_form_textarea( $args ) {
 function nicen_make_form_color( $args ) {
 	?>
     <div style="display: flex;align-items: center">
-        <input name="<?php echo $args['label_for']; ?>" v-model="data.<?php echo $args['label_for']; ?>" hidden/>
-        <color-picker v-model="data.<?php echo $args['label_for']; ?>"></color-picker>
+        <input name="<?php echo esc_html($args['label_for']); ?>" v-model="data.<?php echo esc_html($args['label_for']); ?>" hidden/>
+        <color-picker v-model="data.<?php echo esc_html($args['label_for']); ?>"></color-picker>
         <a-input
-                name="<?php echo $args['label_for']; ?>"
-                placeholder="请输入<?php echo $args['title']; ?>"
-                v-model="data.<?php echo $args['label_for']; ?>"
+                name="<?php echo esc_html($args['label_for']); ?>"
+                placeholder="请输入<?php echo esc_html($args['title']); ?>"
+                v-model="data.<?php echo esc_html($args['label_for']); ?>"
                 allow-clear/>
     </div>
 	<?php
@@ -332,13 +332,13 @@ function nicen_make_plugin_form_text( $args ) {
  * */
 function nicen_make_form_select( $args ) {
 	?>
-    <input name="<?php echo $args['label_for']; ?>" v-model="data.<?php echo $args['label_for']; ?>" hidden/>
+    <input name="<?php echo esc_html($args['label_for']); ?>" v-model="data.<?php echo esc_html($args['label_for']); ?>" hidden/>
     <a-select
             :options='<?php echo json_encode( is_array( $args['options'] ) ? $args['options'] : $args['options']() ); ?>'
             style="width: 100%"
             show-arrow
-            v-model="data.<?php echo $args['label_for']; ?>"
-            placeholder="请选择<?php echo $args['title']; ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
+            placeholder="请选择<?php echo esc_html($args['title']); ?>"
     />
 	<?php
 }
@@ -351,14 +351,14 @@ function nicen_make_form_multi( $args ) {
 
 	?>
 
-    <input name="<?php echo $args['label_for']; ?>" v-model="data.<?php echo $args['label_for']; ?>" hidden/>
+    <input name="<?php echo esc_html($args['label_for']); ?>" v-model="data.<?php echo esc_html($args['label_for']); ?>" hidden/>
     <a-select
             :options='<?php echo json_encode( is_array( $args['options'] ) ? $args['options'] : $args['options']() ); ?>'
             style="width: 100%"
             show-arrow
             mode="multiple"
-            v-model="data.<?php echo $args['label_for']; ?>"
-            placeholder="请选择<?php echo $args['title']; ?>"
+            v-model="data.<?php echo esc_html($args['label_for']); ?>"
+            placeholder="请选择<?php echo esc_html($args['title']); ?>"
     />
 	<?php
 }

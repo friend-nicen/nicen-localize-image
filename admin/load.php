@@ -9,7 +9,7 @@ function nicen_make_detect() {
 	/*
 	 * 判断是否有保存目录
 	 * */
-	$upload_root = $_SERVER['DOCUMENT_ROOT'] . nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
+	$upload_root = NICEN_ROOT . nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
 	$upload      = nicen_make_config( 'nicen_make_plugin_path' ); //主题路径
 
 
@@ -19,14 +19,14 @@ function nicen_make_detect() {
 	if ( ! file_exists( $upload_root ) ) {
 		if ( ! mkdir( $upload_root ) ) {
 			/*输出本地化日志*/
-			echo '<script>jQuery(function (){alert("' . $upload . '目录不存在，nicen_make-localize-image本地化插件无法生效！");});</script>', 'after';
+			echo '<script>jQuery(function (){alert("' . esc_js( $upload ) . '目录不存在，nicen_make-localize-image本地化插件无法生效！");});</script>', 'after';
 		}
 	}
 
 
 	if ( ! is_writable( $upload_root ) ) {
 		/*输出本地化日志*/
-		echo '<script>jQuery(function (){alert("' . $upload . '上传目录不可写，nicen_make-localize-image本地化插件无法生效！");});</script>', 'after';
+		echo '<script>jQuery(function (){alert("' . esc_js( $upload ) . '上传目录不可写，nicen_make-localize-image本地化插件无法生效！");});</script>', 'after';
 
 		return;
 	}
@@ -50,7 +50,7 @@ function nicen_make_detect() {
 				layer.alert("%s可在插件设置页面查看日志！");   
 			});
             </script>
-			', [ $info ] ) );
+			', [ esc_js( $info ) ] ) );
 
 			update_option( 'nicen_make_plugin_save_result', '' ); //清空日志
 		}
