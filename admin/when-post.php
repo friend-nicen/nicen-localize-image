@@ -30,7 +30,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 		}
 
 		//匹配所有图片
-		preg_match_all( '/<img(?:.*?)src="(.*?)"(?:.*?)\/>/', $post->post_content, $match );
+		preg_match_all( '/<img(?:.*?)src="(.*?)"(?:.*?)\/?>/', $post->post_content, $match );
 
 		/*如果没有图片*/
 		if ( empty( $match ) ) {
