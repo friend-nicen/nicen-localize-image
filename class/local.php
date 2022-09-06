@@ -19,7 +19,7 @@ class Nicen_local {
 		$this->is_sava_database = nicen_make_config( 'nicen_make_plugin_local' );
 		$this->site_path        = nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
 		$this->is_add_domain    = nicen_make_config( 'nicen_make_plugin_add_domain' ); //是否需要域名
-		$this->root_path        = NICEN_ROOT . $this->site_path; //站点目录
+		$this->root_path        = nicen_local_image_root . $this->site_path; //站点目录
 	}
 
 	/**

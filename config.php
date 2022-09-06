@@ -114,8 +114,8 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_save_type',
 						'title'    => '保存后的文件类型',
 						'callback' => 'nicen_make_form_input',
-						'args'=>[
-							'tip'     => '保存后的文件类型，默认是png格式！'
+						'args'     => [
+							'tip' => '保存后的文件类型，默认是png格式！'
 						]
 					]
 				]
@@ -129,7 +129,7 @@ define( 'PLUGIN_nicen_make', [
 						'title'    => '定时发布功能说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：'.$nicen_crontab_tab.'<br/>【<span style="color: red;">自动发布日志</span>】：' . getAutoInfo()
+							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：' . $nicen_crontab_tab . '<br/>【<span style="color: red;">自动发布日志</span>】：' . nicen_getAutoInfo()
 						]
 					],
 					[
@@ -264,9 +264,9 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_save_result'   => '', //临时保存本地化结果
 	'nicen_make_plugin_alt'           => '1', //自动新增alt
 	'nicen_make_plugin_alt_type'      => '1', //alt增加的类型
-	'nicen_make_plugin_path'          => NICEN_SITE_ROOT.'/uploads/replace', //资源保存的路径
+	'nicen_make_plugin_path'          => nicen_local_image_site_root . '/uploads/replace', //资源保存的路径
 	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
-	'nicen_make_save_type'=>'png',
+	'nicen_make_save_type'            => 'png',
 
 	/*定时任务*/
 	'nicen_make_plugin_order'         => 'ID',

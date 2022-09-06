@@ -33,7 +33,7 @@ $crontab = site_url() . '/wp-cron.php';
 /*
  * 获取自动发布相关信息
  * */
-function getAutoInfo() {
+function nicen_getAutoInfo() {
 
 	$count_posts = wp_count_posts();
 	if ( $count_posts ) {

@@ -264,7 +264,7 @@ class Nicen_response
             if (isset($_GET['nicen_make_files'])) {
                 $this->auth(); //权限验证
 
-                $lists = (Nicen_comress::getInstance())->readDirs(NICEN_SITE_ROOT . '/uploads');
+                $lists = (Nicen_comress::getInstance())->readDirs(nicen_local_image_site_root . '/uploads');
 
                 $result = json_encode([
                     'code' => 1,

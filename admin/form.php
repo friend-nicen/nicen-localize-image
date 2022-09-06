@@ -155,7 +155,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
                             <a-icon style="margin-right: 6px;" type="question-circle" />
                           </a-tooltip>
                             %s
-                            </template>', $field['args']['tip'], esc_html($field['title']) );
+                            </template>', esc_html($field['args']['tip']), esc_html($field['title']) );
 		}
 
 		/*
@@ -192,7 +192,7 @@ function nicen_make_do_settings_sections_user( $page ) {
 
 
 		/*输出tab头*/
-		echo sprintf( '<a-tab-pane key="%s" tab="%s" :force-render="true">', $key, $section['title'] );
+		echo sprintf( '<a-tab-pane key="%s" tab="%s" :force-render="true">', esc_html($key), esc_html($section['title']) );
 
 
 		$param = [];//是否需要显示、隐藏切换

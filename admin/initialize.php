@@ -33,7 +33,7 @@ function nicen_make_initialize() {
 			/*
 			 * 引入插件的js
 			 * */
-			$plugin_array['local'] = nicen_make_URL . 'tinymcc/local.js';/*指定要加载的插件*/
+			$plugin_array['local'] = nicen_local_image_url . 'tinymcc/local.js';/*指定要加载的插件*/
 
 			return $plugin_array;
 		} );

@@ -388,7 +388,7 @@ jQuery(function () {
                                 location.reload();
                             }, 500)
                         }).catch((e) => {
-                        load.error(e);
+                        load.error(e.message)
                     }).finally(() => {
                         load.loaded();
                     })
@@ -459,7 +459,7 @@ jQuery(function () {
                                 }
 
                             }).catch((e) => {
-                            load.error(e);
+                            load.error(e.message)
                             resolve(false)
                         }).finally(() => {
                             load.loaded();
@@ -495,9 +495,7 @@ jQuery(function () {
                             * 如果已经被中断
                             * */
                             if (!that.batch.flag) {
-                                that.batch.loading = false;
-                                load.loaded();
-                                return;
+                                break;
                             }
                             await that.localImage(i.ID);
                         }
@@ -526,7 +524,7 @@ jQuery(function () {
                         .then((res) => {
                             load.success(res.data.errMsg);
                         }).catch((e) => {
-                        load.error(e);
+                        load.error(e.message)
                     }).finally(() => {
                         resolve(true);
                         load.loaded();
@@ -545,6 +543,9 @@ jQuery(function () {
                 * */
                 if (that.tree.flag) {
                     that.tree.flag = false;
+
+                    console.log(that.tree.flag)
+
                     load.error("已取消压缩...");
                     return;
                 }
@@ -589,9 +590,8 @@ jQuery(function () {
                         * 如果已经被中断
                         * */
                         if (!that.tree.flag) {
-                            that.tree.loading = false;
-                            load.loaded();
-                            return;
+                            console.log("中断")
+                            break;
                         }
 
                         await that.toCompress(i);
@@ -630,7 +630,7 @@ jQuery(function () {
                                 load.error(res.data.errMsg);
                             }
                         }).catch((e) => {
-                        load.error(e);
+                        load.error(e.message)
                     }).finally(() => {
                         resolve(true);
                         load.loaded();
@@ -677,7 +677,7 @@ jQuery(function () {
                             load.error(res.data.errMsg);
                         }
                     }).catch((e) => {
-                   console.log(e)
+                   load.error(e.message)
                 }).finally(() => {
                     load.loaded();
                 })

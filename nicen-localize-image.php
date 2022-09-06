@@ -10,62 +10,67 @@
  * License: GPLv2 or later
  */
 
+/*
+ * 定义全局命名空间
+ * */
+namespace nicen\local\images;
 
-define('nicen_make_PATH', plugin_dir_path(__FILE__)); //插件目录
-define('nicen_make_URL', plugin_dir_url(__FILE__)); //插件URL
+
+define( 'nicen_local_image_path', plugin_dir_path( __FILE__ ) ); //插件目录
+define( 'nicen_local_image_url', plugin_dir_url( __FILE__ ) ); //插件URL
 
 //this is the root of website's path. call $_SERVER['DOCUMENT_ROOT'],I think it's safe;
 //Think's
 
 /*文件系统根目录*/
-define('NICEN_ROOT', sanitize_text_field($_SERVER['DOCUMENT_ROOT']));
+define( 'nicen_local_image_root', sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ) );
 
 
 /*站点根目录*/
-define('NICEN_SITE_ROOT',
-    str_replace(
-        str_replace(
-            '\\',
-            '/',
-	        sanitize_text_field($_SERVER['DOCUMENT_ROOT'])),
-        "",
-        str_replace(
-            '\\',
-            '/',
-            WP_CONTENT_DIR)
-    ));
+define( 'nicen_local_image_site_root',
+	str_replace(
+		str_replace(
+			'\\',
+			'/',
+			sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ) ),
+		"",
+		str_replace(
+			'\\',
+			'/',
+			WP_CONTENT_DIR )
+	) );
 
 
-date_default_timezone_set(get_option('timezone_string')); //设置时区
+date_default_timezone_set( get_option( 'timezone_string' ) ); //设置时区
 
-include_once nicen_make_PATH . '/admin/preload.php'; //加载插件配置
-include_once nicen_make_PATH . '/config.php'; //加载插件配置
-include_once nicen_make_PATH . '/admin/install.php'; //安装时触发
+include_once nicen_local_image_path . '/admin/preload.php'; //加载插件配置
+include_once nicen_local_image_path . '/config.php'; //加载插件配置
+include_once nicen_local_image_path . '/admin/install.php'; //安装时触发
 
 
-register_activation_hook(__FILE__, "nicen_make_install");//初始化插件
-register_deactivation_hook(__FILE__, 'nicen_make_end'); //卸载插件
+register_activation_hook( __FILE__, "nicen_make_install" );//初始化插件
+register_deactivation_hook( __FILE__, 'nicen_make_end' ); //卸载插件
 
 /*导入类库*/
-include_once nicen_make_PATH . '/class/log.php'; //错误日志封装类
+include_once nicen_local_image_path . '/class/log.php'; //错误日志封装类
 
-include_once nicen_make_PATH . '/class/local.php'; //图片本地化封装类
-include_once nicen_make_PATH . '/class/crontab.php'; //定时任务封装类
-include_once nicen_make_PATH . '/class/compress.php'; //图片压缩封装类
+include_once nicen_local_image_path . '/class/local.php'; //图片本地化封装类
+include_once nicen_local_image_path . '/class/crontab.php'; //定时任务封装类
+include_once nicen_local_image_path . '/class/compress.php'; //图片压缩封装类
 
 /*导入模块*/
-include_once nicen_make_PATH . '/admin/common.php'; //公共变量和方法
-include_once nicen_make_PATH . '/admin/when-post.php'; //文章保存时触发的钩子
-include_once nicen_make_PATH . '/response/response.php'; //接口响应
+include_once nicen_local_image_path . '/admin/common.php'; //公共变量和方法
+include_once nicen_local_image_path . '/admin/when-post.php'; //文章保存时触发的钩子
+include_once nicen_local_image_path . '/response/response.php'; //接口响应
 
 /*
  * 只在后台才触发
  * */
-if (is_admin()) {
-    include_once nicen_make_PATH . '/admin/load.php'; //加载后台插件资源
-    include_once nicen_make_PATH . '/admin/form.php'; //加载后台设置表单
-    include_once nicen_make_PATH . '/admin/setting.php';//渲染表单
-    include_once nicen_make_PATH . '/admin/initialize.php'; //初始化插件功能
+if ( is_admin() ) {
+	include_once nicen_local_image_path . '/admin/load.php'; //加载后台插件资源
+	include_once nicen_local_image_path . '/admin/form.php'; //加载后台设置表单
+	include_once nicen_local_image_path . '/admin/setting.php';//渲染表单
+	include_once nicen_local_image_path . '/admin/initialize.php'; //初始化插件功能
 }
 
 

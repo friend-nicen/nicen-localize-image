@@ -9,7 +9,7 @@ function nicen_make_detect() {
 	/*
 	 * 判断是否有保存目录
 	 * */
-	$upload_root = NICEN_ROOT . nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
+	$upload_root = nicen_local_image_root . nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
 	$upload      = nicen_make_config( 'nicen_make_plugin_path' ); //主题路径
 
 
@@ -75,16 +75,16 @@ function nicen_make_admin_load_source() {
 	wp_enqueue_script( 'vuejs', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js', false );
 
 	wp_enqueue_script( 'moments', 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/moment.js/2.29.1/moment.min.js' );
-	wp_enqueue_script( 'base64', nicen_make_URL . 'assets/base64.min.js' );
+	wp_enqueue_script( 'base64', nicen_local_image_url . 'assets/base64.min.js' );
 
 	wp_enqueue_script( 'antd', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.js', [ 'jquery' ] );
-	wp_enqueue_script( 'Vcolorpicker', nicen_make_URL . 'assets/colorpicker.js', array(), filemtime( nicen_make_PATH . 'assets/colorpicker.js' ), true );
+	wp_enqueue_script( 'Vcolorpicker', nicen_local_image_url . 'assets/colorpicker.js', array(), filemtime( nicen_local_image_path . 'assets/colorpicker.js' ), true );
 
 	wp_enqueue_style( 'antdcss', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.css' );
 
-	wp_enqueue_style( 'admincss', nicen_make_URL . 'assets/admin.css', array(), filemtime( nicen_make_PATH . 'assets/admin.css' ) );
-	wp_enqueue_script( 'adminjs', nicen_make_URL . 'assets/admin.js', array(), filemtime( nicen_make_PATH . 'assets/admin.js' ), true );
-	wp_enqueue_script( 'loadjs', nicen_make_URL . 'assets/load.js', array(), filemtime( nicen_make_PATH . 'assets/load.js' ), true );
+	wp_enqueue_style( 'admincss', nicen_local_image_url . 'assets/admin.css', array(), filemtime( nicen_local_image_path . 'assets/admin.css' ) );
+	wp_enqueue_script( 'adminjs', nicen_local_image_url . 'assets/admin.js', array(), filemtime( nicen_local_image_path . 'assets/admin.js' ), true );
+	wp_enqueue_script( 'loadjs', nicen_local_image_url . 'assets/load.js', array(), filemtime( nicen_local_image_path . 'assets/load.js' ), true );
 
 	wp_enqueue_script( 'axios', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js' );
 
@@ -93,7 +93,7 @@ function nicen_make_admin_load_source() {
 	 * */
 	wp_add_inline_script( "adminjs", vsprintf( "const PLUGIN_CONFIG=%s;const NICEN_VERSION='%s';", [
 		json_encode( nicen_make_config() ),
-		NICEN_VERSION
+		esc_js(NICEN_VERSION)
 	] ), 'before' );
 
 
@@ -115,7 +115,7 @@ function nicen_make_load_layer() {
 	 * */
 	wp_add_inline_script( "layerjs", preg_replace( '/\s/', '', vsprintf( '
 			window.POST_KEY = "%s";'
-		, [ nicen_make_config( 'nicen_make_plugin_private' ) ] ) ), 'before' );
+		, [  esc_html(nicen_make_config( 'nicen_make_plugin_private' )) ] ) ), 'before' );
 
 }
 
