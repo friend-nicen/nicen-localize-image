@@ -172,7 +172,7 @@ class Nicen_response
             if (isset($_GET['nicen_make_local_batch']) && isset($_GET['batch_id'])) {
 
                 $this->auth(); //权限验证
-                $ID = $_GET['batch_id']; //文章ID
+                $ID = sanitize_text_field($_GET['batch_id']); //文章ID
                 $post = get_post($ID); //获取文章
                 $log = nicen_make_when_save_post($ID, false); //开始本地化
 

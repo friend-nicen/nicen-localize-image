@@ -18,7 +18,8 @@ define('nicen_make_URL', plugin_dir_url(__FILE__)); //插件URL
 //Think's
 
 /*文件系统根目录*/
-define('NICEN_ROOT', $_SERVER['DOCUMENT_ROOT']);
+define('NICEN_ROOT', sanitize_text_field($_SERVER['DOCUMENT_ROOT']));
+
 
 /*站点根目录*/
 define('NICEN_SITE_ROOT',
@@ -26,7 +27,7 @@ define('NICEN_SITE_ROOT',
         str_replace(
             '\\',
             '/',
-            $_SERVER['DOCUMENT_ROOT']),
+	        sanitize_text_field($_SERVER['DOCUMENT_ROOT'])),
         "",
         str_replace(
             '\\',

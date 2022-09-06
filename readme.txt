@@ -28,6 +28,10 @@ Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
 
+v1.3.4
+
+1. 修复不规范的img标签，不会被匹配到的问题。
+
 v1.3.3
 
 1. 修改代码适配wordpress插件商店规范；
