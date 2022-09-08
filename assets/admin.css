@@ -4,6 +4,13 @@
 #VueApp .ant-form-item-children dd, #VueApp .ant-form-item-children li {
   margin-bottom: 0; }
 
+#VueApp .info {
+  line-height: 1.8;
+  width: 150%;
+  word-wrap: break-word;
+  word-spacing: normal;
+  word-break: break-all; }
+
 #VueApp .ant-input {
   box-sizing: border-box;
   margin: 0;

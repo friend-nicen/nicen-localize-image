@@ -22,7 +22,7 @@ function nicen_plugin_local_log()
     echo '
 		<a-form-item label="详细日志">
 		  <a-textarea
-	            value="' . (empty($logs) ? '暂无日志' : $logs) . '"
+	            value="' . esc_html((empty($logs) ? '暂无日志' : $logs)) . '"
 	            :auto-size="{minRows: 5,maxRows:15}"
 	            read-only/>
 	';
@@ -40,7 +40,7 @@ function nicen_plugin_update()
 
     echo '
 		<a-form-item label="版本信息">
-		  		当前版本（' . NICEN_VERSION . '）/ 最新版本（{{version}}）
+		  		当前版本（' . esc_html(NICEN_VERSION) . '）/ 最新版本（{{version}}）
 	    </a-form-item>
 	    <a-form-item label="BUG反馈">
 		  		微信号good7341、Github提交issue、博客nicen.cn下方留言均可
@@ -109,14 +109,14 @@ function Nicen_form_batch()
      * 获取上次的ID
      * */
     if (!empty($last)) {
-        $last = '上次批量本地化的文章ID为：' . $last . '，';
+        $last = '上次批量本地化的文章ID为：' . esc_html($last) . '，';
     }
 
     echo '	<a-form-item label="功能说明">
 	<div style="line-height: 1.8; width: 150%; overflow-wrap: break-word; word-spacing: normal; word-break: break-all;">
 	按照指定的文章ID范围批量进行图片本地化，点击开始后任务自动运行，运行过程中可以随时暂停，关闭网页表示强制暂停！运行过程中将会展示实时日志！
 	<br/><br/>
-	' . $last . '当前共有已发布文章' . $count->publish . '篇，草稿' . $count->draft . '篇！不填起始ID默认批量本地化所有文章！
+	' . esc_html($last) . '当前共有已发布文章' . esc_html($count->publish) . '篇，草稿' . esc_html($count->draft) . '篇！不填起始ID默认批量本地化所有文章！
 	</div>
 	</a-form-item>
 	<a-form-item label="文章ID范围">

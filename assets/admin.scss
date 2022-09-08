@@ -5,10 +5,18 @@
 
 #VueApp {
 
-  .ant-form-item-children{
+  .ant-form-item-children {
     dd, li {
       margin-bottom: 0;
     }
+  }
+
+  .info {
+    line-height: 1.8;
+    width: 150%;
+    word-wrap: break-word;
+    word-spacing: normal;
+    word-break: break-all;
   }
 
   .ant-input {
@@ -42,7 +50,7 @@
     }
   }
 
-  .ant-form-item{
+  .ant-form-item {
     margin-bottom: 15px;
   }
 
@@ -80,8 +88,8 @@
           padding: 36px 42px 10px 42px;
         }
 
-        .ant-form-item-label{
-          label{
+        .ant-form-item-label {
+          label {
             display: flex;
             align-items: center;
           }
@@ -106,7 +114,7 @@
           }
         }
 
-        input{
+        input {
           background-color: inherit;
         }
 
