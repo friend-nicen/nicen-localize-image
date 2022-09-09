@@ -222,7 +222,7 @@ class Nicen_response
                  * */
                 if ($hasChange) {
 
-                    $current = sanitize_option($_POST['nicen_make_plugin_auto_publish']); //修改的状态
+                    $current = sanitize_text_field($_POST['nicen_make_plugin_auto_publish']); //修改的状态
 
 
                     /**
