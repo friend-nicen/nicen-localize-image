@@ -170,13 +170,14 @@ function Nicen_form_compress()
     echo '<a-space>
 			<a-button type="primary" :loading="tree.loading" @click="compress">{{tree.loading?"正在压缩第"+tree.count+"张图片，点击取消压缩...":"开始压缩"}}</a-button>
 			<a-button type="primary" v-if="tree.loading" @click="compress">取消压缩</a-button>
-			<a-button type="primary" @click="loadFiles">加载图片目录</a-button>
+			<a-button type="primary" @click="loadFiles()">加载图片目录</a-button>
 		</a-space>';
     echo '</a-form-item>';
 
     echo "<a-form-item label='选择指定文件或目录'>
 	  <a-tree
 	    checkable
+	    :load-data='loadFiles'
 	    v-model='tree.selected'
 	    :tree-data='tree.data'
 	  >

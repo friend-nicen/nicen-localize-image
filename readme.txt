@@ -5,7 +5,7 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.0.1
 Requires PHP: 7.3
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+
+v1.3.5
+
+1. 修复插件日志无法清空的问题
+2. 更新图片压缩页面加载目录时异步加载，避免文件数量太多导致卡死；
 
 v1.3.4
 

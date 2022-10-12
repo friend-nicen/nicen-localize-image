@@ -74,16 +74,10 @@ class Nicen_comress {
 
 				} else {
 
-					/*读取文件*/
-					$children = $this->readDirs( $path . '/' . $file );
-
-					if ( ! empty( $children ) ) {
-						$list[] = [
-							"title"    => base64_encode( $file ),
-							"key"      => base64_encode( $path . '/' . $file ),
-							"children" => $children
-						];
-					}
+					$list[] = [
+						"title" => base64_encode( $file ),
+						"key"   => base64_encode( $path . '/' . $file )
+					];
 
 				}
 
@@ -114,7 +108,7 @@ class Nicen_comress {
 			$res = wp_remote_get( $url, [
 				'headers'   => $headers,
 				'sslverify' => false,
-                'timeout'     => 120,
+				'timeout'   => 120,
 			] );
 
 			return wp_remote_retrieve_body( $res );
@@ -147,7 +141,7 @@ class Nicen_comress {
 				'method'      => 'POST',
 				'sslverify'   => false,
 				'body'        => $post_data,
-                'timeout'     => 120,
+				'timeout'     => 120,
 				'httpversion' => '1.1'
 			);
 
@@ -155,6 +149,7 @@ class Nicen_comress {
 
 			if ( is_wp_error( $res ) ) {
 				$errors = $res->get_error_messages();
+
 				return $errors;
 			}
 

@@ -663,29 +663,62 @@ jQuery(function () {
 
             },
 
-            loadFiles() {
+            loadFiles(TreeNode = null) {
+
+
                 let that = this;
 
-                load.loading('正在加载文件目录...');
-                axios.get(
-                    `/?nicen_make_files=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`)
-                    .then((res) => {
-                        if (res.data.code) {
-                            load.success(res.data.errMsg);
-                            that.tree.data = that.decode(res.data.data);
-                        } else {
-                            load.error(res.data.errMsg);
-                        }
-                    }).catch((e) => {
-                   load.error(e.message)
-                }).finally(() => {
-                    load.loaded();
-                })
+                /*
+                * 获取请求的路径
+                * */
+                if (TreeNode === null) {
+                    var path = '/wp-content/uploads';
+                } else {
 
+                    if (TreeNode.dataRef.children) {
+                        resolve();
+                        return;
+                    } else {
+                        var path = TreeNode.dataRef.key;
+                    }
+                }
+
+
+                return new Promise(resolve => {
+
+                    load.loading('正在加载文件目录...');
+
+                    axios.post(
+                        `/?nicen_make_files=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, {
+                            path: path
+                        })
+                        .then((res) => {
+                            if (res.data.code) {
+                                load.success(res.data.errMsg);
+
+                                if (TreeNode === null) {
+                                    that.tree.data = that.decode(res.data.data);
+                                    resolve();
+                                } else {
+                                    TreeNode.dataRef.children =that.decode(res.data.data);
+                                    that.tree.data = [...that.tree.data];
+                                    resolve();
+                                }
+
+                            } else {
+                                load.error(res.data.errMsg);
+                            }
+                        }).catch((e) => {
+                        load.error(e.message)
+                    }).finally(() => {
+                        load.loaded();
+                    })
+                });
             }
         },
         created() {
             let that = this;
+            /*同步插件更新日志*/
             axios.get("https://weixin.nicen.cn/api/update")
                 .then((res) => {
                     if (res.data.code) {
