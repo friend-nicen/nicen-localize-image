@@ -42,7 +42,7 @@ define( 'PLUGIN_nicen_make', [
 		"menu_title" => '图片本地化',
 		'page_title' => '图片本地化',
 		'callback'   => 'nicen_make_setting_load',
-		'capablity'  => 'edit_themes',
+		'capablity'  => 'manage_options',
 		/*分节*/
 		"sections"   => [
 			[
