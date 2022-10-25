@@ -121,17 +121,21 @@ define( 'PLUGIN_nicen_make', [
 				]
 			],
 			[
-				"id"     => "nicen_make_plugin_crontab",
-				'title'  => '定时发布',
-				'fields' => [
+				"id"       => "nicen_make_plugin_crontab",
+				'title'    => '定时发布',
+				'callback' => [
+					"render" => "Nicen_form_timer"
+				],
+				'fields'   => [
 					[
 						'id'       => 'text_info',
 						'title'    => '定时发布功能说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：' . $nicen_crontab_tab . '<br/>【<span style="color: red;">自动发布日志</span>】：' . nicen_getAutoInfo()
+							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>不选择日期和时间代表不进行限制！<br/><br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：' . $nicen_crontab_tab . '<br/>【<span style="color: red;">自动发布日志</span>】：' . nicen_getAutoInfo()
 						]
 					],
+
 					[
 						'id'       => 'nicen_make_plugin_auto_publish',
 						'title'    => '开启自动发布文章',
@@ -274,7 +278,10 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_interval'      => 300,
 	'nicen_make_plugin_publish_local' => '0',
 	'nicen_make_publish_date'         => "0",
-
+	'nicen_make_publish_date_start'   => null,
+	'nicen_make_publish_date_end'     => null,
+	'nicen_make_publish_time_start'   => null,
+	'nicen_make_publish_time_end'     => null,
 
 	/*白名单*/
 	'nicen_make_publish_white'        => '',

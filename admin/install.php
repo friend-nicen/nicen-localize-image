@@ -15,6 +15,8 @@ function nicen_make_install() {
 	}
 }
 
+nicen_make_install(); //插件自动设置
+
 /*
  * 关闭插件时注销任务
  * */

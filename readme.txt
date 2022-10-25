@@ -5,7 +5,7 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.0.1
 Requires PHP: 7.3
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.3.7
+
+1. 新增定时任务可以指定日期范围、每日的时间范围进行定时发布。
+2. 新增批量本地化时可选文章状态，可指定不限、草稿、已发布等文章状态进行批量本地化。
+3. 优化批量压缩图片功能。
 
 v1.3.6
 

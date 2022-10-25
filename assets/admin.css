@@ -11,7 +11,7 @@
   word-spacing: normal;
   word-break: break-all; }
 
-#VueApp .ant-input {
+#VueApp .ant-input, #VueApp .ant-time-picker-input {
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;
@@ -30,10 +30,10 @@
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   transition: all .3s; }
-  #VueApp .ant-input:focus {
+  #VueApp .ant-input:focus, #VueApp .ant-time-picker-input:focus {
     outline: 0 !important;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important; }
-  #VueApp .ant-input:focus, #VueApp .ant-input:hover {
+  #VueApp .ant-input:focus, #VueApp .ant-input:hover, #VueApp .ant-time-picker-input:focus, #VueApp .ant-time-picker-input:hover {
     border-color: #40a9ff !important;
     border-right-width: 1px !important; }
 

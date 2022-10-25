@@ -316,6 +316,12 @@ jQuery(function () {
     Vue.use(antd); //加载antd
     Vue.use(vcolorpicker); //加载颜色选择
 
+
+    /*
+    * 时间日期转换
+    * */
+    let today = moment().format("YYYY-MM-DD");
+
     /*
     * 需要处理的数据
     * */
@@ -332,6 +338,7 @@ jQuery(function () {
                 version: '',
                 zhCN: zhCN,
                 donate: [],
+                range_picker: [PLUGIN_CONFIG.nicen_make_publish_date_start, PLUGIN_CONFIG.nicen_make_publish_date_end],
                 tree: {
                     data: [],
                     selected: [],
@@ -346,9 +353,48 @@ jQuery(function () {
                     range: [],
                     loading: false,
                     flag: false,
-                    category: []
+                    category: [],
+                    status: 1
                 }
             };
+        },
+        computed: {
+            time_start: {
+                get() {
+                    if (!this.data.nicen_make_publish_time_start) {
+                        return null;
+                    }
+                    return moment(today + " " + this.data.nicen_make_publish_time_start);
+                },
+                set(value) {
+
+                    if (!value) {
+                        this.data.nicen_make_publish_time_start = null;
+                        return;
+                    }
+
+                    this.data.nicen_make_publish_time_start = value.format("HH:mm:ss");
+                }
+            },
+            time_end: {
+                get() {
+
+                    if (!this.data.nicen_make_publish_time_end) {
+                        return null;
+                    }
+
+                    return moment(today + " " + this.data.nicen_make_publish_time_end);
+                },
+                set(value) {
+
+                    if (!value) {
+                        this.data.nicen_make_publish_time_end = null;
+                        return;
+                    }
+
+                    this.data.nicen_make_publish_time_end = value.format("HH:mm:ss");
+                }
+            }
         },
         methods: {
             /*
@@ -357,13 +403,15 @@ jQuery(function () {
             save() {
                 this.loading = true;
                 this.$refs['submit'].$el.submit();
-            },
+            }
+            ,
             /*
             * tab改变
             * */
             change(res) {
                 localStorage.setItem('nicen_make_plugin_tab', res);
-            },
+            }
+            ,
             /*
             * 开关改变
             * */
@@ -373,7 +421,8 @@ jQuery(function () {
                 } else {
                     this.data[field] = 0;
                 }
-            },
+            }
+            ,
             /*
             * 清空日志
             * */
@@ -394,7 +443,8 @@ jQuery(function () {
                     })
                 })
 
-            },
+            }
+            ,
             /*
             * 日期选择
             * */
@@ -402,7 +452,17 @@ jQuery(function () {
             selectRange(range) {
                 this.batch.range[0] = range[0].format("YYYY-MM-DD");
                 this.batch.range[1] = range[1].format("YYYY-MM-DD");
-            },
+            }
+            ,
+
+            /*
+            * 定时发布日期选择
+            * */
+            selectPublishRange(range) {
+                this.data.nicen_make_publish_date_start = range[0].format("YYYY-MM-DD");
+                this.data.nicen_make_publish_date_end = range[1].format("YYYY-MM-DD");
+            }
+            ,
 
             /*
             * 批量本地化
@@ -510,7 +570,8 @@ jQuery(function () {
                 that.batch.flag = false; //标记结束
                 load.loaded();
 
-            },
+            }
+            ,
             /*
             * 提交本地化图片
             * */
@@ -530,7 +591,8 @@ jQuery(function () {
                         load.loaded();
                     })
                 });
-            },
+            }
+            ,
 
             /*
             * 压缩
@@ -543,9 +605,6 @@ jQuery(function () {
                 * */
                 if (that.tree.flag) {
                     that.tree.flag = false;
-
-                    console.log(that.tree.flag)
-
                     load.error("已取消压缩...");
                     return;
                 }
@@ -582,7 +641,11 @@ jQuery(function () {
                 })
 
 
+                /*
+                * 如果选择了确认
+                * */
                 if (code) {
+
                     that.tree.loading = true;//显示加载效果
 
                     for (let i of needs) {
@@ -590,7 +653,6 @@ jQuery(function () {
                         * 如果已经被中断
                         * */
                         if (!that.tree.flag) {
-                            console.log("中断")
                             break;
                         }
 
@@ -603,10 +665,11 @@ jQuery(function () {
 
                 that.tree.loading = false; //批量结束
                 that.tree.flag = false; //标记结束
-                that.loadFiles(); //重新加载文件目录
+                //that.loadFiles(); //重新加载文件目录
                 load.loaded();
 
-            },
+            }
+            ,
 
             /*
             * 请求压缩
@@ -636,7 +699,8 @@ jQuery(function () {
                         load.loaded();
                     })
                 });
-            },
+            }
+            ,
 
             /*
             * Base64解密
@@ -661,7 +725,8 @@ jQuery(function () {
                 return result;
 
 
-            },
+            }
+            ,
 
             loadFiles(TreeNode = null) {
 
@@ -700,7 +765,7 @@ jQuery(function () {
                                     that.tree.data = that.decode(res.data.data);
                                     resolve();
                                 } else {
-                                    TreeNode.dataRef.children =that.decode(res.data.data);
+                                    TreeNode.dataRef.children = that.decode(res.data.data);
                                     that.tree.data = [...that.tree.data];
                                     resolve();
                                 }
@@ -715,7 +780,8 @@ jQuery(function () {
                     })
                 });
             }
-        },
+        }
+        ,
         created() {
             let that = this;
             /*同步插件更新日志*/

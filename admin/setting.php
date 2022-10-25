@@ -29,6 +29,16 @@ add_action( 'admin_menu', 'nicen_make_menu_register' );
  * 注册表单
  * */
 function nicen_make_config_register() {
+
+	/*
+	 * 注册自定义字段
+	 * */
+	register_setting( "nicen_make_plugin", "nicen_make_publish_date_start" ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_date_end" ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_time_start" ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_time_end" ); //主题首页副标题
+
+
 	foreach ( PLUGIN_nicen_make as $item ) {
 		/*
 		 * 如果有分节

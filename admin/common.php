@@ -15,6 +15,7 @@ foreach ( nicen_make_CONFIG as $key => $value ) {
 	$nicen_make_CONFIGS[ $key ] = get_option( $key );
 }
 
+
 /*
  * 返回指定配置
  * */

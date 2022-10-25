@@ -57,7 +57,7 @@ class Nicen_response {
 	 * */
 	public function add_schedules( $schedules ) {
 		$schedules['nicen_crontab'] = array(
-			'interval' => get_option( 'nicen_make_plugin_interval' ), //获取设置的间隔时间
+			'interval' => intval( get_option( 'nicen_make_plugin_interval' ) ), //获取设置的间隔时间
 			'display'  => '定时发布草稿文章'
 		);
 
@@ -112,9 +112,20 @@ class Nicen_response {
 				 * */
 
 				$condition = [
-					'`post_type` = "post"', //指定文章类型
-					'(`post_status` = "publish" or `post_status` = "draft")'  //指定草稿和已发布（爬出自动草稿）
+					'`post_type` = "post"'
 				];
+
+				/*
+				 * '(`post_status` = "publish" or `post_status` = "draft")'  //指定草稿和已发布（排除自动草稿）
+				 * */
+				if ( $json['status'] === 1 ) {
+					$condition[] = '(`post_status` = "publish" or `post_status` = "draft")';
+				} elseif ( $json['status'] === 2 ) {
+					$condition[] = '(`post_status` = "draft")';
+				} else {
+					$condition[] = '(`post_status` = "publish")';
+				}
+
 
 				/*
 				 * ID范围
