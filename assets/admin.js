@@ -450,6 +450,13 @@ jQuery(function () {
             * */
 
             selectRange(range) {
+
+                if (range.length == 0) {
+                    this.batch.range[0] = null;
+                    this.batch.range[1] = null;
+                    return;
+                }
+
                 this.batch.range[0] = range[0].format("YYYY-MM-DD");
                 this.batch.range[1] = range[1].format("YYYY-MM-DD");
             }
@@ -459,6 +466,14 @@ jQuery(function () {
             * 定时发布日期选择
             * */
             selectPublishRange(range) {
+
+
+                if (range.length == 0) {
+                    this.data.nicen_make_publish_date_start = null;
+                    this.data.nicen_make_publish_date_end = null;
+                    return;
+                }
+
                 this.data.nicen_make_publish_date_start = range[0].format("YYYY-MM-DD");
                 this.data.nicen_make_publish_date_end = range[1].format("YYYY-MM-DD");
             }
