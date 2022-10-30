@@ -359,6 +359,9 @@ jQuery(function () {
             };
         },
         computed: {
+            /*
+            * 定时发布时间选择
+            * */
             time_start: {
                 get() {
                     if (!this.data.nicen_make_publish_time_start) {

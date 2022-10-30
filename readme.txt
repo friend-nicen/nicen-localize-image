@@ -5,7 +5,7 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.0.1
 Requires PHP: 7.3
-Stable tag: 1.3.8
+Stable tag: 1.3.81
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,11 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.3.81
+
+1. 修复wordpress不使用默认表前缀安装时，批量本地化无法检测的问题；
+2. 修复批量本地化时，清空时间范围后无法检测的问题；
 
 v1.3.8
 
