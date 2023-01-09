@@ -313,8 +313,8 @@ jQuery(function () {
     * 判断是否在设置页面
     * */
 
-    Vue.use(antd); //加载antd
-    Vue.use(vcolorpicker); //加载颜色选择
+    Nicen_Vue.use(antd); //加载antd
+    Nicen_Vue.use(vcolorpicker); //加载颜色选择
 
 
     /*
@@ -325,7 +325,7 @@ jQuery(function () {
     /*
     * 需要处理的数据
     * */
-    let vm = new Vue({
+    new Nicen_Vue({
         el: "#VueApp",
         data() {
             /*

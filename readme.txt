@@ -3,9 +3,9 @@ Contributors: 友人a丶
 Tags: 图片本地化，文章定时发布，图片压缩
 Donate link: https://nicen.cn/donate
 Requires at least: 5.6
-Tested up to: 6.0.1
+Tested up to: 6.1
 Requires PHP: 7.3
-Stable tag: 1.3.81
+Stable tag: 1.3.83
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,20 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.3.83
+
+1. 修复其他主题或插件全局加载Vue时会导致插件后台无法正常加载的问题（内置js文件，插件大小会增加2M）
+2. 将指定文件类型修改为图片本地化时自动检测文件类型；
+3. 修复本地化保存到数据库文件显示异常的问题；
+4. 新增可设置图片本地化后，自动将图片设置为文章的特色图片；
+5. 新增自动给图片添加alt属性时，会将空值的alt重新设置；
+6. 修复图片压缩时会重复下载两次的问题；
+7. 文章发布时自动本地化后不再进行弹出提醒，处理结果会跟随wordpress默认提示进行输出；
+
+v1.3.82
+
+1. 移除插件内的时区定义代码（导致某些情况下文章发布时间出现偏差）；
 
 v1.3.81
 

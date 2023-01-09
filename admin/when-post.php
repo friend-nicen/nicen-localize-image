@@ -15,12 +15,16 @@
  * */
 function nicen_make_when_save_post( $post_id, $flag = true ) {
 
+	global $nicen_Post_ID; //全局变量，正在操作的文章ID
+	$nicen_Post_ID = $post_id;
+
+	/* 移除钩子，防止重复操作 */
 	remove_action( 'edit_post', 'nicen_make_when_save_post' );
 
-	$log=""; //保存日志
+	$log = ""; //保存日志
 
 	/*判断是否启用了本地化图片的功能*/
-	if ( nicen_make_config( 'nicen_make_plugin_save' ) || !$flag ) {
+	if ( nicen_make_config( 'nicen_make_plugin_save' ) || ! $flag ) {
 
 		//获取文章对象
 		$post = get_post( $post_id );
@@ -116,6 +120,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 		$success = 0; //成功和失败的数量
 		$content = $post->post_content;
 
+		/* 获取要替换的内容 */
 		$replace = nicen_make_config( 'nicen_make_plugin_alt_type' ) == 1 ? $post->post_title : nicen_make_getCategory( $post->ID );
 
 		foreach ( $match[0] as $value ) {
@@ -134,7 +139,28 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 				], false, false );
 
 				$success ++; //加1
+			} else {
+
+				/*
+				 * 判断alt是否为空
+				 * */
+				if ( preg_match( "/(?:alt='')|(?:alt=\"\")/", $value ) ) {
+
+					$content = str_replace( $value, preg_replace( "/(?:alt='')|(?:alt=\"\")/", 'alt="' . $replace . '"', $value ), $content );
+
+					//更新文章
+					wp_update_post( [
+						'ID'           => $post_id,
+						'post_content' => $content
+					], false, false );
+
+					$success ++; //加1
+				}
+
+
 			}
+
+
 		}
 
 

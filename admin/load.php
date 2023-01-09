@@ -47,7 +47,7 @@ function nicen_make_detect() {
 			echo preg_replace( '/\s/', '', vsprintf( '
 			<script>
 			jQuery(function(){
-				layer.alert("%s可在插件设置页面查看日志！");   
+                jQuery("#message").append("<p>%s可在插件设置页面查看日志！</p>");
 			});
             </script>
 			', [ esc_js( $info ) ] ) );
@@ -72,12 +72,12 @@ if ( strpos( $_SERVER['SCRIPT_NAME'] ?? "", '/post' ) ) {
  * */
 function nicen_make_admin_load_source() {
 
-	wp_enqueue_script( 'vuejs', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/vue/2.6.14/vue.min.js', false );
+	wp_enqueue_script( 'vuejs', nicen_local_image_url . 'assets/vue.min.js', [ 'jquery' ] );
 
 	wp_enqueue_script( 'moments', 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/moment.js/2.29.1/moment.min.js' );
 	wp_enqueue_script( 'base64', nicen_local_image_url . 'assets/base64.min.js' );
 
-	wp_enqueue_script( 'antd', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.js', [ 'jquery' ] );
+	wp_enqueue_script( 'antd', nicen_local_image_url . 'assets/antd.min.js', [ 'jquery', 'vuejs' ] );
 	wp_enqueue_script( 'Vcolorpicker', nicen_local_image_url . 'assets/colorpicker.js', array(), filemtime( nicen_local_image_path . 'assets/colorpicker.js' ), true );
 
 	wp_enqueue_style( 'antdcss', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.css' );
@@ -93,7 +93,7 @@ function nicen_make_admin_load_source() {
 	 * */
 	wp_add_inline_script( "adminjs", vsprintf( "const PLUGIN_CONFIG=%s;const NICEN_VERSION='%s';", [
 		json_encode( nicen_make_config() ),
-		esc_js(NICEN_VERSION)
+		esc_js( NICEN_VERSION )
 	] ), 'before' );
 
 
@@ -115,7 +115,7 @@ function nicen_make_load_layer() {
 	 * */
 	wp_add_inline_script( "layerjs", preg_replace( '/\s/', '', vsprintf( '
 			window.POST_KEY = "%s";'
-		, [  esc_html(nicen_make_config( 'nicen_make_plugin_private' )) ] ) ), 'before' );
+		, [ esc_html( nicen_make_config( 'nicen_make_plugin_private' ) ) ] ) ), 'before' );
 
 }
 

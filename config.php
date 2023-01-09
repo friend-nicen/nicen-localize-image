@@ -73,6 +73,14 @@ define( 'PLUGIN_nicen_make', [
 						'callback' => 'nicen_make_form_switch',
 					],
 					[
+						'id'       => 'nicen_make_save_as_thumb',
+						'title'    => '图片本地化后设置特色图片',
+						'callback' => 'nicen_make_form_switch',
+						'args'     => [
+							'tip' => '打开后会自动将本地化下载的图片设置为文章特色图片，必须打开保存到数据库'
+						]
+					],
+					[
 						'id'       => 'nicen_make_plugin_add_domain',
 						'title'    => '本地化的图片链接添加域名',
 						'callback' => 'nicen_make_form_switch',
@@ -109,13 +117,8 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_plugin_path',
 						'title'    => '本地化图片时的保存路径',
 						'callback' => 'nicen_make_form_input',
-					],
-					[
-						'id'       => 'nicen_make_save_type',
-						'title'    => '保存后的文件类型',
-						'callback' => 'nicen_make_form_input',
 						'args'     => [
-							'tip' => '保存后的文件类型，默认是png格式！'
+							'tip' => '以wordpress安装目录作为根目录'
 						]
 					]
 				]
@@ -270,7 +273,7 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_alt_type'      => '1', //alt增加的类型
 	'nicen_make_plugin_path'          => nicen_local_image_site_root . '/uploads/replace', //资源保存的路径
 	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
-	'nicen_make_save_type'            => 'png',
+	'nicen_make_save_as_thumb'        => '0',
 
 	/*定时任务*/
 	'nicen_make_plugin_order'         => 'ID',

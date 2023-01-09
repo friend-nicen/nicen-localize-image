@@ -91,77 +91,6 @@ class Nicen_comress {
 	}
 
 	/**
-	 * 获取图片内容
-	 *
-	 * @param $url string,图片的链接
-	 * */
-	function get( $url ) {
-
-		try {
-			$headers = [
-				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-			];
-
-			/*
-			 * 请求数据
-			 * */
-			$res = wp_remote_get( $url, [
-				'headers'   => $headers,
-				'sslverify' => false,
-				'timeout'   => 120,
-			] );
-
-			return wp_remote_retrieve_body( $res );
-
-		} catch ( \Throwable $e ) {
-			return false;
-		}
-	}
-
-
-	/**
-	 * 获取图片内容
-	 *
-	 * @param $url string,图片的链接
-	 * */
-	function post( $file ) {
-
-		try {
-
-			$post_data = [
-				'files' => new \CURLFile( $file )
-			];
-
-			$Http = new WP_Http_Curl();
-
-			/*
-			 * 修改请求配置
-			 * */
-			$args = array(
-				'method'      => 'POST',
-				'sslverify'   => false,
-				'body'        => $post_data,
-				'timeout'     => 120,
-				'httpversion' => '1.1'
-			);
-
-			$res = $Http->request( 'http://api.resmush.it/ws.php', $args );
-
-			if ( is_wp_error( $res ) ) {
-				$errors = $res->get_error_messages();
-
-				return $errors;
-			}
-
-			return wp_remote_retrieve_body( $res );
-
-		} catch ( \Throwable $e ) {
-			return $e->getMessage();
-		}
-	}
-
-
-	/**
 	 * 获取压缩后的图片
 	 *
 	 * @param string $file
@@ -181,7 +110,9 @@ class Nicen_comress {
 			];
 		}
 
-
+		/*
+		 * 是否可写
+		 * */
 		if ( ! is_writable( $abs ) ) {
 			return [
 				'code'   => 0,
@@ -218,6 +149,78 @@ class Nicen_comress {
 			];
 		}
 
+	}
+
+	/**
+	 * 获取图片内容
+	 *
+	 * @param $url string,图片的链接
+	 * */
+	function post( $file ) {
+
+		try {
+
+			$post_data = [
+				'files' => new \CURLFile( $file )
+			];
+
+			$Http = new WP_Http_Curl();
+
+			/*
+			 * 修改请求配置
+			 * */
+			$args = array(
+				'method'      => 'POST',
+				'sslverify'   => false,
+				'body'        => $post_data,
+				'timeout'     => 120,
+				'httpversion' => '1.1'
+			);
+
+			$res = $Http->request( 'http://api.resmush.it/ws.php', $args );
+
+			/*
+			 * 判断请求结果
+			 * */
+			if ( is_wp_error( $res ) ) {
+				$errors = $res->get_error_messages();
+
+				return $errors;
+			}
+
+			return wp_remote_retrieve_body( $res );
+
+		} catch ( \Throwable $e ) {
+			return $e->getMessage();
+		}
+	}
+
+	/**
+	 * 获取图片内容
+	 *
+	 * @param $url string,图片的链接
+	 * */
+	function get( $url ) {
+
+		try {
+			$headers = [
+				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+			];
+
+			/*
+			 * 请求数据
+			 * */
+			$res = wp_remote_get( $url, [
+				'headers'   => $headers,
+				'sslverify' => false,
+				'timeout'   => 120,
+			] );
+
+			return wp_remote_retrieve_body( $res );
+
+		} catch ( \Throwable $e ) {
+			return false;
+		}
 	}
 
 }

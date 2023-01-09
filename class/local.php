@@ -23,121 +23,6 @@ class Nicen_local {
 	}
 
 	/**
-	 * 获取单例
-	 * */
-	public static function getInstance() {
-		/*如果实例不存在*/
-		if ( ! self::$self ) {
-			self::$self = new self();
-		}
-
-		return self::$self;
-	}
-
-	/**
-	 * 获取网站状态码
-	 * */
-	function getHttpcode( $url ) {
-		$response  = wp_remote_get( $url, [
-			'sslverify' => false,
-            'timeout'     => 60,
-		] );
-		$http_code = wp_remote_retrieve_response_code( $response );
-
-		return $http_code;
-	}
-
-
-	/**
-	 * 获取图片内容
-	 *
-	 * @param $url string,图片的链接
-	 * */
-	function getImage( $url ) {
-
-		$link = parse_url( $url );//解析链接
-
-		/*
-		 * 请求头模拟
-		 * */
-		$headers = [
-			'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-			'Referer'    => $link['scheme'] . '://' . $link['host']
-		];
-
-		/*
-		 * 请求数据
-		 * */
-		$res = wp_remote_get( $url, [
-			'headers'   => $headers,
-			'sslverify' => false,
-            'timeout'     => 120,
-		] );
-
-		return wp_remote_retrieve_body( $res );
-	}
-
-
-	/**
-	 * 保存图片到数据库
-	 *
-	 * @param $filename string 文件名
-	 * */
-	function saveAsData( $filename ) {
-
-
-		/*
-		 * 获取设置的文件保存目录
-		 * */
-		$document_root = $this->site_path; //站点目录
-
-		/*
-		 * 拼接插入的数据
-		 * */
-		$attachment = array(
-			'guid'           => $document_root . '/' . basename( $filename ),
-			'post_mime_type' => 'image/png',
-			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
-			'post_content'   => '',
-			'post_status'    => 'inherit'
-		);
-
-		// Insert the attachment.
-		$attach_id = wp_insert_attachment( $attachment, $filename );
-
-		/*
-		 * 更新访问的URL
-		 * */
-		update_post_meta( $attach_id, '_wp_attached_file', $document_root . '/' . $filename );
-	}
-
-
-	/**
-	 * 判断指定链接是否是白名单
-	 *
-	 * @param string $url
-	 *
-	 * @return boolean
-	 * */
-	public function is_white( $url ) {
-
-		$white = explode( "\n", get_option( 'nicen_make_publish_white' ) ); //获取列表
-		/*判断是否为空*/
-		if ( empty( $white ) ) {
-			return false;
-		}
-
-		$link = parse_url( $url ); //解析
-
-		if ( in_array( $link['host'], $white ) ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-
-	/**
 	 * 本地化图片
 	 *
 	 * @param $flag  false时return，true终止脚本直接输出
@@ -248,29 +133,20 @@ class Nicen_local {
 		/*
 		 * 获取保存的文件类型
 		 * */
-		$filetype = get_option( 'nicen_make_save_type' );
+		$url_md5 = md5( $url ); //md5图片链接
 
-		if ( empty( $filetype ) ) {
-			$filetype = 'png';
-		}
-
-		$filename = md5( $url ) . '.' . $filetype; //md5防止文件重复下载
-
-
-		/*
-		 * 判断链接是否需要添加域名
-		 * */
-		if ( $this->is_add_domain ) {
-			$link = site_url() . $upload . '/' . $filename;
-		} else {
-			$link = $upload . '/' . $filename;
-		}
 
 		/*
 		 * 判断文件是否已经存在
 		 * 已经存在则直接返回数据
 		 * */
-		if ( file_exists( $upload_root . '/' . $filename ) ) {
+		$file_search = glob( $upload_root . '/' . $url_md5 . '.*' );
+
+		if ( ! empty( $file_search ) ) {
+			/*
+			 * 判断链接是否需要添加域名
+			 * */
+			$link = $this->getLink( $file_search[0] ); //获取链接
 
 			if ( $flag ) {
 				exit( json_encode( $log->add( [
@@ -316,15 +192,20 @@ class Nicen_local {
 		 * */
 		if ( $content ) {
 
+			$tmp = $upload_root . '/' . $url_md5; //临时文件
 			/*
 			 * 写入文件
 			 * */
-			if ( file_put_contents( $upload_root . '/' . $filename, $content, LOCK_EX ) ) {
+			if ( file_put_contents( $tmp, $content, LOCK_EX ) ) {
+
+
+				$filename = $tmp . "." . nicen_plugin_getType( $tmp );
+				rename( $tmp, $filename ); //重命名文件
+				$link = $this->getLink( $filename ); //获取链接
 
 				/*
 				 * 是否需要保存到数据库
 				 * */
-
 				if ( $this->is_sava_database ) {
 					$this->saveAsData( $filename );
 				}
@@ -372,6 +253,156 @@ class Nicen_local {
 				] );
 			}
 		}
+	}
+
+	/**
+	 * 获取单例
+	 * */
+	public static function getInstance() {
+		/*如果实例不存在*/
+		if ( ! self::$self ) {
+			self::$self = new self();
+		}
+
+		return self::$self;
+	}
+
+	/**
+	 * 判断指定链接是否是白名单
+	 *
+	 * @param string $url
+	 *
+	 * @return boolean
+	 * */
+	public function is_white( $url ) {
+
+		$white = explode( "\n", get_option( 'nicen_make_publish_white' ) ); //获取列表
+		/*判断是否为空*/
+		if ( empty( $white ) ) {
+			return false;
+		}
+
+		$link = parse_url( $url ); //解析
+
+		if ( in_array( $link['host'], $white ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param $filename
+	 * 获取文件链接
+	 *
+	 * @return void
+	 */
+	function getLink( $filename ) {
+		$filename = basename( $filename ); //文件名
+		/*
+		 * 判断链接是否需要添加域名
+		 * */
+		if ( $this->is_add_domain ) {
+			$link = site_url() . $this->site_path . '/' . $filename;
+		} else {
+			$link = $this->site_path . '/' . $filename;
+		}
+
+		return $link;
+	}
+
+	/**
+	 * 获取网站状态码
+	 * */
+	function getHttpcode( $url ) {
+		$response  = wp_remote_get( $url, [
+			'sslverify' => false,
+			'timeout'   => 60,
+		] );
+		$http_code = wp_remote_retrieve_response_code( $response );
+
+		return $http_code;
+	}
+
+	/**
+	 * 获取图片内容
+	 *
+	 * @param $url string,图片的链接
+	 * */
+	function getImage( $url ) {
+
+		$link = parse_url( $url );//解析链接
+
+		/*
+		 * 请求头模拟
+		 * */
+		$headers = [
+			'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+			'Referer'    => $link['scheme'] . '://' . $link['host']
+		];
+
+		/*
+		 * 请求数据
+		 * */
+		$res = wp_remote_get( $url, [
+			'headers'   => $headers,
+			'sslverify' => false,
+			'timeout'   => 120,
+		] );
+
+		return wp_remote_retrieve_body( $res );
+	}
+
+	/**
+	 * 保存图片到数据库
+	 *
+	 * @param $filename string 文件名
+	 * */
+	function saveAsData( $filename ) {
+
+		global $nicen_Post_ID; //正在操作的文章
+
+		/*
+		 * 获取设置的文件保存目录
+		 * */
+		$link = $this->getLink( $filename ); //访问链接
+
+		/*
+		 * 拼接插入的数据
+		 * */
+		$attachment = array(
+			'guid'           => $link,
+			'post_mime_type' => wp_get_image_mime( $filename ),
+			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+			'post_content'   => '',
+			'post_status'    => 'inherit'
+		);
+
+		// Insert the attachment.
+		if ( isset( $nicen_Post_ID ) ) {
+
+			$attach_id = wp_insert_attachment( $attachment, $filename, $nicen_Post_ID );
+
+			/*
+			 * 是否作为特色图片
+			 * */
+
+			if ( nicen_make_config( 'nicen_make_save_as_thumb' ) ) {
+				set_post_thumbnail( $nicen_Post_ID, $attach_id ); //设置特色图片
+			}
+
+		} else {
+			$attach_id = wp_insert_attachment( $attachment, $filename );
+		}
+
+		/*
+		 * 更新访问的URL
+		 * */
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		// 更新元数据
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
+		wp_update_attachment_metadata( $attach_id, $attach_data );
 	}
 }
 
