@@ -33,7 +33,7 @@ function nicen_make_initialize() {
 			/*
 			 * 引入插件的js
 			 * */
-			$plugin_array['local'] = nicen_local_image_url . 'tinymcc/local.js';/*指定要加载的插件*/
+			$plugin_array['local'] = nicen_local_image_url . 'tinymcc/local.js?ver=' . filemtime( nicen_local_image_path . 'tinymcc/local.js' );/*指定要加载的插件*/
 
 			return $plugin_array;
 		} );
@@ -41,6 +41,7 @@ function nicen_make_initialize() {
 		/*过滤 TinyMCE 按钮的第一行列表（Visual 选项卡）,在可视编辑器中注册一个按钮*/
 		add_filter( 'mce_buttons', function ( $buttons ) {
 			$buttons[] = 'local';
+
 			return $buttons;
 		} );
 	}

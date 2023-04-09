@@ -398,6 +398,7 @@ class Nicen_local {
 		/*
 		 * 更新访问的URL
 		 * */
+		require_once ABSPATH . WPINC . '/pluggable.php';
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 		// 更新元数据

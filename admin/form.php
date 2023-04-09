@@ -106,7 +106,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 		 * 如果是文字说明
 		 * */
 		if ( $field['id'] == 'text_info' ) {
-			echo sprintf( '<a-form-item label=%s>', esc_html( $field['title'] ) );
+			echo sprintf( '<a-form-item :label-col="labelCol" label=%s>', esc_html( $field['title'] ) );
 			echo esc_html( $field['callback']( $field['args'] ) );
 			echo '</a-form-item>';
 			continue;
@@ -125,16 +125,16 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 		 * 是否具有总开关
 		 * */
 		if ( ! isset( $param['key'] ) ) {
-			echo sprintf( '<a-form-item ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
+			echo sprintf( '<a-form-item :label-col="labelCol" ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
 		} else {
 
 			/*
 			 * 总开关或者忽略的
 			 * */
 			if ( $param['key'] == $field['id'] || in_array( $field['id'], $param['ignore'] ) ) {
-				echo sprintf( '<a-form-item ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
+				echo sprintf( '<a-form-item :label-col="labelCol" ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
 			} else {
-				echo sprintf( '<a-form-item v-show="data.' . esc_html( $param['key'] ) . ' == 1" ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
+				echo sprintf( '<a-form-item :label-col="labelCol" v-show="data.' . esc_html( $param['key'] ) . ' == 1" ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
 			}
 
 		}

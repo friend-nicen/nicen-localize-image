@@ -175,6 +175,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 
 	}
 
+
 	/*
 	 * 插入日志
 	 * */

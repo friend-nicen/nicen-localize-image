@@ -335,10 +335,12 @@ jQuery(function () {
                 data: PLUGIN_CONFIG, //已设置的表单
                 activeKey: tab, //激活的yab
                 loading: false, //是否正在处理
-                version: '',
-                zhCN: zhCN,
-                donate: [],
+                version: '', //版本号
+                zhCN: zhCN, //语言包
+                donate: [], //捐赠链接
+                labelCol: {xxl: 4, xl: 6, lg: 8, md: 10, sm: 12, xs: 12}, //表单标签
                 range_picker: [PLUGIN_CONFIG.nicen_make_publish_date_start, PLUGIN_CONFIG.nicen_make_publish_date_end],
+                /* 媒体库文件树 */
                 tree: {
                     data: [],
                     selected: [],
@@ -346,6 +348,7 @@ jQuery(function () {
                     flag: false,
                     count: 1
                 },
+                /* 批量本地化参数 */
                 batch: {
                     start: null,
                     end: null,

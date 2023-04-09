@@ -54,7 +54,7 @@ define( 'PLUGIN_nicen_make', [
 						'title'    => '功能设置说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '插件提供两种本地化外部图片的功能:<br/>【<span style="color: red;">编辑器本地化插件</span>】启用后会在文章编辑器上方显示一个小图标，点击之后可以自动检测并本地化所有外部图片；<br/>【<span style="color: red;">发布时自动本地化</span>】启用后会在文章发布时自动本地化所有外部图片；<br/>推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。'
+							'info' => '插件提供两种本地化外部图片的功能:<br/>【<span style="color: red;">编辑器本地化插件</span>】启用后会在文章编辑器上方显示一个小图标，点击之后可以自动检测并本地化所有外部图片；<br/>【<span style="color: red;">发布时自动本地化</span>】启用后会在文章发布时自动本地化所有外部图片；推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。'
 						]
 					],
 					[
@@ -96,6 +96,7 @@ define( 'PLUGIN_nicen_make', [
 							'tip' => '默认添加文章标题作为alt属性，只会给没有alt的标签添加'
 						]
 					],
+
 					[
 						'id'       => 'nicen_make_plugin_alt_type',
 						'title'    => '添加alt属性的方式',
@@ -135,10 +136,14 @@ define( 'PLUGIN_nicen_make', [
 						'title'    => '定时发布功能说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>不选择日期和时间代表不进行限制！<br/><br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：' . $nicen_crontab_tab . '<br/>【<span style="color: red;">自动发布日志</span>】：' . nicen_getAutoInfo()
+							'info' => '默认按照文章添加的顺序定时将未发布的草稿进行发布，基于wp自带的定时任务。<br/>不选择日期和时间代表不进行限制！<br/><br/>【<span style="color: red;">Wp自带的定时任务</span>】是在网站有用户访问时才会去执行，假设任务是16:00执行，但是这个时间段没有人访问网站，一直到17:00才有人访问，那么任务17点才会被执行，于是文章发布时间就比预定的时间晚了一小时；所以建议通过宝塔或者其他工具设置定时访问wp的任务接口，用以保证定时任务执行的准时性<br/><br/>您的wordpress触发定时任务接口为：<a href="' . $crontab . '" target="_blank">' . $crontab . '</a>，每访问一次都会重新检测定时任务是否需要执行，插件日志页面可查看运行日志<br /><br/>【<span style="color: red;">wp定时任务</span>】：' . $nicen_crontab_tab . '<br/>【<span style="color: red;">当前系统时间</span>】：' . date( "Y-m-d H:i:s" ) . '，所在时区：' . date_default_timezone_get() . '，如果系统时间不对，请开启或关闭下方的系统时间校准！<br/>【<span style="color: red;">自动发布日志</span>】：' . nicen_getAutoInfo()
 						]
 					],
-
+					[
+						'id'       => 'nicen_make_plugin_adjust',
+						'title'    => '开启系统时间校准',
+						'callback' => 'nicen_make_form_switch',
+					],
 					[
 						'id'       => 'nicen_make_plugin_auto_publish',
 						'title'    => '开启自动发布文章',
@@ -253,6 +258,13 @@ define( 'PLUGIN_nicen_make', [
 				'callback' => [
 					"render" => "nicen_plugin_update"
 				],
+			],
+			[
+				"id"       => "nicen_make_plugin_vip",
+				'title'    => 'Pro版',
+				'callback' => [
+					"render" => "nicen_plugin_vip"
+				],
 			]
 		]
 	]
@@ -275,12 +287,14 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
 	'nicen_make_save_as_thumb'        => '0',
 
+
 	/*定时任务*/
-	'nicen_make_plugin_order'         => 'ID',
-	'nicen_make_plugin_auto_publish'  => "0",
-	'nicen_make_plugin_interval'      => 300,
-	'nicen_make_plugin_publish_local' => '0',
-	'nicen_make_publish_date'         => "0",
+	'nicen_make_plugin_order'         => 'ID', //安装ID发布
+	'nicen_make_plugin_adjust'        => '0', //校准时区
+	'nicen_make_plugin_auto_publish'  => "0", //是否开启自动发布
+	'nicen_make_plugin_interval'      => 300, //间隔时间
+	'nicen_make_plugin_publish_local' => '0', //定时发布时是否本地化
+	'nicen_make_publish_date'         => "0", //自动发布的时间
 	'nicen_make_publish_date_start'   => null,
 	'nicen_make_publish_date_end'     => null,
 	'nicen_make_publish_time_start'   => null,

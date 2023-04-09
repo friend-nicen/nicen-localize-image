@@ -82,6 +82,57 @@
         min-height: 150px;
         margin-top: -16px;
 
+        /* VIP页面说明 */
+        .vip {
+          padding-bottom: 30px;
+
+          .top {
+            color: red;
+          }
+
+          .features {
+            list-style: decimal;
+            margin-top: 32px;
+
+            .item {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+
+              &:after {
+                background-color: black;
+                border-radius: 50%;
+                padding: 0 6px;
+                margin-left: 10px;
+                font-size: 12px;
+                font-weight: bold;
+                color: white;
+                content: "×";
+              }
+            }
+
+
+            .ok {
+              &:after {
+                background-color: #07c160;
+                border-radius: 50%;
+                padding: 0 6px;
+                margin-left: 10px;
+                font-size: 12px;
+                font-weight: bold;
+                color: white;
+                content: "√";
+              }
+            }
+
+          }
+
+
+          .bottom {
+            margin-top: 32px;
+          }
+        }
+
 
         & > .ant-tabs-tabpane {
           background: #fff;
@@ -122,4 +173,5 @@
       }
     }
   }
+
 }

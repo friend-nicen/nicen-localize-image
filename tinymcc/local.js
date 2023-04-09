@@ -1,8 +1,11 @@
 (function () {
 
+    const $ = jQuery; //JQ
+
+
     /*
     * 警告文字块
-    * ed.selection.setContent("6666666666");
+    * ed.selection.setContent("文字");
     * ed.selection.select(ed.getBody(), true);
     * */
     tinymce.create('tinymce.plugins.local', {
@@ -33,7 +36,7 @@
                 image: url + '/icon/local.svg',
                 onclick: function () {
 
-                    let confirm = layer.confirm("是否要检索文章内所有外部图片？", function () {
+                    const confirm = layer.confirm("是否要检索文章内所有外部图片？", function () {
 
                         //关闭弹出层
                         layer.close(confirm);
@@ -42,7 +45,7 @@
                         /*
                         * 弹出检测窗口
                         * */
-                        let $ = jQuery; //JQ
+
                         let domain = location.host;
 
                         let replace = []; //替换列表
@@ -117,6 +120,10 @@
                                 * 终止抓取
                                 * */
                                 function terminate(text = false) {
+                                    /*
+                                      * 替换编辑器的内容
+                                      * */
+                                    replaceC(content);
 
                                     try {
                                         flag = false;
@@ -173,10 +180,7 @@
                                                   * 替换变量里的内容
                                                   * */
                                                 content = content.replace(html2Escape(i), res.result);
-                                                /*
-                                                * 替换编辑器的内容
-                                                * */
-                                                replaceC(content);
+
                                             } else {
                                                 number--; //未成功
                                                 layer.msg(res.result);
