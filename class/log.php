@@ -10,11 +10,13 @@ class Nicen_Log {
 
 	private static $self;
 	private $option = 'nicen_plugin_error_log';
+	private $record_log; //是否需要记录日志
 	private $logs;
 
 	private function __construct() {
 		add_option( $this->option );//初始化选项
-		$this->logs = get_option( $this->option );
+		$this->logs       = get_option( $this->option );
+		$this->record_log = get_option( 'nicen_make_plugin_record_log' );
 	}
 
 	/**
@@ -37,6 +39,10 @@ class Nicen_Log {
 	 * @return array
 	 */
 	public function add( $log ) {
+
+		if ( ! $this->record_log ) {
+			return $log;
+		}
 
 		$now = date( "Y-m-d H:i:s", time() );
 

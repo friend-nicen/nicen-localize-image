@@ -54,7 +54,7 @@ define( 'PLUGIN_nicen_make', [
 						'title'    => '功能设置说明',
 						'callback' => 'nicen_make_plugin_form_text',
 						'args'     => [
-							'info' => '插件提供两种本地化外部图片的功能:<br/>【<span style="color: red;">编辑器本地化插件</span>】启用后会在文章编辑器上方显示一个小图标，点击之后可以自动检测并本地化所有外部图片；<br/>【<span style="color: red;">发布时自动本地化</span>】启用后会在文章发布时自动本地化所有外部图片；推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。'
+							'info' => '插件提供两种本地化外部图片的功能，本地化时自动跳过重复链接的图片：<br/>【<span style="color: red;">编辑器本地化插件</span>】启用后会在文章编辑器上方显示一个小图标，点击之后可以自动检测并本地化所有外部图片；<br/>【<span style="color: red;">发布时自动本地化</span>】启用后会在文章发布时自动本地化所有外部图片；推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。<br/>【<span style="color: red;">保存到数据库</span>】启用后会将图片信息保存到数据库，可在媒体库内看到这张图片，同时会生成多张不同大小的内容一样图片。'
 						]
 					],
 					[
@@ -251,6 +251,13 @@ define( 'PLUGIN_nicen_make', [
 				'callback' => [
 					"render" => "nicen_plugin_local_log"
 				],
+				'fields'   => [
+					[
+						'id'       => 'nicen_make_plugin_record_log',
+						'title'    => '本地化时记录日志',
+						'callback' => 'nicen_make_form_switch',
+					],
+				]
 			],
 			[
 				"id"       => "nicen_make_plugin_update",
@@ -302,6 +309,9 @@ define( 'nicen_make_CONFIG', [
 
 	/*白名单*/
 	'nicen_make_publish_white'        => '',
+
+	/*插件日志*/
+	'nicen_make_plugin_record_log'    => '1'
 ] );
 
 

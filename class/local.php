@@ -166,7 +166,7 @@ class Nicen_local {
 		/*
 		 * 判断链接是否可以访问
 		 * */
-		if ( $this->getHttpcode( $url ) != 200 ) {
+		if ( $this->getImage( $url, true ) != 200 ) {
 			if ( $flag ) {
 				exit( json_encode( ( [
 					'code'   => 0,
@@ -312,25 +312,12 @@ class Nicen_local {
 	}
 
 	/**
-	 * 获取网站状态码
-	 * */
-	function getHttpcode( $url ) {
-		$response  = wp_remote_get( $url, [
-			'sslverify' => false,
-			'timeout'   => 60,
-		] );
-		$http_code = wp_remote_retrieve_response_code( $response );
-
-		return $http_code;
-	}
-
-	/**
 	 * 获取图片内容
 	 *
 	 * @param $url string,图片的链接
+	 * @param bool $option ,获取状态码
 	 * */
-	function getImage( $url ) {
-
+	function getImage( $url, $option = false ) {
 		$link = parse_url( $url );//解析链接
 
 		/*
@@ -347,10 +334,17 @@ class Nicen_local {
 		$res = wp_remote_get( $url, [
 			'headers'   => $headers,
 			'sslverify' => false,
-			'timeout'   => 120,
+			'timeout'   => 180,
 		] );
 
-		return wp_remote_retrieve_body( $res );
+		/*
+		 * 是否是状态码判断
+		 * */
+		if ( $option ) {
+			return wp_remote_retrieve_response_code( $res );
+		} else {
+			return wp_remote_retrieve_body( $res );
+		}
 	}
 
 	/**
@@ -404,6 +398,19 @@ class Nicen_local {
 		// 更新元数据
 		$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
 		wp_update_attachment_metadata( $attach_id, $attach_data );
+	}
+
+	/**
+	 * 获取网站状态码
+	 * */
+	function getHttpcode( $url ) {
+		$response  = wp_remote_get( $url, [
+			'sslverify' => false,
+			'timeout'   => 60,
+		] );
+		$http_code = wp_remote_retrieve_response_code( $response );
+
+		return $http_code;
 	}
 }
 

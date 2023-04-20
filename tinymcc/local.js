@@ -11,6 +11,20 @@
     tinymce.create('tinymce.plugins.local', {
         init: function (ed, url) {
 
+
+            /**
+             * 替换所有
+             * @param old
+             * @param search
+             * @param re
+             */
+            function replaceAll(old, search, re) {
+                while (old.indexOf(search) > -1) {
+                    old = old.replace(search, re);
+                }
+                return old;
+            }
+
             /*
             * 替换编辑器内容
             * */
@@ -164,32 +178,38 @@
 
                                     let code = await new Promise((resolve) => {
 
-                                        /*
-                                        * 请求服务器接口
-                                        * */
-                                        $.post('/?nicen_make_replace=1', {
-                                            private: POST_KEY,
-                                            img: i
-                                        }, function (res) {
+                                        try {
 
-                                            if (res.code === -1) {
-                                                layer.msg(res.result);
-                                                resolve(0);
-                                            } else if (res.code === 1) {
-                                                /*
-                                                  * 替换变量里的内容
-                                                  * */
-                                                content = content.replace(html2Escape(i), res.result);
 
-                                            } else {
-                                                number--; //未成功
-                                                layer.msg(res.result);
-                                            }
+                                            /*
+                                            * 请求服务器接口
+                                            * */
+                                            $.post('/?nicen_make_replace=1', {
+                                                private: POST_KEY,
+                                                img: i
+                                            }, function (res) {
 
-                                            resolve(1); //退出本次任务
+                                                if (res.code === -1) {
+                                                    layer.msg(res.result);
+                                                    resolve(0);
+                                                } else if (res.code === 1) {
+                                                    /*
+                                                      * 替换变量里的内容
+                                                      * */
+                                                    content = replaceAll(content, html2Escape(i), res.result);
 
-                                        }, 'json')
+                                                } else {
+                                                    number--; //未成功
+                                                    layer.msg(res.result);
+                                                }
 
+                                                resolve(1); //退出本次任务
+
+                                            }, 'json');
+
+                                        } catch (e) {
+                                            resolve(0); //退出本次任务
+                                        }
                                     })
 
 
