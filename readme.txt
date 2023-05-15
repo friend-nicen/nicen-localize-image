@@ -5,7 +5,7 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.2
 Requires PHP: 7.3
-Stable tag: 1.3.91
+Stable tag: 1.3.92
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,10 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.3.92
+
+1. 修复定时发布文章，选择文章时间同步为发布时的时间，功能失效的问题。
 
 v1.3.91
 

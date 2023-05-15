@@ -262,7 +262,7 @@ function nicen_plugin_vip() {
             <li class="item ok">2. 编辑器内可直接粘贴截图，并自动上传到服务器</li>
             <li class="item ok">3. 文章发布时自动给a标签添加target="_blank"属性</li>
             <li class="item ok">4. 自定义下图片本地化时的referer，绕过防盗链</li>
-            <li class="item">5. 本地化图片后自动添加设置的水印</li>
+            <li class="item ok">5. 本地化图片后自动添加设置的水印</li>
             <li class="item">6. 本地化时直接上传对象存储，并替换链接为对象存储的链接</li>
             <li class="item">7. .......还有更多</li>
         </ul>

@@ -14,6 +14,7 @@ class Nicen_crontab {
 	private static $self;
 	private $date = []; //开始日期
 	private $time = []; //时间范围
+	private $syncDatetime; //是否需要同步当前时间
 
 
 	/*
@@ -22,9 +23,10 @@ class Nicen_crontab {
 	private function __construct() {
 
 		/*初始化*/
-		$this->interval   = get_option( 'nicen_make_plugin_interval' );
-		$this->type       = get_option( 'nicen_make_plugin_order' );
-		$this->localImage = get_option( 'nicen_make_plugin_publish_local' );
+		$this->interval     = get_option( 'nicen_make_plugin_interval' );
+		$this->type         = get_option( 'nicen_make_plugin_order' );
+		$this->syncDatetime = get_option( 'nicen_make_publish_date' );
+		$this->localImage   = get_option( 'nicen_make_plugin_publish_local' );
 
 		/*
 		 * 开始和结束日期
@@ -154,10 +156,7 @@ class Nicen_crontab {
 			the_post();
 			kses_remove_filters();
 
-			/*
-			 * 判断是否同步发布时间
-			 * */
-			if ( get_option( 'nicen_make_publish_lish' ) ) {
+			if ( $this->syncDatetime ) {
 				wp_update_post( [
 						'ID'          => get_the_ID(),
 						'post_status' => 'publish',
