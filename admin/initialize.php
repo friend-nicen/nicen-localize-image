@@ -1,17 +1,17 @@
 <?php
-/*
-* @author 友人a丶
-* @date ${date}
-* 说明
-*/
+/**
+ * @author 友人a丶
+ * @date ${date}
+ * 说明
+ */
 
 
-/*
+/**
  * 插件初始化
  * */
 function nicen_make_initialize() {
 
-	/*
+	/**
 	 * 是否启用经典编辑器
 	 * */
 
@@ -30,7 +30,7 @@ function nicen_make_initialize() {
 	if ( get_user_option( 'rich_editing' ) == 'true' ) {
 		/*tinymce加载时引入插件的js*/
 		add_filter( 'mce_external_plugins', function ( $plugin_array ) {
-			/*
+			/**
 			 * 引入插件的js
 			 * */
 			$plugin_array['local'] = nicen_local_image_url . 'tinymcc/local.js?ver=' . filemtime( nicen_local_image_path . 'tinymcc/local.js' );/*指定要加载的插件*/
@@ -48,7 +48,7 @@ function nicen_make_initialize() {
 }
 
 
-/*
+/**
  * 判断是否开启编辑器本地化插件
  * */
 if ( nicen_make_config( 'nicen_make_plugin_editor' ) ) {

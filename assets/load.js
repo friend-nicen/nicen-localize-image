@@ -1,14 +1,13 @@
-/*
-* @author 友人a丶
-* @date 2022-08-12
-* 弹出层
-* */
+/**
+ * @author 友人a丶
+ * @date 2022-08-12
+ * 弹出层
+ * */
 
 
-
-/*
-* 配置antd
-* */
+/**
+ * 配置antd
+ * */
 let message = antd.message;
 let Modal = antd.Modal;
 

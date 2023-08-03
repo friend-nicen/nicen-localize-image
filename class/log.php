@@ -46,7 +46,7 @@ class Nicen_Log {
 
 		$now = date( "Y-m-d H:i:s", time() );
 
-		/*
+		/**
 		 * 判断结果
 		 * */
 		if ( $log['code'] ) {

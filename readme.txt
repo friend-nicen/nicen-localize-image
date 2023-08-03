@@ -3,9 +3,9 @@ Contributors: 友人a丶
 Tags: 图片本地化，文章定时发布，图片压缩
 Donate link: https://nicen.cn/donate
 Requires at least: 5.6
-Tested up to: 6.2
+Tested up to: 6.2.2
 Requires PHP: 7.3
-Stable tag: 1.3.92
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,14 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.4.0
+
+1. 新增定时任务可选单次定时发布的文章数量和状态
+2. 新增编辑器插件本地化可以并发下载（默认同时下载5张图片）
+3. 新增本地化图片保存到数据库时，可选是否生成缩略图
+4. 新增批量本地化时，可选待审、定时任务等其它文章状态
+5. 修复存在空格时，会导致白名单功能失效的问题
 
 v1.3.92
 

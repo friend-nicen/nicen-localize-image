@@ -1,9 +1,9 @@
 <?php
-/*
-* @author 友人a丶
-* @date ${date}
-* 文章图片本地化
-*/
+/**
+ * @author 友人a丶
+ * @date ${date}
+ * 文章图片本地化
+ */
 
 
 /**
@@ -45,7 +45,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 		$images   = array_unique( $match[1] ); //去重
 		$site_url = site_url(); //站点url
 
-		/*
+		/**
 		 * 循环所有图片，判断是否需要本地化
 		 * */
 
@@ -55,7 +55,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 
 		foreach ( $images as $value ) {
 
-			/*
+			/**
 			 * 如果没有http
 			 * 代表是相对路径
 			 * */
@@ -63,11 +63,11 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 				continue;
 			}
 
-			/*
-			* 如果图片不包含本地域名
-			* 如果没有重复的包含
+			/**
+			 * 如果图片不包含本地域名
+			 * 如果没有重复的包含
 			 * 代表是外部图片需要进行本地化
-			* */
+			 * */
 			if ( strpos( $value, $site_url ) === false ) {
 
 				$res = ( Nicen_local::getInstance() )->localImage( $value, false );//下载图片
@@ -97,7 +97,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 		}
 	}
 
-	/*
+	/**
 	 * 自动添加alt
 	 * */
 	if ( nicen_make_config( 'nicen_make_plugin_alt' ) ) {
@@ -125,7 +125,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 
 		foreach ( $match[0] as $value ) {
 
-			/*
+			/**
 			 * 如果没有alt
 			 * 代表是相对路径
 			 * */
@@ -141,7 +141,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 				$success ++; //加1
 			} else {
 
-				/*
+				/**
 				 * 判断alt是否为空
 				 * */
 				if ( preg_match( "/(?:alt='')|(?:alt=\"\")/", $value ) ) {
@@ -176,7 +176,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 	}
 
 
-	/*
+	/**
 	 * 插入日志
 	 * */
 	if ( $flag ) {

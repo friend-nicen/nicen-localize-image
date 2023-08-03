@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * @author 友人a丶
  * @date 2022-08-14
  * 主题前台设置
@@ -21,7 +21,7 @@
  * nicen_make_form_color
  * */
 
-/*
+/**
  * 后台所有表单
  *
  * 初始化函数在admin/setting.php
@@ -61,6 +61,14 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_plugin_editor',
 						'title'    => '启用编辑器本地化图片插件',
 						'callback' => 'nicen_make_form_switch',
+					],
+					[
+						'id'       => 'nicen_make_sync_number',
+						'title'    => '编辑器插件本地化并发数',
+						'callback' => 'nicen_make_form_input',
+						'args'     => [
+							'tip' => '同时下载的图片数量'
+						]
 					],
 					[
 						'id'       => 'nicen_make_plugin_save',
@@ -153,6 +161,32 @@ define( 'PLUGIN_nicen_make', [
 						'id'       => 'nicen_make_plugin_interval',
 						'title'    => '每间隔多少秒发布一次',
 						'callback' => 'nicen_make_form_number',
+					],
+					[
+						'id'       => 'nicen_make_plugin_publish_num',
+						'title'    => '每次发布的文章数量',
+						'callback' => 'nicen_make_form_number',
+					],
+					[
+						'id'       => 'nicen_make_publish_type',
+						'title'    => '定时发布的文章类型',
+						'callback' => 'nicen_make_form_select',
+						'args'     => [
+							'options' => [
+								[
+									"label" => "草稿",
+									"value" => "1"
+								],
+								[
+									"label" => "待审",
+									"value" => "2"
+								],
+								[
+									"label" => "定时发布",
+									"value" => "3"
+								]
+							],
+						]
 					],
 					[
 						'id'       => 'nicen_make_publish_date',
@@ -286,8 +320,10 @@ define( 'nicen_make_CONFIG', [
 	"nicen_make_plugin_local"         => '1', //本地化时保存到数据库
 	'nicen_make_plugin_private'       => md5( time() ), //初次安装时的接口密钥
 	'nicen_make_plugin_editor'        => '1', //开启编辑器插件
+	'nicen_make_sync_number'          => 5, //编辑器插件并发下载数量
 	'nicen_make_plugin_save'          => '1', //保存到数据库
-	'nicen_make_plugin_save_result'   => '', //临时保存本地化结果
+	'nicen_make_plugin_save_result'   => '', //临时保存本地化
+	'nicen_make_plugin_add_thumb'     => '0',//是否生产缩略图
 	'nicen_make_plugin_alt'           => '1', //自动新增alt
 	'nicen_make_plugin_alt_type'      => '1', //alt增加的类型
 	'nicen_make_plugin_path'          => nicen_local_image_site_root . '/uploads/replace', //资源保存的路径
@@ -306,6 +342,9 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_publish_date_end'     => null,
 	'nicen_make_publish_time_start'   => null,
 	'nicen_make_publish_time_end'     => null,
+	/* 定时发布的文章数量和状态 */
+	'nicen_make_plugin_publish_num'   => 1,
+	'nicen_make_publish_type'         => "1",
 
 	/*白名单*/
 	'nicen_make_publish_white'        => '',
@@ -313,5 +352,7 @@ define( 'nicen_make_CONFIG', [
 	/*插件日志*/
 	'nicen_make_plugin_record_log'    => '1'
 ] );
+
+
 
 

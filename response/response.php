@@ -1,15 +1,14 @@
 <?php
-/*
-* @author 友人a丶
-* @date ${date}
-* 外部图片下载
-*/
+/**
+ * @author 友人a丶
+ * @date ${date}
+ * 外部图片下载
+ */
 
 
-/*
+/**
  * 链接提交
  * */
-
 class Nicen_response {
 
 	private static $self;
@@ -36,13 +35,13 @@ class Nicen_response {
 
 		global $table_prefix; //获取数据表前缀
 
-		/*
+		/**
 		 * 接手响应
 		 * */
 
 		try {
 
-			/*
+			/**
 			 * 本地化图片的请求
 			 * */
 			if ( isset( $_GET['nicen_make_replace'] ) ) {
@@ -50,7 +49,7 @@ class Nicen_response {
 				( Nicen_local::getInstance() )->localImage( sanitize_url( $_POST['img'] ) );
 			}
 
-			/*
+			/**
 			 * 清空日志
 			 * */
 			if ( isset( $_GET['nicen_make_clear_log'] ) ) {
@@ -73,7 +72,7 @@ class Nicen_response {
 
 				$json = json_decode( file_get_contents( 'php://input' ), true );
 
-				/*
+				/**
 				 * 判断参数完整性
 				 * 有一个没填那就获取所有文章
 				 * */
@@ -82,19 +81,23 @@ class Nicen_response {
 					'`post_type` = "post"'
 				];
 
-				/*
-				 * '(`post_status` = "publish" or `post_status` = "draft")'  //指定草稿和已发布（排除自动草稿）
+
+				/**
+				 * （排除自动草稿）
 				 * */
 				if ( $json['status'] === 1 ) {
-					$condition[] = '(`post_status` = "publish" or `post_status` = "draft")';
+					$condition[] = '(`post_status` = "publish" or `post_status` = "draft" or `post_status` = "pending" or `post_status` = "future")';
 				} elseif ( $json['status'] === 2 ) {
 					$condition[] = '(`post_status` = "draft")';
-				} else {
+				} elseif ( $json['status'] === 3 ) {
 					$condition[] = '(`post_status` = "publish")';
+				} elseif ( $json['status'] === 4 ) {
+					$condition[] = '(`post_status` = "pending")';
+				} elseif ( $json['status'] === 5 ) {
+					$condition[] = '(`post_status` = "post_status")';
 				}
 
-
-				/*
+				/**
 				 * ID范围
 				 * */
 				if ( ! empty( $json['start'] ) && ! empty( $json['end'] ) ) {
@@ -102,14 +105,14 @@ class Nicen_response {
 				}
 
 
-				/*
+				/**
 				 * 时间范围
 				 * */
 				if ( ! empty( $json['range'] ) ) {
 					$condition[] = '(`post_date` >= "' . $json['range'][0] . '" and `post_date` <= "' . $json['range'][1] . '")';
 				}
 
-				/*
+				/**
 				 * 分类范围
 				 * */
 				if ( ! empty( $json['category'] ) ) {
@@ -122,7 +125,7 @@ class Nicen_response {
 
 				$result = $wpdb->get_results( $sql );
 
-				/*
+				/**
 				 * 判断本地化结果
 				 * */
 				if ( empty( $result ) ) {
@@ -151,11 +154,11 @@ class Nicen_response {
 				$post = get_post( $ID ); //获取文章
 				$log  = nicen_make_when_save_post( $ID, false ); //开始本地化
 
-				/*
+				/**
 				 * 记录最后一次本地化的文章ID
 				 * */
 				update_option( 'nicen_last_batch', $ID ); //记录本地化
-				/*
+				/**
 				 * 返回结果
 				 * */
 				exit( json_encode( [
@@ -170,7 +173,7 @@ class Nicen_response {
 			 * */
 			if ( isset( $_POST['nicen_make_plugin_auto_publish'] ) ) {
 
-				/*
+				/**
 				 * 对比
 				 * */
 				$list = [
@@ -181,7 +184,7 @@ class Nicen_response {
 					'nicen_make_publish_date'
 				];
 
-				/*
+				/**
 				 * 表单值是否有了变化
 				 * */
 
@@ -195,7 +198,7 @@ class Nicen_response {
 				}
 
 
-				/*
+				/**
 				 * 配置是否发生改变
 				 * */
 				if ( $hasChange ) {
@@ -252,7 +255,7 @@ class Nicen_response {
 					] ) );
 				}
 
-				/*
+				/**
 				 * 读取文件列表
 				 * */
 				$lists = ( Nicen_comress::getInstance() )->readDirs( $json['path'] );
@@ -277,7 +280,7 @@ class Nicen_response {
 
 	}
 
-	/*
+	/**
 	 * 添加一个间隔时间
 	 * */
 

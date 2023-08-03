@@ -1,19 +1,19 @@
 <?php
 
 
-/*
+/**
  * 权限检测
  * */
 function nicen_make_detect() {
 
-	/*
+	/**
 	 * 判断是否有保存目录
 	 * */
 	$upload_root = nicen_local_image_root . nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
 	$upload      = nicen_make_config( 'nicen_make_plugin_path' ); //主题路径
 
 
-	/*
+	/**
 	 * 上传目录是否存在
 	 * */
 	if ( ! file_exists( $upload_root ) ) {
@@ -32,11 +32,11 @@ function nicen_make_detect() {
 	}
 
 
-	/*
+	/**
 	 * 开启了自动本地化
 	 * */
 	if ( nicen_make_config( 'nicen_make_plugin_save' ) ) {
-		/*
+		/**
 		 * 是否需要输出本地化日志
 		 * */
 		$info = get_option( 'nicen_make_plugin_save_result' );
@@ -59,7 +59,7 @@ function nicen_make_detect() {
 
 }
 
-/*
+/**
  * 如果是文章编辑页面，则加载插件
  * */
 if ( strpos( $_SERVER['SCRIPT_NAME'] ?? "", '/post' ) ) {
@@ -67,7 +67,7 @@ if ( strpos( $_SERVER['SCRIPT_NAME'] ?? "", '/post' ) ) {
 }
 
 
-/*
+/**
  * 后台主题设置页面，外部文件加载
  * */
 function nicen_make_admin_load_source() {
@@ -88,10 +88,12 @@ function nicen_make_admin_load_source() {
 
 	wp_enqueue_script( 'axios', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js' );
 
-	/*
+	/**
 	 * 内联的js代码
 	 * */
-	wp_add_inline_script( "adminjs", vsprintf( "const PLUGIN_CONFIG=%s;const NICEN_VERSION='%s';", [
+	wp_add_inline_script( "adminjs", vsprintf( "
+	const PLUGIN_CONFIG=%s;
+	const NICEN_VERSION='%s';", [
 		json_encode( nicen_make_config() ),
 		esc_js( NICEN_VERSION )
 	] ), 'before' );
@@ -100,7 +102,7 @@ function nicen_make_admin_load_source() {
 }
 
 
-/*
+/**
  * 加载layer弹窗插件
  * */
 function nicen_make_load_layer() {
@@ -110,23 +112,28 @@ function nicen_make_load_layer() {
 	wp_enqueue_script( 'layerjs', 'https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js', array( 'jquery' ) );
 	wp_enqueue_script( 'hotkey', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js', array( 'jquery' ) );
 
-	/*
+	/**
 	 * 内联的js，输出接口密钥
 	 * */
 	wp_add_inline_script( "layerjs", preg_replace( '/\s/', '', vsprintf( '
-			window.POST_KEY = "%s";'
-		, [ esc_html( nicen_make_config( 'nicen_make_plugin_private' ) ) ] ) ), 'before' );
+			window.POST_KEY = "%s";
+			window.SYNC_NUMBER = %s;'
+
+		, [
+			esc_html( nicen_make_config( 'nicen_make_plugin_private' ) ),
+			esc_html( nicen_make_config( 'nicen_make_sync_number' ) ),
+		] ) ), 'before' );
 
 }
 
-/*
+/**
  * 编辑器后台加载样式和脚本
  * */
 if ( strpos( $_SERVER['SCRIPT_NAME'] ?? "", '/post' ) !== false && nicen_make_config( 'nicen_make_plugin_editor' ) ) {
 	add_action( 'admin_enqueue_scripts', 'nicen_make_load_layer' ); //加载前台资源文件
 }
 
-/*
+/**
  * 后台加载样式和脚本
  * */
 if ( strpos( $_SERVER['QUERY_STRING'] ?? "", 'nicen_make_plugin' ) !== false ) {

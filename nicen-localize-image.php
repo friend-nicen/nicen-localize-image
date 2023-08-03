@@ -3,14 +3,14 @@
  * Plugin Name: nicen-localize-image
  * Plugin URI:https://nicen.cn/2893.html
  * Description: 用于本地化文章的外部图片的插件，支持文章发布前通过编辑器插件本地化、文章发布时自动本地化、定时发布文章时自动本地化、已发布的文章批量本地化。
- * Version: 1.3.92
+ * Version:1.4.0
  * Author: 友人a丶
  * Author URI: https://nicen.cn
  * Text Domain: nicen-localize-image
  * License: GPLv2 or later
  */
 
-/*
+/**
  * 定义全局命名空间
  * */
 
@@ -29,9 +29,9 @@ define( 'nicen_local_image_root', $_SERVER['DOCUMENT_ROOT'] );
 /*站点根目录*/
 define( 'nicen_local_image_site_root', str_replace( $_SERVER['DOCUMENT_ROOT'], "", WP_CONTENT_DIR ) );
 
-/*
-* 是否需要校准时区
-* */
+/**
+ * 是否需要校准时区
+ * */
 if ( get_option( "nicen_make_plugin_adjust" ) ) {
 	date_default_timezone_set( get_option( 'timezone_string' ) ); //设置时区
 }
@@ -57,7 +57,7 @@ include_once nicen_local_image_path . '/admin/common.php'; //公共变量和方�
 include_once nicen_local_image_path . '/admin/when-post.php'; //文章保存时触发的钩子
 include_once nicen_local_image_path . '/response/response.php'; //接口响应
 
-/*
+/**
  * 只在后台才触发
  * */
 if ( is_admin() ) {

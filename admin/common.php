@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * 公共数据和方法
  * */
 
@@ -8,14 +8,14 @@ global $nicen_make_CONFIGS; //声明全局变量
 
 $nicen_make_CONFIGS = []; //保存所有插件配置
 
-/*
+/**
  * 遍历整个配置
  * */
 foreach ( nicen_make_CONFIG as $key => $value ) {
 	$nicen_make_CONFIGS[ $key ] = get_option( $key );
 }
 
-/*
+/**
  * 返回指定配置
  * */
 function nicen_make_config( $key = '' ) {
@@ -48,7 +48,7 @@ function nicen_plugin_getAllCat() {
 
 	$cat = [];
 
-	/*
+	/**
 	 * 遍历目录
 	 * */
 	$terms = get_terms( 'category', 'orderby=name&hide_empty=0' );
@@ -66,7 +66,7 @@ function nicen_plugin_getAllCat() {
 }
 
 
-/*
+/**
  * 获取图片类型
  * 1 = GIF，2 = JPG，3 = PNG，4 = SWF，5 = PSD，6 = BMP，7 = TIFF(intel byte order)，8 = TIFF(motorola byte order)，9 = JPC，10 = JP2，11 = JPX，12 = JB2，13 = SWC，14 = IFF，15 = WBMP，16 = XBM
  * */

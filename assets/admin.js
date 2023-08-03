@@ -1,18 +1,18 @@
-/*
-* @author 友人a丶
-* @date 2022-08-12
-* 
-* */
+/**
+ * @author 友人a丶
+ * @date 2022-08-12
+ *
+ * */
 
-/*
-* 获取缓存的tab
-* */
+/**
+ * 获取缓存的tab
+ * */
 let tab = localStorage.getItem('nicen_make_plugin_tab');
 tab = (!tab) ? 'nicen_make_plugin_section' : tab;
 
-/*
-* 语言包
-* */
+/**
+ * 语言包
+ * */
 let zhCN = {
     "locale": "zh-cn",
     "Pagination": {
@@ -276,9 +276,9 @@ let zhCN = {
     }
 };
 
-/*
-* moment汉化
-* */
+/**
+ * moment汉化
+ * */
 moment.locale('zh-cn', {
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split(
         '_'
@@ -304,38 +304,39 @@ moment.locale('zh-cn', {
 });
 
 
-/*
-* 初始化Vue
-* */
+/**
+ * 初始化Vue
+ * */
 jQuery(function () {
 
-    /*
-    * 判断是否在设置页面
-    * */
+    /**
+     * 判断是否在设置页面
+     * */
 
     Nicen_Vue.use(antd); //加载antd
     Nicen_Vue.use(vcolorpicker); //加载颜色选择
 
 
-    /*
-    * 时间日期转换
-    * */
+    /**
+     * 时间日期转换
+     * */
     let today = moment().format("YYYY-MM-DD");
 
-    /*
-    * 需要处理的数据
-    * */
+    /**
+     * 需要处理的数据
+     * */
     new Nicen_Vue({
         el: "#VueApp",
         data() {
-            /*
-            * 数据对象
-            * */
+            /**
+             * 数据对象
+             * */
             return {
                 data: PLUGIN_CONFIG, //已设置的表单
                 activeKey: tab, //激活的yab
                 loading: false, //是否正在处理
                 version: '', //版本号
+                html: '',//版本说明
                 zhCN: zhCN, //语言包
                 donate: [], //捐赠链接
                 labelCol: {xxl: 4, xl: 6, lg: 8, md: 10, sm: 12, xs: 12}, //表单标签
@@ -362,9 +363,9 @@ jQuery(function () {
             };
         },
         computed: {
-            /*
-            * 定时发布时间选择
-            * */
+            /**
+             * 定时发布时间选择
+             * */
             time_start: {
                 get() {
                     if (!this.data.nicen_make_publish_time_start) {
@@ -403,24 +404,24 @@ jQuery(function () {
             }
         },
         methods: {
-            /*
-            * 保存设置
-            * */
+            /**
+             * 保存设置
+             * */
             save() {
                 this.loading = true;
                 this.$refs['submit'].$el.submit();
             }
             ,
-            /*
-            * tab改变
-            * */
+            /**
+             * tab改变
+             * */
             change(res) {
                 localStorage.setItem('nicen_make_plugin_tab', res);
             }
             ,
-            /*
-            * 开关改变
-            * */
+            /**
+             * 开关改变
+             * */
             hasChange(res, events, field) {
                 if (res) {
                     this.data[field] = 1;
@@ -429,9 +430,9 @@ jQuery(function () {
                 }
             }
             ,
-            /*
-            * 清空日志
-            * */
+            /**
+             * 清空日志
+             * */
             clearLogs() {
                 let that = this;
                 load.confirm("确定清空所有本地化日志吗？", () => {
@@ -451,9 +452,9 @@ jQuery(function () {
 
             }
             ,
-            /*
-            * 日期选择
-            * */
+            /**
+             * 日期选择
+             * */
 
             selectRange(range) {
 
@@ -468,9 +469,9 @@ jQuery(function () {
             }
             ,
 
-            /*
-            * 定时发布日期选择
-            * */
+            /**
+             * 定时发布日期选择
+             * */
             selectPublishRange(range) {
 
 
@@ -485,15 +486,15 @@ jQuery(function () {
             }
             ,
 
-            /*
-            * 批量本地化
-            * */
+            /**
+             * 批量本地化
+             * */
             async getBatch() {
 
                 let that = this;
-                /*
-                * 判断运行状态
-                * */
+                /**
+                 * 判断运行状态
+                 * */
                 if (that.batch.flag) {
                     that.batch.flag = false;
                     load.error("已取消运行...");
@@ -518,19 +519,19 @@ jQuery(function () {
                 that.batch.flag = true;//标记开始
                 let code = false; //操作结果
 
-                /*
-                * 弹出确认框
-                * 获取文章数量和列表
-                * */
+                /**
+                 * 弹出确认框
+                 * 获取文章数量和列表
+                 * */
                 code = await new Promise(resolve => {
                     load.confirm(`确定要本地化${batch}文章的所有外部图片吗？`, () => {
                         load.loading('正在请求');
                         axios.post(`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, that.batch)
                             .then((res) => {
 
-                                /*
-                                * 判断请求结果
-                                * */
+                                /**
+                                 * 判断请求结果
+                                 * */
                                 if (res.data.code) {
                                     that.batch.list = res.data.data;
                                     resolve(true)
@@ -551,9 +552,9 @@ jQuery(function () {
                     });
                 });
 
-                /*
-                * 获取文章的结果
-                * */
+                /**
+                 * 获取文章的结果
+                 * */
                 if (code) {
 
                     code = await new Promise(resolve => {
@@ -564,17 +565,17 @@ jQuery(function () {
                         })
                     })
 
-                    /*
-                    * 判断选择的结果
-                    * */
+                    /**
+                     * 判断选择的结果
+                     * */
                     if (code) {
 
                         that.batch.loading = true;//显示加载效果
 
                         for (let i of that.batch.list) {
-                            /*
-                            * 如果已经被中断
-                            * */
+                            /**
+                             * 如果已经被中断
+                             * */
                             if (!that.batch.flag) {
                                 break;
                             }
@@ -593,9 +594,9 @@ jQuery(function () {
 
             }
             ,
-            /*
-            * 提交本地化图片
-            * */
+            /**
+             * 提交本地化图片
+             * */
             localImage(id) {
 
                 let that = this;
@@ -615,24 +616,24 @@ jQuery(function () {
             }
             ,
 
-            /*
-            * 压缩
-            * */
+            /**
+             * 压缩
+             * */
             async compress() {
 
                 let that = this;
-                /*
-                * 判断运行状态
-                * */
+                /**
+                 * 判断运行状态
+                 * */
                 if (that.tree.flag) {
                     that.tree.flag = false;
                     load.error("已取消压缩...");
                     return;
                 }
 
-                /*
-                * 过滤掉目录
-                * */
+                /**
+                 * 过滤掉目录
+                 * */
                 let needs = that.tree.selected.filter((item) => {
                     if (/(?:.*?)\.(.*?)$/.test(item)) {
                         return true;
@@ -640,9 +641,9 @@ jQuery(function () {
                 })
 
 
-                /*
-                * 是否有被选中的图片
-                * */
+                /**
+                 * 是否有被选中的图片
+                 * */
                 if (needs.length == 0) {
                     load.error("没有图片被选中...");
                     return
@@ -662,17 +663,17 @@ jQuery(function () {
                 })
 
 
-                /*
-                * 如果选择了确认
-                * */
+                /**
+                 * 如果选择了确认
+                 * */
                 if (code) {
 
                     that.tree.loading = true;//显示加载效果
 
                     for (let i of needs) {
-                        /*
-                        * 如果已经被中断
-                        * */
+                        /**
+                         * 如果已经被中断
+                         * */
                         if (!that.tree.flag) {
                             break;
                         }
@@ -692,9 +693,9 @@ jQuery(function () {
             }
             ,
 
-            /*
-            * 请求压缩
-            * */
+            /**
+             * 请求压缩
+             * */
             toCompress(file) {
 
                 let that = this;
@@ -723,9 +724,9 @@ jQuery(function () {
             }
             ,
 
-            /*
-            * Base64解密
-            * */
+            /**
+             * Base64解密
+             * */
             decode(data) {
 
                 let that = this;
@@ -754,9 +755,9 @@ jQuery(function () {
 
                 let that = this;
 
-                /*
-                * 获取请求的路径
-                * */
+                /**
+                 * 获取请求的路径
+                 * */
                 if (TreeNode === null) {
                     var path = '/wp-content/uploads';
                 } else {
@@ -809,6 +810,7 @@ jQuery(function () {
             axios.get("https://weixin.nicen.cn/api/update")
                 .then((res) => {
                     if (res.data.code) {
+                        that.html = res.data.data.info;
                         that.version = res.data.data.latest;
                         that.donate = res.data.data.donate;
                     }

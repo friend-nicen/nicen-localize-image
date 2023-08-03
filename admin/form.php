@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * @author
  *
  * 后台表单渲染函数
@@ -9,7 +9,7 @@
 
 include_once __DIR__ . '/render.php'; //引入各种渲染函数
 
-/*
+/**
  * 部分组件没有输出表单元素，
  * 所以需要一个隐藏的input
  *
@@ -18,7 +18,7 @@ include_once __DIR__ . '/render.php'; //引入各种渲染函数
  * */
 
 
-/*
+/**
  * 加载主题设置页面
  * */
 function nicen_make_setting_load( $options ) {
@@ -85,7 +85,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 		return;
 	}
 
-	/*
+	/**
 	 * 判断是否有条件判断
 	 * */
 
@@ -96,13 +96,13 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 	}
 
 
-	/*
+	/**
 	 * 遍历所有分节
 	 * */
 	foreach ( (array) $wp_settings_fields[ $page ][ $section ] as $field ) {
 
 
-		/*
+		/**
 		 * 如果是文字说明
 		 * */
 		if ( $field['id'] == 'text_info' ) {
@@ -112,7 +112,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 			continue;
 		}
 
-		/*
+		/**
 		 * 是否需要自定义提示
 		 * */
 		if ( ! isset( $field['args']['tip'] ) ) {
@@ -121,14 +121,14 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 			$label = '';
 		}
 
-		/*
+		/**
 		 * 是否具有总开关
 		 * */
 		if ( ! isset( $param['key'] ) ) {
 			echo sprintf( '<a-form-item :label-col="labelCol" ' . esc_html( $label ) . '>', esc_html( $field['title'] ) );
 		} else {
 
-			/*
+			/**
 			 * 总开关或者忽略的
 			 * */
 			if ( $param['key'] == $field['id'] || in_array( $field['id'], $param['ignore'] ) ) {
@@ -139,7 +139,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 
 		}
 
-		/*
+		/**
 		 * 是否需要输出自定义tip
 		 * */
 		if ( isset( $field['args']['tip'] ) ) {
@@ -154,7 +154,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
                             </template>', esc_html( $field['args']['tip'] ), esc_html( $field['title'] ) );
 		}
 
-		/*
+		/**
 		 * 调用输出函数
 		 * */
 		call_user_func(
@@ -173,7 +173,7 @@ function nicen_make_do_settings_fields_user( $page, $section, $callback = false 
 	}
 }
 
-/*
+/**
  * 主题设置片段页面输出
  * */
 function nicen_make_do_settings_sections_user( $page ) {
@@ -193,7 +193,7 @@ function nicen_make_do_settings_sections_user( $page ) {
 
 		$param = [];//是否需要显示、隐藏切换
 
-		/*
+		/**
 		 * 是否有传递回调函数
 		 * */
 		if ( isset( $section['callback'] ) ) {
@@ -210,7 +210,7 @@ function nicen_make_do_settings_sections_user( $page ) {
 
 		nicen_make_do_settings_fields_user( $page, $section['id'], $section['callback'] ?? false );
 
-		/*
+		/**
 		 * 回调函数如果有自定义输出
 		 * */
 		if ( isset( $param['render'] ) ) {
@@ -224,7 +224,7 @@ function nicen_make_do_settings_sections_user( $page ) {
 	}
 }
 
-/*
+/**
  * 数字输入框
  * */
 function nicen_make_form_number( $args ) {
@@ -239,7 +239,7 @@ function nicen_make_form_number( $args ) {
 }
 
 
-/*
+/**
  * 基础输入框
  * */
 function nicen_make_form_input( $args ) {
@@ -253,7 +253,7 @@ function nicen_make_form_input( $args ) {
 }
 
 
-/*
+/**
  * 基础密码输入框
  * */
 function nicen_make_form_password( $args ) {
@@ -266,7 +266,7 @@ function nicen_make_form_password( $args ) {
 	<?php
 }
 
-/*
+/**
  * 基础开关
  * */
 function nicen_make_form_switch( $args ) {
@@ -282,7 +282,7 @@ function nicen_make_form_switch( $args ) {
 	<?php
 }
 
-/*
+/**
  * 基础开关
  * */
 function nicen_make_form_textarea( $args ) {
@@ -297,7 +297,7 @@ function nicen_make_form_textarea( $args ) {
 	<?php
 }
 
-/*
+/**
  * 基础开关
  * */
 function nicen_make_form_color( $args ) {
@@ -316,7 +316,7 @@ function nicen_make_form_color( $args ) {
 }
 
 
-/*
+/**
  * 文字说明
  * */
 function nicen_make_plugin_form_text( $args ) {
@@ -327,7 +327,7 @@ function nicen_make_plugin_form_text( $args ) {
 }
 
 
-/*
+/**
  * 单选
  * */
 function nicen_make_form_select( $args ) {
@@ -346,7 +346,7 @@ function nicen_make_form_select( $args ) {
 }
 
 
-/*
+/**
  * 单选
  * */
 function nicen_make_form_multi( $args ) {

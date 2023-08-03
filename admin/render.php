@@ -1,13 +1,13 @@
 <?php
 
-/*
-* @author 友人a丶
-* @date 2022/8/27
-* 表单自定义的渲染函数
-*/
+/**
+ * @author 友人a丶
+ * @date 2022/8/27
+ * 表单自定义的渲染函数
+ */
 
 
-/*
+/**
  * 输出本地化日志
  * */
 function nicen_plugin_local_log() {
@@ -95,7 +95,7 @@ function nicen_plugin_update() {
 }
 
 
-/*
+/**
  * 定时任务
  * */
 function Nicen_form_timer() {
@@ -132,7 +132,7 @@ function Nicen_form_batch() {
 	$count = wp_count_posts();//文章总数
 	$last  = get_option( 'nicen_last_batch' ); //上次本地化的ID
 
-	/*
+	/**
 	 * 获取上次的ID
 	 * */
 	if ( ! empty( $last ) ) {
@@ -158,7 +158,7 @@ function Nicen_form_batch() {
 		</a-form-item>';
 
 
-	/*
+	/**
 	 * 新增可选项
 	 * */
 	$options = '[
@@ -173,6 +173,14 @@ function Nicen_form_batch() {
             	{
 	                label:"已发布",
 	                value:3
+            	},
+            	{
+	                label:"待审",
+	                value:4
+            	},
+            	{
+	                label:"定时发布",
+	                value:5
             	}
             ]';
 
@@ -217,7 +225,7 @@ function Nicen_form_batch() {
 }
 
 
-/*
+/**
  * 文章批量本地化
  * */
 function Nicen_form_compress() {
@@ -257,16 +265,8 @@ function nicen_plugin_vip() {
         <div class="top">开源版已进入LTS（Long-term
             support，长期支持，缩写：LTS）阶段，以后只修复BUG不再更新新功能，新功能将发布在Pro版：
         </div>
-        <ul class="features">
-            <li class="item ok">1. 图片本地化后按照年月日存放在指定的本地化图片保存目录</li>
-            <li class="item ok">2. 编辑器内可直接粘贴截图，并自动上传到服务器</li>
-            <li class="item ok">3. 文章发布时自动给a标签添加target="_blank"属性</li>
-            <li class="item ok">4. 自定义下图片本地化时的referer，绕过防盗链</li>
-            <li class="item ok">5. 本地化图片后自动添加设置的水印</li>
-            <li class="item">6. 本地化时直接上传对象存储，并替换链接为对象存储的链接</li>
-            <li class="item">7. .......还有更多</li>
-        </ul>
 
+        <div v-html="html"></div>
 
         <div class="bottom">
             -------> 39.9元/Pro版永久+更新+售后（无使用限制，后台可下载最新版插件）；如您有意请加微信good7341

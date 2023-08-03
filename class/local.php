@@ -20,6 +20,7 @@ class Nicen_local {
 		$this->site_path        = nicen_make_config( 'nicen_make_plugin_path' ); //站点目录
 		$this->is_add_domain    = nicen_make_config( 'nicen_make_plugin_add_domain' ); //是否需要域名
 		$this->root_path        = nicen_local_image_root . $this->site_path; //站点目录
+		$this->add_thumd        = nicen_make_config( 'nicen_make_plugin_add_thumb' );//生成缩略图
 	}
 
 	/**
@@ -56,7 +57,7 @@ class Nicen_local {
 			}
 		}
 
-		/*
+		/**
 		 * 判断目录是否可写
 		 * */
 		if ( ! is_writable( $upload_root ) ) {
@@ -74,7 +75,7 @@ class Nicen_local {
 		}
 
 
-		/*
+		/**
 		 * 判断是否传递图片
 		 * */
 		if ( empty( $url ) ) {
@@ -92,7 +93,7 @@ class Nicen_local {
 		}
 
 
-		/*
+		/**
 		 * 判断是否传递图片
 		 * */
 		if ( strpos( $url, 'http' ) === false ) {
@@ -113,7 +114,7 @@ class Nicen_local {
 
 		$url = html_entity_decode( $url ); //反转义出真实链接
 
-		/*
+		/**
 		 * 判断是否处于白名单
 		 * */
 		if ( $this->is_white( $url ) ) {
@@ -130,20 +131,20 @@ class Nicen_local {
 			}
 		}
 
-		/*
+		/**
 		 * 获取保存的文件类型
 		 * */
 		$url_md5 = md5( $url ); //md5图片链接
 
 
-		/*
+		/**
 		 * 判断文件是否已经存在
 		 * 已经存在则直接返回数据
 		 * */
 		$file_search = glob( $upload_root . '/' . $url_md5 . '.*' );
 
 		if ( ! empty( $file_search ) ) {
-			/*
+			/**
 			 * 判断链接是否需要添加域名
 			 * */
 			$link = $this->getLink( $file_search[0] ); //获取链接
@@ -163,7 +164,7 @@ class Nicen_local {
 		}
 
 
-		/*
+		/**
 		 * 判断链接是否可以访问
 		 * */
 		if ( $this->getImage( $url, true ) != 200 ) {
@@ -181,19 +182,19 @@ class Nicen_local {
 		}
 
 
-		/*
+		/**
 		 * 获取图片内容
 		 * html反转义
 		 * */
 		$content = @$this->getImage( $url );
 
-		/*
+		/**
 		 * 如果读取成功
 		 * */
 		if ( $content ) {
 
 			$tmp = $upload_root . '/' . $url_md5; //临时文件
-			/*
+			/**
 			 * 写入文件
 			 * */
 			if ( file_put_contents( $tmp, $content, LOCK_EX ) ) {
@@ -203,7 +204,7 @@ class Nicen_local {
 				rename( $tmp, $filename ); //重命名文件
 				$link = $this->getLink( $filename ); //获取链接
 
-				/*
+				/**
 				 * 是否需要保存到数据库
 				 * */
 				if ( $this->is_sava_database ) {
@@ -282,6 +283,11 @@ class Nicen_local {
 			return false;
 		}
 
+		/* 移除左右特殊字符 */
+		foreach ( $white as $key => $host ) {
+			$white[ $key ] = trim( $host );
+		}
+
 		$link = parse_url( $url ); //解析
 
 		if ( in_array( $link['host'], $white ) ) {
@@ -299,7 +305,7 @@ class Nicen_local {
 	 */
 	function getLink( $filename ) {
 		$filename = basename( $filename ); //文件名
-		/*
+		/**
 		 * 判断链接是否需要添加域名
 		 * */
 		if ( $this->is_add_domain ) {
@@ -320,7 +326,7 @@ class Nicen_local {
 	function getImage( $url, $option = false ) {
 		$link = parse_url( $url );//解析链接
 
-		/*
+		/**
 		 * 请求头模拟
 		 * */
 		$headers = [
@@ -328,7 +334,7 @@ class Nicen_local {
 			'Referer'    => $link['scheme'] . '://' . $link['host']
 		];
 
-		/*
+		/**
 		 * 请求数据
 		 * */
 		$res = wp_remote_get( $url, [
@@ -337,7 +343,7 @@ class Nicen_local {
 			'timeout'   => 180,
 		] );
 
-		/*
+		/**
 		 * 是否是状态码判断
 		 * */
 		if ( $option ) {
@@ -356,12 +362,12 @@ class Nicen_local {
 
 		global $nicen_Post_ID; //正在操作的文章
 
-		/*
+		/**
 		 * 获取设置的文件保存目录
 		 * */
 		$link = $this->getLink( $filename ); //访问链接
 
-		/*
+		/**
 		 * 拼接插入的数据
 		 * */
 		$attachment = array(
@@ -377,7 +383,7 @@ class Nicen_local {
 
 			$attach_id = wp_insert_attachment( $attachment, $filename, $nicen_Post_ID );
 
-			/*
+			/**
 			 * 是否作为特色图片
 			 * */
 
@@ -389,11 +395,19 @@ class Nicen_local {
 			$attach_id = wp_insert_attachment( $attachment, $filename );
 		}
 
-		/*
+		/**
 		 * 更新访问的URL
 		 * */
-		require_once ABSPATH . WPINC . '/pluggable.php';
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		include_once ABSPATH . WPINC . '/pluggable.php';
+		include_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		/* 保存到数据库不生成缩略图 */
+		if ( empty( $this->add_thumd ) ) {
+			/* 不生成缩略图 */
+			add_filter( 'intermediate_image_sizes_advanced', function ( $sizes ) {
+				return array();
+			} );
+		}
 
 		// 更新元数据
 		$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );

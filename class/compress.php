@@ -1,9 +1,9 @@
 <?php
-/*
-* @author 友人a丶
-* @date 2022/8/28
-* 图片压缩
-*/
+/**
+ * @author 友人a丶
+ * @date 2022/8/28
+ * 图片压缩
+ */
 
 
 class Nicen_comress {
@@ -53,7 +53,7 @@ class Nicen_comress {
 
 				if ( ! is_dir( $abs ) ) {
 
-					/*
+					/**
 					 * 过滤掉非图片文件
 					 * */
 					$finfo    = finfo_open( FILEINFO_MIME );
@@ -100,7 +100,7 @@ class Nicen_comress {
 		$root = nicen_local_image_root;
 		$abs  = $root . $file; //绝度路径
 
-		/*
+		/**
 		 * 判断文件是否存在
 		 * */
 		if ( ! file_exists( $abs ) ) {
@@ -110,7 +110,7 @@ class Nicen_comress {
 			];
 		}
 
-		/*
+		/**
 		 * 是否可写
 		 * */
 		if ( ! is_writable( $abs ) ) {
@@ -166,7 +166,7 @@ class Nicen_comress {
 
 			$Http = new WP_Http_Curl();
 
-			/*
+			/**
 			 * 修改请求配置
 			 * */
 			$args = array(
@@ -179,7 +179,7 @@ class Nicen_comress {
 
 			$res = $Http->request( 'http://api.resmush.it/ws.php', $args );
 
-			/*
+			/**
 			 * 判断请求结果
 			 * */
 			if ( is_wp_error( $res ) ) {
@@ -207,7 +207,7 @@ class Nicen_comress {
 				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
 			];
 
-			/*
+			/**
 			 * 请求数据
 			 * */
 			$res = wp_remote_get( $url, [
