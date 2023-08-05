@@ -1,18 +1,18 @@
-/**
- * @author 友人a丶
- * @date 2022-08-12
- *
- * */
+/*
+* @author 友人a丶
+* @date 2022-08-12
+* 
+* */
 
-/**
- * 获取缓存的tab
- * */
+/*
+* 获取缓存的tab
+* */
 let tab = localStorage.getItem('nicen_make_plugin_tab');
 tab = (!tab) ? 'nicen_make_plugin_section' : tab;
 
-/**
- * 语言包
- * */
+/*
+* 语言包
+* */
 let zhCN = {
     "locale": "zh-cn",
     "Pagination": {
@@ -276,9 +276,9 @@ let zhCN = {
     }
 };
 
-/**
- * moment汉化
- * */
+/*
+* moment汉化
+* */
 moment.locale('zh-cn', {
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split(
         '_'
@@ -304,33 +304,33 @@ moment.locale('zh-cn', {
 });
 
 
-/**
- * 初始化Vue
- * */
+/*
+* 初始化Vue
+* */
 jQuery(function () {
 
-    /**
-     * 判断是否在设置页面
-     * */
+    /*
+    * 判断是否在设置页面
+    * */
 
     Nicen_Vue.use(antd); //加载antd
     Nicen_Vue.use(vcolorpicker); //加载颜色选择
 
 
-    /**
-     * 时间日期转换
-     * */
+    /*
+    * 时间日期转换
+    * */
     let today = moment().format("YYYY-MM-DD");
 
-    /**
-     * 需要处理的数据
-     * */
+    /*
+    * 需要处理的数据
+    * */
     new Nicen_Vue({
         el: "#VueApp",
         data() {
-            /**
-             * 数据对象
-             * */
+            /*
+            * 数据对象
+            * */
             return {
                 data: PLUGIN_CONFIG, //已设置的表单
                 activeKey: tab, //激活的yab
@@ -358,14 +358,18 @@ jQuery(function () {
                     loading: false,
                     flag: false,
                     category: [],
-                    status: 1
-                }
+                    status: 1,
+                    concurrency: 1
+                },
+                /* 媒体选择 */
+                media: null,
+                depend: null
             };
         },
         computed: {
-            /**
-             * 定时发布时间选择
-             * */
+            /*
+            * 定时发布时间选择
+            * */
             time_start: {
                 get() {
                     if (!this.data.nicen_make_publish_time_start) {
@@ -404,24 +408,35 @@ jQuery(function () {
             }
         },
         methods: {
-            /**
-             * 保存设置
-             * */
+            /* 显示媒体选择 */
+            showMedia(key) {
+                this.depend = key;
+                this.media.open();
+            },
+            /* 媒体库选择素材 */
+            selectMedia() {
+
+                const image = this.media.state().get('selection').toJSON()[0].url;
+                this.data[this.depend] = image.replace(/https?:\/\/(.*?)\//g, '/'); //更新数据
+            },
+            /*
+            * 保存设置
+            * */
             save() {
                 this.loading = true;
                 this.$refs['submit'].$el.submit();
             }
             ,
-            /**
-             * tab改变
-             * */
+            /*
+            * tab改变
+            * */
             change(res) {
                 localStorage.setItem('nicen_make_plugin_tab', res);
             }
             ,
-            /**
-             * 开关改变
-             * */
+            /*
+            * 开关改变
+            * */
             hasChange(res, events, field) {
                 if (res) {
                     this.data[field] = 1;
@@ -430,14 +445,14 @@ jQuery(function () {
                 }
             }
             ,
-            /**
-             * 清空日志
-             * */
+            /*
+            * 清空日志
+            * */
             clearLogs() {
                 let that = this;
                 load.confirm("确定清空所有本地化日志吗？", () => {
                     load.loading('正在提交');
-                    axios.get(`/?nicen_make_clear_log=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`)
+                    axios.get(PLUGIN_API+`/?nicen_make_clear_log=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`)
                         .then((res) => {
                             load.info(res.data.result);
                             setTimeout(() => {
@@ -452,9 +467,9 @@ jQuery(function () {
 
             }
             ,
-            /**
-             * 日期选择
-             * */
+            /*
+            * 日期选择
+            * */
 
             selectRange(range) {
 
@@ -469,9 +484,9 @@ jQuery(function () {
             }
             ,
 
-            /**
-             * 定时发布日期选择
-             * */
+            /*
+            * 定时发布日期选择
+            * */
             selectPublishRange(range) {
 
 
@@ -486,15 +501,15 @@ jQuery(function () {
             }
             ,
 
-            /**
-             * 批量本地化
-             * */
+            /*
+            * 批量本地化
+            * */
             async getBatch() {
 
                 let that = this;
-                /**
-                 * 判断运行状态
-                 * */
+                /*
+                * 判断运行状态
+                * */
                 if (that.batch.flag) {
                     that.batch.flag = false;
                     load.error("已取消运行...");
@@ -503,7 +518,7 @@ jQuery(function () {
 
                 let category = that.batch.category.join('，');
 
-                let batch = category == "" ? '所有分类内' : ("分类" + category + "内");
+                let batch = category === "" ? '所有分类内' : ("分类" + category + "内");
 
                 if (!that.batch.start || !that.batch.end) {
                     batch += "所有";
@@ -519,19 +534,19 @@ jQuery(function () {
                 that.batch.flag = true;//标记开始
                 let code = false; //操作结果
 
-                /**
-                 * 弹出确认框
-                 * 获取文章数量和列表
-                 * */
+                /*
+                * 弹出确认框
+                * 获取文章数量和列表
+                * */
                 code = await new Promise(resolve => {
                     load.confirm(`确定要本地化${batch}文章的所有外部图片吗？`, () => {
                         load.loading('正在请求');
-                        axios.post(`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, that.batch)
+                        axios.post(PLUGIN_API+`/?nicen_make_batch=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, that.batch)
                             .then((res) => {
 
-                                /**
-                                 * 判断请求结果
-                                 * */
+                                /*
+                                * 判断请求结果
+                                * */
                                 if (res.data.code) {
                                     that.batch.list = res.data.data;
                                     resolve(true)
@@ -552,9 +567,9 @@ jQuery(function () {
                     });
                 });
 
-                /**
-                 * 获取文章的结果
-                 * */
+                /*
+                * 获取文章的结果
+                * */
                 if (code) {
 
                     code = await new Promise(resolve => {
@@ -565,21 +580,41 @@ jQuery(function () {
                         })
                     })
 
-                    /**
-                     * 判断选择的结果
-                     * */
+                    /*
+                    * 判断选择的结果
+                    * */
                     if (code) {
 
                         that.batch.loading = true;//显示加载效果
+                        let task = []; //promise
+                        let ok = 0; //处理过的数量
+
 
                         for (let i of that.batch.list) {
-                            /**
-                             * 如果已经被中断
-                             * */
+                            /*
+                            * 如果已经被中断
+                            * */
                             if (!that.batch.flag) {
                                 break;
                             }
-                            await that.localImage(i.ID);
+
+
+                            /* 新增Promise */
+                            task.push(that.localImage(i.ID));
+                            ok++; //计数
+
+                            /* 并发数 */
+                            if (that.batch.concurrency === task.length || ok === that.batch.list.length) {
+
+                                await Promise.all(task).catch(e => {
+                                    console.log(e)
+                                });
+
+                                task = []; //空数组
+
+                            }
+
+
                         }
 
 
@@ -594,16 +629,16 @@ jQuery(function () {
 
             }
             ,
-            /**
-             * 提交本地化图片
-             * */
+            /*
+            * 提交本地化图片
+            * */
             localImage(id) {
 
                 let that = this;
 
                 return new Promise((resolve) => {
                     load.loading('正在本地化文章：' + id);
-                    axios.get(`/?nicen_make_local_batch=1&private=${that.data.nicen_make_plugin_private}&batch_id=${id}&timestamp=${(new Date()).getTime()}`)
+                    axios.get(PLUGIN_API+`/?nicen_make_local_batch=1&private=${that.data.nicen_make_plugin_private}&batch_id=${id}&timestamp=${(new Date()).getTime()}`)
                         .then((res) => {
                             load.success(res.data.errMsg);
                         }).catch((e) => {
@@ -616,35 +651,35 @@ jQuery(function () {
             }
             ,
 
-            /**
-             * 压缩
-             * */
+            /*
+            * 压缩
+            * */
             async compress() {
 
                 let that = this;
-                /**
-                 * 判断运行状态
-                 * */
+                /*
+                * 判断运行状态
+                * */
                 if (that.tree.flag) {
                     that.tree.flag = false;
                     load.error("已取消压缩...");
                     return;
                 }
 
-                /**
-                 * 过滤掉目录
-                 * */
+                /*
+                * 过滤掉目录
+                * */
                 let needs = that.tree.selected.filter((item) => {
-                    if (/(?:.*?)\.(.*?)$/.test(item)) {
+                    if (/(.*?)\.(.*?)$/.test(item)) {
                         return true;
                     }
                 })
 
 
-                /**
-                 * 是否有被选中的图片
-                 * */
-                if (needs.length == 0) {
+                /*
+                * 是否有被选中的图片
+                * */
+                if (needs.length === 0) {
                     load.error("没有图片被选中...");
                     return
                 }
@@ -661,24 +696,45 @@ jQuery(function () {
                         resolve(false)
                     })
                 })
+				
+				
+				console.log("并发");
 
 
-                /**
-                 * 如果选择了确认
-                 * */
+                /*
+                * 如果选择了确认
+                * */
                 if (code) {
 
                     that.tree.loading = true;//显示加载效果
+					let task = []; //promise
+                    let ok = 0; //处理过的数量
 
                     for (let i of needs) {
-                        /**
-                         * 如果已经被中断
-                         * */
+                        /*
+                        * 如果已经被中断
+                        * */
                         if (!that.tree.flag) {
                             break;
                         }
+						
 
-                        await that.toCompress(i);
+						/* 新增Promise */
+						task.push(that.toCompress(i));
+						ok++; //计数
+
+						/* 并发数 */
+						if (10 === task.length || ok === needs.length) {
+
+							await Promise.all(task).catch(e => {
+								console.log(e)
+							});
+
+							task = []; //空数组
+
+						}
+
+                
 
                         that.tree.count++;
                     }
@@ -693,9 +749,9 @@ jQuery(function () {
             }
             ,
 
-            /**
-             * 请求压缩
-             * */
+            /*
+            * 请求压缩
+            * */
             toCompress(file) {
 
                 let that = this;
@@ -703,7 +759,7 @@ jQuery(function () {
                 return new Promise((resolve) => {
                     load.loading('正在压缩：' + file);
                     axios.post(
-                        `/?nicen_make_compress=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`,
+                        PLUGIN_API+`/?nicen_make_compress=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`,
                         {
                             file: file
                         }
@@ -724,9 +780,9 @@ jQuery(function () {
             }
             ,
 
-            /**
-             * Base64解密
-             * */
+            /*
+            * Base64解密
+            * */
             decode(data) {
 
                 let that = this;
@@ -755,9 +811,9 @@ jQuery(function () {
 
                 let that = this;
 
-                /**
-                 * 获取请求的路径
-                 * */
+                /*
+                * 获取请求的路径
+                * */
                 if (TreeNode === null) {
                     var path = '/wp-content/uploads';
                 } else {
@@ -776,7 +832,7 @@ jQuery(function () {
                     load.loading('正在加载文件目录...');
 
                     axios.post(
-                        `/?nicen_make_files=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, {
+                        PLUGIN_API+`/?nicen_make_files=1&private=${that.data.nicen_make_plugin_private}&timestamp=${(new Date()).getTime()}`, {
                             path: path
                         })
                         .then((res) => {
@@ -806,6 +862,25 @@ jQuery(function () {
         ,
         created() {
             let that = this;
+
+            /* 加载媒体库 */
+            that.media = wp.media({
+                title: '选择或上传图片', // 窗口标题
+                button: {
+                    text: '选择', // 选择按钮文字
+                },
+                editable: false,
+                allowLocalEdits: true,
+                displaySettings: true,
+                displayUserSettings: true,
+                multiple: false // 是否允许多选
+            });
+
+
+            /* 媒体选择 */
+            that.media.on("select", that.selectMedia);
+
+
             /*同步插件更新日志*/
             axios.get("https://weixin.nicen.cn/api/update")
                 .then((res) => {
