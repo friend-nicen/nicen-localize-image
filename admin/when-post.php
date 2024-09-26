@@ -73,7 +73,7 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 				$res = ( Nicen_local::getInstance() )->localImage( $value, false );//下载图片
 
 				/*判断下载结果*/
-				if ( $res['code'] ) {
+				if ( $res['code'] > 0 ) {
 
 					$content = str_replace( $value, $res['result'], $content );
 
