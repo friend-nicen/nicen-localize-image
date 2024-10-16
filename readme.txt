@@ -3,9 +3,9 @@ Contributors: 友人a丶
 Tags: 图片本地化，文章定时发布，图片压缩
 Donate link: https://nicen.cn/donate
 Requires at least: 5.6
-Tested up to: 6.2.2
+Tested up to: 6.6
 Requires PHP: 7.3
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,12 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.4.1
+
+1. 更换插件JS库引用的cdn源
+2. 新增本地化时支持识别301、302跳转
+3. 修复保存目录无法自动创建时，本地化失败会导致替换异常的问题
 
 v1.4.0
 

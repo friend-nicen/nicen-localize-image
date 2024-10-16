@@ -108,8 +108,8 @@ function nicen_make_admin_load_source() {
 function nicen_make_load_layer() {
 
 
-	wp_enqueue_style( 'layercss', 'https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/theme/default/layer.css', array() );
-	wp_enqueue_script( 'layerjs', 'https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.min.js', array( 'jquery' ) );
+	wp_enqueue_style( 'layercss', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/layer/3.5.1/theme/moon/style.min.css', array() );
+	wp_enqueue_script( 'layerjs', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/layer/3.5.1/layer.js', array( 'jquery' ) );
 	wp_enqueue_script( 'hotkey', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js', array( 'jquery' ) );
 
 	/**

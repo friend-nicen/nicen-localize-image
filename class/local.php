@@ -167,7 +167,7 @@ class Nicen_local {
 		/**
 		 * 判断链接是否可以访问
 		 * */
-		if ( $this->getImage( $url, true ) != 200 ) {
+		if ( $this->getImage( $url, 1 ) != 200 ) {
 			if ( $flag ) {
 				exit( json_encode( ( [
 					'code'   => 0,
@@ -300,8 +300,6 @@ class Nicen_local {
 	/**
 	 * @param $filename
 	 * 获取文件链接
-	 *
-	 * @return void
 	 */
 	function getLink( $filename ) {
 		$filename = basename( $filename ); //文件名
@@ -321,37 +319,68 @@ class Nicen_local {
 	 * 获取图片内容
 	 *
 	 * @param $url string,图片的链接
-	 * @param bool $option ,获取状态码
 	 * */
-	function getImage( $url, $option = false ) {
+	function getImage( $url, $option = 0, $self_referer = null ) {
+
 		$link = parse_url( $url );//解析链接
 
 		/**
 		 * 请求头模拟
 		 * */
 		$headers = [
-			'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-			'Referer'    => $link['scheme'] . '://' . $link['host']
+			"Accept-Encoding" => "gzip, deflate",
+			'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+			'Referer'         => $self_referer ?: $link['scheme'] . '://' . $link['host']
 		];
+
 
 		/**
 		 * 请求数据
 		 * */
-		$res = wp_remote_get( $url, [
+		$args = [
 			'headers'   => $headers,
 			'sslverify' => false,
-			'timeout'   => 180,
-		] );
+			'timeout'   => 120,
+		];
+
+		if ( $option === 1 ) {
+			$res = wp_remote_head( $url, $args );
+		} else {
+			$res = wp_remote_get( $url, $args );
+		}
+
+
+		if ( ! is_array( $res ) ) {
+			$this->error = $res->get_error_message();
+		}
+
+		$code = wp_remote_retrieve_response_code( $res );
+
 
 		/**
 		 * 是否是状态码判断
 		 * */
-		if ( $option ) {
-			return wp_remote_retrieve_response_code( $res );
+		if ( in_array( $code, [ 301, 302 ] ) ) {
+			$newUrl = wp_remote_retrieve_header( $res, 'Location' );
+
+			return $this->getImage( $newUrl, $option, "  " ); // 递归调用
 		} else {
-			return wp_remote_retrieve_body( $res );
+			if ( $option ) {
+
+				/* 二次确认 */
+				if ( $option === 1 && $code !== 200 ) {
+					$code = $this->getImage( $url, 2 ); // 递归调用
+				}
+
+				return $code;
+			} else {
+				return wp_remote_retrieve_body( $res );
+			}
 		}
+
+
 	}
+
 
 	/**
 	 * 保存图片到数据库
