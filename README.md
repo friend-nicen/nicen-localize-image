@@ -13,7 +13,7 @@ License: GPLv2 or later
 
 # 插件介绍
 
-nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
+nicen-localize-image（wordpress插件后台搜索安装），是一款用于本地化文章的外部图片的插件，支持如下功能：
 
 1. 文章发布前通过编辑器插件本地化
 2. 文章手动发布时自动本地化
@@ -36,9 +36,84 @@ nicen-localize-image，是一款用于本地化文章的外部图片的插件，
 10. 支持设置代理IP，绕过IP防火墙
 11. 支持媒体库上传图片时，添加水印，转存对象存储
 
-# 更新日志：
+# 仓库地址
 
-<font color="red">开源版已进入维护阶段，v1.4.1以后只修复BUG不再更新新功能，新功能将发布在Pro版（Pro版）</font>
+Github：[https://github.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
+
+Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://gitee.com/friend-nicen/nicen-localize-image)
+
+# 插件推荐
+
+## Wordpress用户行为回放插件
+
+在数字营销的世界里，了解用户行为是提升用户体验和转化率的关键。nicen-replay
+插件，它能够让您轻松回放用户在网站上的每一步操作，从点击到滚动，再到表单填写，每一个细节都清晰可见。
+
+Github：<https://github.com/friend-nicen/nicen-replay>
+
+Gitee：<https://gitee.com/friend-nicen/nicen-replay>
+
+# 功能说明
+
+插件提供两种本地化外部图片的模式，两种模式可同时开启，互不冲突；
+![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661002814846.png)
+
+## 编辑器本地化插件
+
+启用这个模式之后，会将wordpress文章编辑器切换为经典编辑器，并在编辑器上方新增一个功能图标，点击之后可以自动检测并本地化所有外部图片；
+
+![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008460684.png)
+![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008539461.png)
+
+## 发布时自动本地化
+
+启用这个模式之后会在文章发布时自动本地化所有外部图片；
+![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008642570.png)
+
+推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。
+
+# 更新日志
+
+开源版已进入维护阶段，v1.4.2以后只修复BUG不再更新新功能，新功能将发布在Pro版（Pro版）
+
+## v2.1.9
+
+## 2.1.9
+
+1. 新增恢复插件默认配置的功能
+
+## 2.1.8
+
+1. 修复webp类型图片，图片类型检测异常的问题
+
+## 2.1.7
+
+1. 修复选择Cos保存到媒体库的图片，插入文章时链接格式异常的问题
+
+## 2.1.6
+
+1. 修复开启本地化后设置第一张图片为特色图片时，如果只有一张图片时不会设置特色图片的问题
+2. 新增设置项“重新下载本地化过的链接”，开启后将忽略本地缓存，强制重新下载已经本地化过的图片链接
+
+## 2.1.5
+
+1. 修复本地化时，//开头的图片检测不到的问题
+
+## 2.1.4
+
+1. 更新引入的外部js库的cdn源
+
+## 2.1.3
+
+1. 修复某些特殊的图片链接会本地化失败的问题
+
+## 2.1.2
+
+1. 修复某些情况下本地化失败会导致替换异常的问题
+
+## 2.1.1
+
+1. 优化图片下载速度
 
 ## 2.1.0
 
@@ -213,28 +288,3 @@ nicen-localize-image，是一款用于本地化文章的外部图片的插件，
 1. 本地化下载图片的方式调整为curl获取，并模拟referer绕过防盗链；
 2. 修改插件全局变量、函数的命名前缀；
 3. 修复没有判断图片下载结果导致的异常问题；
-
-# 仓库地址
-
-Github：[https://github.com/friend-nicen/nicen-localize-image](https://github.com/friend-nicen/nicen-localize-image)
-
-Gitee：[https://gitee.com/friend-nicen/nicen-localize-image](https://gitee.com/friend-nicen/nicen-localize-image)
-
-# 功能说明
-
-插件提供两种本地化外部图片的模式，两种模式可同时开启，互不冲突；
-![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661002814846.png)
-
-## 编辑器本地化插件
-
-启用这个模式之后，会将wordpress文章编辑器切换为经典编辑器，并在编辑器上方新增一个功能图标，点击之后可以自动检测并本地化所有外部图片；
-
-![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008460684.png)
-![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008539461.png)
-
-## 发布时自动本地化
-
-启用这个模式之后会在文章发布时自动本地化所有外部图片；
-![alt 属性文本](https://nicen.cn/wp-content/uploads/2022/08/1661008642570.png)
-
-推荐使用【编辑器本地化插件】在发布前进行本地化，当图片数量过多或者文件太大【发布时自动本地化】可能会导致请求卡死。
