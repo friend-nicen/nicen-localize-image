@@ -5,13 +5,14 @@ Donate link: https://nicen.cn/donate
 Requires at least: 5.6
 Tested up to: 6.6
 Requires PHP: 7.3
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 wordpress用于本地化文章的外部图片的插件，支持文章发布前通过编辑器插件本地化、文章发布时自动本地化、文章定时发布时自动本地化、已发布的文章批量本地化。
 
 == Description ==
+
 nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
 
 1. 文章发布前通过编辑器插件本地化；
@@ -20,13 +21,18 @@ nicen-localize-image，是一款用于本地化文章的外部图片的插件，
 4. 针对已发布的文章批量本地化；
 5. 批量压缩所有图片；
 
-
 仓库地址
 
 Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.4.2
+
+1. 新增后台可以自定义referer
+2. 优化本地化下载的流程，优化下载性能
+3. 完善默认的referer识别规则
 
 v1.4.1
 

@@ -123,6 +123,14 @@ define( 'PLUGIN_nicen_make', [
 						]
 					],
 					[
+						'id'       => 'nicen_make_plugin_referer',
+						'title'    => '自定义Referer',
+						'callback' => 'nicen_make_form_input',
+						'args'     => [
+							'tip' => '不填就使用系统默认的规则'
+						]
+					],
+					[
 						'id'       => 'nicen_make_plugin_path',
 						'title'    => '本地化图片时的保存路径',
 						'callback' => 'nicen_make_form_input',
@@ -329,7 +337,7 @@ define( 'nicen_make_CONFIG', [
 	'nicen_make_plugin_path'          => nicen_local_image_site_root . '/uploads/replace', //资源保存的路径
 	'nicen_make_plugin_add_domain'    => '0', //链接是否增加域名
 	'nicen_make_save_as_thumb'        => '0',
-
+	'nicen_make_plugin_referer'       => '',
 
 	/*定时任务*/
 	'nicen_make_plugin_order'         => 'ID', //安装ID发布

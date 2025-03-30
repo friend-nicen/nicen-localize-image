@@ -322,7 +322,8 @@ class Nicen_local {
 	 * */
 	function getImage( $url, $option = 0, $self_referer = null ) {
 
-		$link = parse_url( $url );//解析链接
+		$referer = nicen_make_config( 'nicen_make_plugin_referer' ); //读取自定义referer
+
 
 		/**
 		 * 请求头模拟
@@ -330,7 +331,7 @@ class Nicen_local {
 		$headers = [
 			"Accept-Encoding" => "gzip, deflate",
 			'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-			'Referer'         => $self_referer ?: $link['scheme'] . '://' . $link['host']
+			'Referer'         => $self_referer ?: ( empty( $referer ) ? $this->getReferer( $url ) : $referer )
 		];
 
 
@@ -381,6 +382,82 @@ class Nicen_local {
 
 	}
 
+	/**
+	 * @param $imageUrl
+	 * 获取默认的referer规则
+	 *
+	 * @return mixed|string
+	 */
+	function getReferer( $imageUrl ) {
+
+		/* 定义平台的图片域名或关键词 */
+		$platforms = [
+			'163'        => [ '126.net', '163.com' ],
+			'微信公众号' => [ 'mmbiz.qpic.cn' ],
+			'QQ'         => [ 'qpic.cn' ],
+			'搜狐'       => [ 'sohu.com' ],
+			'今日头条'   => [ 'toutiao.com' ],
+			'微博'       => [ 'weibo.com' ],
+			'知乎'       => [ 'zhihu.com' ],
+			'抖音'       => [ 'douyin.com' ],
+			'小红书'     => [ 'xiaohongshu.com' ],
+			'B站'        => [ 'bilibili.com' ]
+		];
+
+		/* 检测图片属于哪个平台 */
+		$platform = '未知平台';
+		foreach ( $platforms as $plat => $keywords ) {
+			foreach ( $keywords as $keyword ) {
+				if ( strpos( $imageUrl, $keyword ) !== false ) {
+					$platform = $plat;
+					break;
+				}
+			}
+			if ( $platform !== '未知平台' ) {
+				break;
+			}
+		}
+
+		/* 根据平台返回对应的Referer */
+		switch ( $platform ) {
+			case '163':
+				$referer = 'https://news.163.com'; // 假设网易新闻首页
+				break;
+			case '微信公众号':
+				$referer = 'https://mp.weixin.qq.com'; // 微信公众号平台
+				break;
+			case 'QQ':
+				$referer = 'https://qzone.qq.com'; // QQ空间
+				break;
+			case '搜狐':
+				$referer = 'https://www.sohu.com'; // 搜狐首页
+				break;
+			case '今日头条':
+				$referer = 'https://www.toutiao.com'; // 今日头条首页
+				break;
+			case '微博':
+				$referer = 'https://weibo.com'; // 微博首页
+				break;
+			case '知乎':
+				$referer = 'https://www.zhihu.com'; // 知乎首页
+				break;
+			case '抖音':
+				$referer = 'https://www.douyin.com'; // 抖音首页
+				break;
+			case '小红书':
+				$referer = 'https://www.xiaohongshu.com'; // 小红书首页
+				break;
+			case 'B站':
+				$referer = 'https://www.bilibili.com'; // B站首页
+				break;
+			default:
+				$link    = parse_url( $imageUrl );//解析链接
+				$referer = $link['scheme'] . '://' . $link['host'];
+				break;
+		}
+
+		return $referer;
+	}
 
 	/**
 	 * 保存图片到数据库
@@ -443,17 +520,5 @@ class Nicen_local {
 		wp_update_attachment_metadata( $attach_id, $attach_data );
 	}
 
-	/**
-	 * 获取网站状态码
-	 * */
-	function getHttpcode( $url ) {
-		$response  = wp_remote_get( $url, [
-			'sslverify' => false,
-			'timeout'   => 60,
-		] );
-		$http_code = wp_remote_retrieve_response_code( $response );
-
-		return $http_code;
-	}
 }
 
