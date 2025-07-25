@@ -74,19 +74,19 @@ function nicen_make_admin_load_source() {
 
 	wp_enqueue_script( 'vuejs', nicen_local_image_url . 'assets/vue.min.js', [ 'jquery' ] );
 
-	wp_enqueue_script( 'moments', 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/moment.js/2.29.1/moment.min.js' );
+	wp_enqueue_script( 'moments', nicen_local_image_url . 'assets/moment.min.js' );
 	wp_enqueue_script( 'base64', nicen_local_image_url . 'assets/base64.min.js' );
 
 	wp_enqueue_script( 'antd', nicen_local_image_url . 'assets/antd.min.js', [ 'jquery', 'vuejs' ] );
 	wp_enqueue_script( 'Vcolorpicker', nicen_local_image_url . 'assets/colorpicker.js', array(), filemtime( nicen_local_image_path . 'assets/colorpicker.js' ), true );
 
-	wp_enqueue_style( 'antdcss', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/ant-design-vue/1.7.8/antd.min.css' );
+	wp_enqueue_style( 'antdcss', nicen_local_image_url . 'assets/antd.min.css' );
 
 	wp_enqueue_style( 'admincss', nicen_local_image_url . 'assets/admin.css', array(), filemtime( nicen_local_image_path . 'assets/admin.css' ) );
 	wp_enqueue_script( 'adminjs', nicen_local_image_url . 'assets/admin.js', array(), filemtime( nicen_local_image_path . 'assets/admin.js' ), true );
 	wp_enqueue_script( 'loadjs', nicen_local_image_url . 'assets/load.js', array(), filemtime( nicen_local_image_path . 'assets/load.js' ), true );
 
-	wp_enqueue_script( 'axios', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/axios/0.26.0/axios.min.js' );
+	wp_enqueue_script( 'axios', nicen_local_image_url . 'assets/axios.min.js' );
 
 	/**
 	 * 内联的js代码
@@ -108,9 +108,9 @@ function nicen_make_admin_load_source() {
 function nicen_make_load_layer() {
 
 
-	wp_enqueue_style( 'layercss', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/layer/3.5.1/theme/moon/style.min.css', array() );
-	wp_enqueue_script( 'layerjs', 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/layer/3.5.1/layer.js', array( 'jquery' ) );
-	wp_enqueue_script( 'hotkey', 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js', array( 'jquery' ) );
+	wp_enqueue_style( 'layercss', nicen_local_image_url . 'assets/style.min.css', array() );
+	wp_enqueue_script( 'layerjs', nicen_local_image_url . 'assets/layer.js', array( 'jquery' ) );
+	wp_enqueue_script( 'hotkey', nicen_local_image_url . 'assets/jquery.hotkeys.min.js', array( 'jquery' ) );
 
 	/**
 	 * 内联的js，输出接口密钥
