@@ -84,10 +84,10 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 					$content = str_replace( $value, $res['result'], $content );
 
 					//更新文章
-					wp_update_post( [
+					wp_update_post( wp_slash( [
 						'ID'           => $post_id,
 						'post_content' => $content
-					], false, false );
+					] ), false, false );
 
 					$success ++; //加1
 				} else {
@@ -139,10 +139,10 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 
 				$content = str_replace( $value, str_replace( '<img', '<img alt="' . $replace . '"', $value ), $content );
 				//更新文章
-				wp_update_post( [
+				wp_update_post( wp_slash( [
 					'ID'           => $post_id,
 					'post_content' => $content
-				], false, false );
+				] ), false, false );
 
 				$success ++; //加1
 			} else {
@@ -155,10 +155,10 @@ function nicen_make_when_save_post( $post_id, $flag = true ) {
 					$content = str_replace( $value, preg_replace( "/(?:alt='')|(?:alt=\"\")/", 'alt="' . $replace . '"', $value ), $content );
 
 					//更新文章
-					wp_update_post( [
+					wp_update_post( wp_slash( [
 						'ID'           => $post_id,
 						'post_content' => $content
-					], false, false );
+					] ), false, false );
 
 					$success ++; //加1
 				}

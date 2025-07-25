@@ -23,7 +23,7 @@ if ( defined( 'DISABLE_WP_CRON' ) ) {
 	}
 }
 
-const NICEN_VERSION = '1.4.2'; //插件版本
+const NICEN_VERSION = '1.4.6'; //插件版本
 /**
  * 定时任务接口
  * */
