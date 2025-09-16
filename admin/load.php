@@ -74,7 +74,8 @@ function nicen_make_admin_load_source() {
 
 	wp_enqueue_script( 'vuejs', nicen_local_image_url . 'assets/vue.min.js', [ 'jquery' ] );
 
-	wp_enqueue_script( 'moments', nicen_local_image_url . 'assets/moment.min.js' );
+	// 使用WordPress内置的moment.js
+	wp_enqueue_script( 'moments', 'wp-includes/js/moment.min.js', [], false );
 	wp_enqueue_script( 'base64', nicen_local_image_url . 'assets/base64.min.js' );
 
 	wp_enqueue_script( 'antd', nicen_local_image_url . 'assets/antd.min.js', [ 'jquery', 'vuejs' ] );
@@ -110,7 +111,8 @@ function nicen_make_load_layer() {
 
 	wp_enqueue_style( 'layercss', nicen_local_image_url . 'assets/style.min.css', array() );
 	wp_enqueue_script( 'layerjs', nicen_local_image_url . 'assets/layer.js', array( 'jquery' ) );
-	wp_enqueue_script( 'hotkey', nicen_local_image_url . 'assets/jquery.hotkeys.min.js', array( 'jquery' ) );
+	// 使用WordPress内置的jquery-hotkeys
+	wp_enqueue_script( 'jquery-hotkeys' );
 
 	/**
 	 * 内联的js，输出接口密钥

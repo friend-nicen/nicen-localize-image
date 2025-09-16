@@ -164,19 +164,21 @@ class Nicen_crontab {
 		 * */
 		$log = date( "Y-m-d H:i:s", time() ) . "任务被触发，";
 
-		query_posts( [
+		$query_args = [
 			'posts_per_page' => $this->number,
 			'orderby'        => $this->type,
 			'post_status'    => [ '', 'draft', 'pending', 'future' ][ $this->status ],
 			'post_type'      => 'post',
 			'order'          => 'ASC'
-		] );
+		];
+		
+		$query = new \WP_Query( $query_args );
 
 		$count = 0;
 		$title = '';
 
-		while ( have_posts() ) {
-			the_post();
+		while ( $query->have_posts() ) {
+			$query->the_post();
 			kses_remove_filters();
 			$title = get_the_title();
 
@@ -213,7 +215,7 @@ class Nicen_crontab {
 			$count ++;
 		}
 
-		wp_reset_query();
+		wp_reset_postdata();
 
 		if ( ! $count ) {
 			$this->log( $log . "无可以发布文章，下次运行时间：" . date( "Y-m-d H:i:s", time() + $this->interval ) );

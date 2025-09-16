@@ -1,18 +1,30 @@
 === nicen-localize-image ===
-Contributors: 友人a丶
-Tags: 图片本地化，文章定时发布，图片压缩
+Contributors: nicen174
+Tags: image localization, scheduled posts, image compression
 Donate link: https://nicen.cn/donate
 Requires at least: 5.6
-Tested up to: 6.6
+Tested up to: 6.8
 Requires PHP: 7.3
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+A WordPress plugin for localizing external images in posts, supporting pre-publish localization via editor plugin, automatic localization during publishing, scheduled post localization, and batch localization of published posts.
 
 wordpress用于本地化文章的外部图片的插件，支持文章发布前通过编辑器插件本地化、文章发布时自动本地化、文章定时发布时自动本地化、已发布的文章批量本地化。
 
 == Description ==
 
+[English]
+nicen-localize-image is a plugin for localizing external images in WordPress posts, with the following features:
+
+1. Pre-publish localization via editor plugin;
+2. Automatic localization during manual publishing;
+3. Automatic localization during scheduled publishing;
+4. Batch localization for already published posts;
+5. Batch compression of all images;
+
+[中文]
 nicen-localize-image，是一款用于本地化文章的外部图片的插件，支持如下功能：
 
 1. 文章发布前通过编辑器插件本地化；
@@ -27,6 +39,15 @@ Github：https://github.com/friend-nicen/nicen-localize-image
 Gitee：https://gitee.com/friend-nicen/nicen-localize-image
 
 == Changelog ==
+
+v1.4.8
+
+1. 修复部分代码不符合wp规范的问题
+
+v1.4.7
+
+1.文件移除外部cdn引用，所有静态文件全部内置
+2.新增自动匹配部分站点的referer规则
 
 v1.4.6
 

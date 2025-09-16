@@ -2,8 +2,8 @@
 /**
  * Plugin Name: nicen-localize-image
  * Plugin URI:https://nicen.cn/2893.html
- * Description: 用于本地化文章的外部图片的插件，支持文章发布前通过编辑器插件本地化、文章发布时自动本地化、定时发布文章时自动本地化、已发布的文章批量本地化。
- * Version:1.4.7
+ * Description: A plugin for localizing external images in posts, supporting pre-publish localization via editor plugin, automatic localization during publishing, scheduled post localization, and batch localization of published posts.
+ * Version:1.4.8
  * Author: 友人a丶
  * Author URI: https://nicen.cn
  * Text Domain: nicen-localize-image

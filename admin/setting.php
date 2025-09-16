@@ -32,10 +32,10 @@ function nicen_make_config_register() {
 	/**
 	 * 注册自定义字段
 	 * */
-	register_setting( "nicen_make_plugin", "nicen_make_publish_date_start" ); //主题首页副标题
-	register_setting( "nicen_make_plugin", "nicen_make_publish_date_end" ); //主题首页副标题
-	register_setting( "nicen_make_plugin", "nicen_make_publish_time_start" ); //主题首页副标题
-	register_setting( "nicen_make_plugin", "nicen_make_publish_time_end" ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_date_start", array('sanitize_callback' => 'sanitize_text_field') ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_date_end", array('sanitize_callback' => 'sanitize_text_field') ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_time_start", array('sanitize_callback' => 'sanitize_text_field') ); //主题首页副标题
+	register_setting( "nicen_make_plugin", "nicen_make_publish_time_end", array('sanitize_callback' => 'sanitize_text_field') ); //主题首页副标题
 
 
 	foreach ( PLUGIN_nicen_make as $item ) {
